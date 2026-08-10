@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+title: "Earth Embeddings: An Overview and Applications to Crime Analytics"
+message: >-
+  If you use this software, the analysis, or the figures derived from it, please cite it using the metadata below.
+type: software
+authors:
+  - family-names: "Nava"
+    given-names: "Edgar Daniel"
+    email: "eddn.professional@proton.me"
+repository-code: "https://github.com/edgar-daniel-codes/earth-embeddings-workshop-in-crime"
+url: "https://edgar-daniel-codes.github.io/earth-embeddings-workshop-in-crime/"
+abstract: >-
+  Dentro de la práctica de análisis de datos, econometría y las ciencias sociales, uno de los problemas más desafiantes es el estudio del crimen y la seguridad pública. Desde la complejidad del fenómeno, la falta de datos de calidad, la pérdida de información por subreporte, particularmente en México, hacen de esto un problema desafiante para la modelación, esto sin mencionar la falta de información que pueda dar perspectiva sobre causas y condiciones en las que el crimen ocurre. En el presente trabajo, se pretende utilizar Earth Embeddings (particularmente el producto AlphaEarth de Google), para enriquecer una base de datos pública de incidencia delictiva, y producir productos de datos auxiliares a tomadores de decisiones e investigadores.
+keywords:
+  - risk modelling
+  - clustering
+  - machine learning
+  - urban analytics
+  - Mexico City
+  - geospatial
+  - embeddings
+  - linear algebra
+# Split license: MIT for the source code, CC BY 4.0 for the documentation,
+# figures and derived data. Raw input data is not covered by either and remains
+# subject to its providers' own terms -- see DATA_SOURCES.md.
+license:
+  - MIT
+  - CC-BY-4.0
+license-url: "https://github.com/edgar-daniel-codes/earth-embeddings-workshop-in-crime/blob/main/NOTICE"
+version: "1.0.0"
+date-released: "2026-08-09"
+
+

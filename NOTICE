@@ -1,0 +1,86 @@
+NOTICE
+======
+
+Earth Embeddings: An Overview and Applications to Crime Analytics
+Copyright (c) 2026 Edgar Daniel Nava
+
+LICENSING SUMMARY
+-----------------
+
+This repository is released under a split license:
+
+  Component                                  License        File
+  -----------------------------------------  -------------  ---------------
+  Source code (src/, notebooks/)             MIT            LICENSE
+  Documentation & figures (docs/)            CC BY 4.0      LICENSE-DOCS
+  Derived data (data/proc/, data/infer/)     CC BY 4.0      LICENSE-DOCS
+  Trained models (models/)                   CC BY 4.0      LICENSE-DOCS
+  Raw input data (data/raw/, data/spatial/)  See provider   DATA_SOURCES.md
+
+Raw input data is NOT redistributed under the licenses above, and is not
+redistributed by this repository at all -- data/raw/ and data/spatial/ are
+git-ignored. It is obtained from third-party providers whose own terms govern
+its use.
+
+We do NOT reproduce, mirror, summarise or warrant those terms. DATA_SOURCES.md
+records where each dataset came from and links to its provider; the
+authoritative terms live on the provider's site and change without notice.
+If you intend to redistribute, publish or commercially use anything derived
+from these sources, obtain and read the current terms directly from the
+provider yourself. Absence of a stated license is not permission.
+
+Redistribution of raw data may be restricted even where this project's own code
+and analysis are not.
+
+
+THIRD-PARTY SOFTWARE
+--------------------
+
+This project builds on the following open-source software. Each remains under
+its own license, held by its respective copyright holders. This list is
+informational; it does not modify or supersede those licenses.
+
+  scikit-learn        BSD-3-Clause    https://scikit-learn.org
+  XGBoost             Apache-2.0      https://xgboost.readthedocs.io
+  PyTorch             BSD-3-Clause    https://pytorch.org
+  pandas              BSD-3-Clause    https://pandas.pydata.org
+  NumPy               BSD-3-Clause    https://numpy.org
+  SciPy               BSD-3-Clause    https://scipy.org
+  matplotlib          PSF-based       https://matplotlib.org
+  GeoPandas           BSD-3-Clause    https://geopandas.org
+  Shapely             BSD-3-Clause    https://shapely.readthedocs.io
+  rasterio            BSD-3-Clause    https://rasterio.readthedocs.io
+  contextily          BSD-3-Clause    https://contextily.readthedocs.io
+  Optuna              MIT             https://optuna.org
+  Streamlit           Apache-2.0      https://streamlit.io
+  Quarto              MIT             https://quarto.org
+
+
+CARTOGRAPHY
+-----------
+
+Administrative boundaries for the alcaldías of Mexico City are derived from
+INEGI's Marco Geoestadístico and are used under INEGI's own terms; those terms
+are not reproduced here (see DATA_SOURCES.md).
+
+Basemap tiles, where present, are CartoDB Positron, served via contextily and
+used under Carto's own terms. Their standard credit is:
+
+  © OpenStreetMap contributors © CARTO
+
+Confirm the current requirement with Carto and OpenStreetMap before
+redistributing any figure that contains basemap tiles. OpenStreetMap data is
+published under the Open Database License (ODbL); we do not reproduce it here.
+
+
+HOW TO ATTRIBUTE THIS WORK
+--------------------------
+
+For code reuse, retaining the MIT license text satisfies the legal
+requirement. For reuse of the analysis, figures, or written material,
+CC BY 4.0 requires visible credit; see CITATION.cff for a machine-readable
+citation, or use:
+
+  Nava, E. D. (2026). Earth Embeddings: An Overview and Applications to Crime
+  Analytics [Software and analysis].
+  https://github.com/edgar-daniel-codes/earth-embeddings-workshop-in-crime
