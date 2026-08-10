@@ -48,6 +48,7 @@ jobs:
             git add index.html .nojekyll
             git commit -m "Initialize gh-pages branch"
             git push origin gh-pages
+          fi
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
