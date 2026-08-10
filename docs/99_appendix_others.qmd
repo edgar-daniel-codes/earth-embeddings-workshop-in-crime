@@ -1,0 +1,74 @@
+---
+title: "Apéndice — Notas Técnicas Adicionales"
+lang: es
+---
+
+Este apéndice reúne notas técnicas independientes que no encajan claramente en los apéndices de geo-datos o de modelos/métricas —derivaciones, trucos y detalles de implementación de la base de código que vale la pena escribir una sola vez, en un solo lugar.
+
+## Estadísticas de Similitud Coseno a Gran Escala (`group_cosine_stats`) {#large-scale-cosine-stats}
+
+El [Capítulo 2](./02_working_with_embeddings.qmd#entity-similarity) ya definió la *similitud coseno* entre dos vectores y la usó, repetidamente, para responder una pregunta *dentro de un grupo* (within-group): dados todos los vectores de embedding que cubren una sola geometría, digamos cada píxel de AlphaEarth dentro de un CVEGEO, una calle, o un AGEB, ¿qué tan similares son *entre sí*? Ese es exactamente el "Cálculo de referencia" detrás de los mapas de calor de similitud CVEGEO/MZA/AGEB del Capítulo 2, y es lo que calcula `group_cosine_stats` de `src/utils/similarity.py`: la media, mediana y desviación estándar de *cada* similitud coseno por pares dentro de un grupo de $n$ vectores.
+
+La forma obvia de llegar a esto, calcular la matriz de similitud completa $n\times n$ y leer su triángulo superior, cuesta $O(n^2 d)$ en tiempo y $O(n^2)$ en memoria, para vectores de $d$ dimensiones. Eso está bien para un puñado de puntos, pero es inviable una vez que un grupo tiene cientos de miles de píxeles, que es el caso normal a una resolución de $10\text{m}$ sobre todo un municipio. `group_cosine_stats` evita materializar esa matriz por completo para la media y la desviación estándar, y solo recurre a ella, en fragmentos (chunks) acotados, cuando es estrictamente necesario para la mediana.
+
+### Preparación
+
+Sea $X \in \mathbb{R}^{n \times d}$ el conjunto de los $n$ vectores de embedding como filas (aquí $d=64$ para AlphaEarth). Al normalizar cada fila a longitud unitaria,
+
+$$ U_i = \frac{X_i}{\lVert X_i \rVert_2} $$
+
+la similitud coseno entre dos filas cualesquiera se convierte en un simple producto punto, $s_{ij} = U_i \cdot U_j$, exactamente la definición ya dada en el Capítulo 2. Las filas con norma cero se dejan en el origen en lugar de generar una división entre cero, la convención sensata para un vector "sin señal" —aunque vale la pena notar que dicha fila entonces no es realmente un vector unitario ($\lVert U_i \rVert = 0$, no $1$), así que su autosimilitud $s_{ii}$ es $0$ en lugar de $1$; las identidades de abajo asumen que cada fila es un vector unitario genuino, y por lo tanto son exactas siempre que el grupo no tenga filas todo-ceros, y solo levemente aproximadas (por una fracción de par, por cada fila cero) en otro caso. La función devuelve la media, mediana y desviación estándar de $\{s_{ij} : i<j\}$, las $\binom{n}{2}$ similitudes por pares entre las $n$ filas.
+
+### La media exacta, vía una identidad de traza de Gram
+
+La media no necesita que se calcule directamente ninguna similitud por pares. Sea $S = \sum_{i=1}^{n} U_i \in \mathbb{R}^{d}$ la suma (vectorial) de todas las filas normalizadas. Expandiendo su norma al cuadrado:
+
+$$ \lVert S \rVert^2 = S \cdot S = \sum_{i=1}^n \sum_{j=1}^n U_i \cdot U_j = \sum_{i=1}^n \underbrace{\lVert U_i \rVert^2}_{=\,1} \; + \sum_{i \neq j} U_i \cdot U_j = n + 2\sum_{i<j} s_{ij}$$
+
+usando que cada $U_i$ es un vector unitario, y que cada par no ordenado $i<j$ se cuenta dos veces en la suma $i \neq j$ (una vez como $(i,j)$, otra como $(j,i)$, con $s_{ij}=s_{ji}$). Despejando la suma por pares:
+
+$$ \sum_{i<j} s_{ij} = \frac{\lVert S \rVert^2 - n}{2} $$
+
+que es exactamente `sum_s = (S @ S - n) / 2.0` en el código. Calcular $S$ cuesta $O(nd)$ (un solo recorrido de los datos), y $\lVert S \rVert^2$ es entonces un único producto punto $O(d)$ —los $\binom{n}{2}$ términos por pares nunca tienen que formarse individualmente. La media es esta suma dividida entre el número de pares $\binom{n}{2}$.
+
+### La varianza exacta, vía la matriz de Gram en el espacio de características
+
+El mismo truco se extiende al *segundo* momento, $\sum_{i<j} s_{ij}^2$, necesario para la varianza, pero usa una matriz distinta: la matriz de Gram $d \times d$ sobre **características**, $G = U^{\top}U$, no la matriz $n\times n$ de similitudes por pares $UU^{\top}$ (cuyas entradas *sí son* las $s_{ij}$, pero que es exactamente el objeto que estamos tratando de evitar construir). Expandiendo la norma de Frobenius al cuadrado de $G$:
+
+$$ \lVert G \rVert_F^2 = \sum_{a,b=1}^{d} G_{ab}^2 = \sum_{a,b}\left(\sum_i U_{ia}U_{ib}\right)\left(\sum_j U_{ja}U_{jb}\right) = \sum_{i,j}\left(\sum_a U_{ia}U_{ja}\right)\left(\sum_b U_{ib}U_{jb}\right) = \sum_{i,j} s_{ij}^2 $$
+
+así que sumar las entradas al cuadrado de la pequeña matriz $d\times d$, $G$, nos da, gratis, la suma de $s_{ij}^2$ sobre **cada** par ordenado $(i,j)$, incluyendo $i=j$ (donde $s_{ii}=1$). Separando esa diagonal exactamente como antes:
+
+$$ \sum_{i,j} s_{ij}^2 = n + 2\sum_{i<j} s_{ij}^2 \quad\Longrightarrow\quad \sum_{i<j} s_{ij}^2 = \frac{\lVert G \rVert_F^2 - n}{2} $$
+
+que es `sum_s2 = (np.sum(G * G) - n) / 2.0`. La varianza se sigue entonces de la identidad usual $\mathrm{Var}(s) = \mathbb{E}[s^2] - \mathbb{E}[s]^2$, acotada en cero para absorber el redondeo de punto flotante. Formar $G=U^{\top}U$ cuesta $O(nd^2)$; dado que $d=64$ es fijo y pequeño, esto es *lineal* en $n$ en todos los términos prácticos, contra el $O(n^2 d)$ del enfoque ingenuo —la diferencia entre un cálculo que corre en milisegundos y uno que no termina.
+
+### La mediana: sin forma cerrada, así que exacta-si-es-barata, muestreada en otro caso
+
+Los estadísticos de orden como la mediana no tienen un atajo algebraico equivalente; no hay forma de recuperar "el valor de en medio" a partir de un puñado de sumas resumen de la manera en que se recuperaron arriba la media y la varianza. `group_cosine_stats` por lo tanto se ramifica según cuántos pares hay:
+
+- **Exacta, en fragmentos (chunked)**, cuando $\binom{n}{2} \le$ `max_exact_pairs` (5,000,000 por defecto): el triángulo superior de la matriz de similitud aún se construye, pero bloque de filas por bloque de filas (`chunk` filas, 4096 por defecto), de modo que la memoria pico está acotada por `chunk` $\times\, n$ en lugar del $n\times n$ completo. Cada par se visita exactamente una vez y se devuelve la mediana verdadera.
+- **Muestreada**, por encima de ese umbral: se extraen `sample_size` pares de índices aleatorios $(i,j)$ de manera uniforme (con reemplazo) de $\{1,\dots,n\}^2$, se descartan los auto-pares, y sus similitudes se calculan directamente como productos punto por fila. La mediana de esta muestra aleatoria se reporta como una estimación de la mediana poblacional —una consecuencia estándar del hecho de que los cuantiles muestrales convergen al cuantil poblacional verdadero conforme la muestra crece, el mismo argumento de ley de los grandes números que justifica usar una media muestral en primer lugar. En el caso (extremadamente improbable) de que cada extracción caiga en un auto-par, se devuelve en su lugar la media exacta, dado que, para una distribución de similitud fuertemente concentrada, la media ya es un sustituto razonable.
+
+### Resumen de complejidad
+
+| Cantidad | Ingenuo | `group_cosine_stats` |
+|---|---|---|
+| Media | $O(n^2 d)$ | $O(nd)$ |
+| Varianza / Desv. Est. | $O(n^2 d)$ | $O(nd^2)$ |
+| Mediana (exacta) | $O(n^2 d)$ | $O(n^2 d)$, en fragmentos para acotar memoria |
+| Mediana ($n$ grande) | inviable | $O(\text{sample\_size} \cdot d)$, aproximada |
+
+## Recursos
+
+[Cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
+
+[Gram matrix](https://en.wikipedia.org/wiki/Gram_matrix)
+
+[Frobenius norm](https://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm)
+
+[Order statistic](https://en.wikipedia.org/wiki/Order_statistic)
+
+[Law of large numbers](https://en.wikipedia.org/wiki/Law_of_large_numbers)
+
+[Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)

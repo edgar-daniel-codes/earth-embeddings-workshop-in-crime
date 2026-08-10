@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Earth Embeddings – Earth Embeddings &amp; Crime</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9ce2abe5906e9f62962fd5a4218470f6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Earth Embeddings &amp; Crime</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./00_introduction.html"> 
+<span class="menu-text">Español</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./00_introduction_eng.html" aria-current="page"> 
+<span class="menu-text">English</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_earth_embeddings_eng.html">Earth Embeddings</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Earth Embeddings &amp; Crime</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_introduction_eng.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_earth_embeddings_eng.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Earth Embeddings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_working_with_embeddings_eng.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Working with Embeddings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_crime_eda_eng.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crime in Mexico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_embeddings_applications_on_crime_eng.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embeddings Applications on Crime</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_conclusions_eng.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_basics_eng.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix — Fundamental Models, Metrics and Algorithms</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_geo_data_structures_and_operations_eng.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix — Geospatial Data Structures and Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_others_eng.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Appendix — Additional Technical Notes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-an-embedding" id="toc-what-is-an-embedding" class="nav-link active" data-scroll-target="#what-is-an-embedding">What exactly is an embedding?</a>
+  <ul class="collapse">
+  <li><a href="#vector-representations" id="toc-vector-representations" class="nav-link" data-scroll-target="#vector-representations">Vector representations</a></li>
+  <li><a href="#the-case-of-text" id="toc-the-case-of-text" class="nav-link" data-scroll-target="#the-case-of-text">The case of text</a></li>
+  <li><a href="#vae-and-transformers" id="toc-vae-and-transformers" class="nav-link" data-scroll-target="#vae-and-transformers">VAE and Transformers</a></li>
+  <li><a href="#transformers" id="toc-transformers" class="nav-link" data-scroll-target="#transformers">Transformers</a></li>
+  <li><a href="#from-books-to-maps" id="toc-from-books-to-maps" class="nav-link" data-scroll-target="#from-books-to-maps">From books to maps</a></li>
+  </ul></li>
+  <li><a href="#open-data-embeddings" id="toc-open-data-embeddings" class="nav-link" data-scroll-target="#open-data-embeddings">Open Data Embeddings and Embedding Families</a>
+  <ul class="collapse">
+  <li><a href="#clay" id="toc-clay" class="nav-link" data-scroll-target="#clay">Clay</a></li>
+  <li><a href="#ibms-prithvi" id="toc-ibms-prithvi" class="nav-link" data-scroll-target="#ibms-prithvi">IBM’s Prithvi</a></li>
+  <li><a href="#google-deepminds-alphaearth" id="toc-google-deepminds-alphaearth" class="nav-link" data-scroll-target="#google-deepminds-alphaearth">Google DeepMind’s AlphaEarth</a></li>
+  </ul></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Earth Embeddings</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="what-is-an-embedding" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-an-embedding">What exactly is an embedding?</h2>
+<p>It is not hard to define what embeddings are; the hard part is understanding how to create an embedding and how to benchmark which ones are actually useful or informative for the entities or fields they intend to represent.</p>
+<p><strong><em>Def (Embedding)</em></strong>: In the context of mathematics and machine learning, we define an embedding <span class="math inline">\(x_i \in X\)</span> of the object <span class="math inline">\(i \subset A\)</span> as a vector representation of the object <span class="math inline">\(i\)</span> where <span class="math inline">\(X \subset \mathbb{R}^n\)</span>, defined via a relation <span class="math inline">\(f\)</span> such that: <span class="math inline">\(f:A \rightarrow X\)</span>.</p>
+<p>The convention is that <span class="math inline">\(x_i\)</span> is an <em>embedding vector</em> representing the object <span class="math inline">\(i\)</span> of the (finite or infinite) set <span class="math inline">\(A\)</span>, while <span class="math inline">\(X\)</span> is the <em>embedding base (space)</em> representing the set <span class="math inline">\(A\)</span> itself. In the literature, and particularly in this content, <em>embedding</em> will be used for both depending on context, specifying only when disambiguation is required.</p>
+<p>Some implicit expectations about embeddings —implicit since it is the goal for an embedding to satisfy them, even though they are not necessarily met in the process of generating embeddings— are the following:</p>
+<ul>
+<li>The embedding base (<span class="math inline">\(X\)</span>) must be derived exclusively from the data universe <span class="math inline">\(A\)</span>.</li>
+<li>To each element <span class="math inline">\(a_i\)</span> there corresponds a unique vector <span class="math inline">\(x_i\)</span>.</li>
+<li>The minimal spanning vector space for <span class="math inline">\(X\)</span> must keep the meaning of <span class="math inline">\(A\)</span> <em>embedded</em> in the geometry of that vector space.</li>
+</ul>
+<section id="vector-representations" class="level3">
+<h3 class="anchored" data-anchor-id="vector-representations">Vector representations</h3>
+<p>The need for embeddings arises naturally in the practice of machine learning and statistical modeling. When working with tabular datasets, there are instances in which, in order to understand and model phenomena, we use feature engineering, creating a series of derived metrics. Other times the object we study is really hard to handle —for example text, images or physical objects— due to their finite but almost unmanageable quantities and combinations of objects, or because of their continuous and complex behavior; then creating models of the reality those objects represent is difficult. For those cases there is the option of creating embeddings, that is, taking some set and, via a process <span class="math inline">\(f\)</span> (some of which are discussed below), representing it in vector form, a very well known, computable and studied mathematical object.</p>
+<p>The following figure describes the general process for the generation of embedding bases, where the model can range from simple assignment rules, hash functions or feature engineering, to outputs of complex neural networks or weights between layers.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/embedding_process_exp.png" class="img-fluid figure-img"></p>
+<figcaption>Embedding generation process</figcaption>
+</figure>
+</div>
+<p>For a more visual explanation of what we expect from a (good) embedding, let us look at the following figure. On the left we have the existence of embedding dimensions, in which we expect to see words group together based on their semantic meaning. That translates into a geometric sense, in which similar objects (in this example, text) keep a sense of geometric similarity: similar objects are sent to similar embeddings.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/embedding_illustrative_sense.png" class="img-fluid figure-img"></p>
+<figcaption>Illustrative characterization of embedding vectors.</figcaption>
+</figure>
+</div>
+</section>
+<section id="the-case-of-text" class="level3">
+<h3 class="anchored" data-anchor-id="the-case-of-text">The case of text</h3>
+<p>Following the logic already outlined, text is perhaps the canonical object that resists naive modeling. A corpus is a discrete set whose atoms —words, subwords, sentences— have a finite inventory, but they combine into an effectively unlimited space of possibilities; and, worse still, the meaning we care about does not live in the symbols themselves but in the company they keep. This is the old distributional intuition, isolated by Harris and memorably formulated by Firth: a word is characterized by the words that surround it [Harris 1954; Firth 1957]. A text embedding is then a mapping</p>
+<p><span class="math display">\[f : V \to \mathbb{R}^{d} \]</span></p>
+<p>over the token vocabulary <span class="math inline">\(V\)</span> (or <span class="math inline">\(f:\Sigma^{*} \to \mathbb{R}^{d}\)</span> over spans) that turns these purely relational and combinatorial objects into vectors over which geometry becomes semantics —cosine proximity approximating the degree of relatedness and, famously, vector translations approximating analogies. The first generation learned a single static vector per word from co-occurrence statistics: word2vec optimizes a self-supervised objective —predict the context from the center word, or the other way around— whose optimum places words with similar distributions close together [Mikolov et al.&nbsp;2013], while GloVe reaches a comparable geometry by factorizing a global co-occurrence matrix [Pennington et al.&nbsp;2014]. However, such a static <span class="math inline">\(f\)</span> cannot separate the two senses of <em>bank</em>. The second generation therefore made the embedding contextual, letting <span class="math inline">\(f\)</span> depend on the full sentence, so that the same token receives different vectors in different contexts —the move industrialized by BERT [Devlin et al.&nbsp;2019] and extended to complete passages, for retrieval and clustering, by sentence-level encoders such as Sentence-BERT [Reimers &amp; Gurevych 2019]. The gain is exactly the one promised in the general case: an intractable relational object is replaced by points in a well known, computable and exhaustively studied space.</p>
+</section>
+<section id="vae-and-transformers" class="level3">
+<h3 class="anchored" data-anchor-id="vae-and-transformers">VAE and Transformers</h3>
+<p>The previous examples take the embedding as the final product; the variational autoencoder is worth studying because it inverts the emphasis and treats the embedding as a latent cause. Suppose we posit that each observed datum <span class="math inline">\(x\)</span> is generated from an unobserved code <span class="math inline">\(z\)</span>, drawn from a simple prior <span class="math inline">\(p(z)\)</span> —conventionally a standard Gaussian— and transformed through a decoder <span class="math inline">\(p_{\theta}(x \mid z)\)</span>. Embedding <span class="math inline">\(x\)</span> now consists of inferring its posterior <span class="math inline">\(p(z \mid x)\)</span>, the distribution over codes that could have produced it; but this posterior is intractable for any interesting decoder. Kingma and Welling’s resolution is to approximate it with an encoder <span class="math inline">\(q_{\phi}(z \mid x)\)</span> and to train encoder and decoder jointly by maximizing the evidence lower bound (ELBO) [Kingma &amp; Welling 2014; Rezende et al.&nbsp;2014]:</p>
+<p><span class="math display">\[ \log p_{\theta}(x) \ge \mathcal{L}(\theta,\phi;x) = \underbrace{\mathbb{E}_{q_{\phi}(z\mid x)}\!\left[\log p_{\theta}(x\mid z)\right]}_{\text{reconstruction}} - \underbrace{\mathrm{KL}\!\left(q_{\phi}(z\mid x)\,\Vert\,p(z)\right)}_{\text{regularization}}. \]</span></p>
+<p>The two terms read as an instruction and a discipline: reconstruct <span class="math inline">\(x\)</span> faithfully, but keep the code distribution close to the prior, so that the latent space remains smooth and samplable instead of degenerating into a lookup table. The only technical obstacle —that we must backpropagate through a sampling step— is removed with the reparameterization trick, writing <span class="math inline">\(z = \mu_{\phi}(x) + \sigma_{\phi}(x)\odot\varepsilon\)</span> with <span class="math inline">\(\varepsilon \sim \mathcal{N}(0, I)\)</span>, which pushes the randomness into a variable independent of the input and restores a differentiable path. What we obtain, then, is not merely a vector per object, but an embedding space endowed with a probabilistic grammar: a continuous, low-dimensional manifold along which we can interpolate and from which we can sample —the same well-behaved vector goal as before, now equipped with a generative explanation of how the objects arose.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/vae_cc.png" class="img-fluid figure-img"></p>
+<figcaption>General VAE framework (By EugenioTL - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=107231101)</figcaption>
+</figure>
+</div>
+</section>
+<section id="transformers" class="level3">
+<h3 class="anchored" data-anchor-id="transformers">Transformers</h3>
+<p>If the VAE provides a probabilistic reason to want good embeddings, the Transformer provides the mechanism that computes the best ones we currently have. Its starting point is, once again, a limitation of previous tools: recurrent and convolutional encoders build context locally and sequentially, so that dependencies between distant elements are mediated through long chains and are consequently expensive to learn. The Transformer discards recurrence and lets each element attend directly to all the others through self-attention [Vaswani et al.&nbsp;2017]. Concretely, from an input matrix <span class="math inline">\(X\)</span> queries, keys and values are formed via linear mappings, <span class="math inline">\(Q = X W_{Q}\)</span>, <span class="math inline">\(K = X W_{K}\)</span>, <span class="math inline">\(V = X W_{V}\)</span>, and are mixed through</p>
+<p><span class="math display">\[ \mathrm{Attention}(Q,K,V)\;=\;\mathrm{softmax}\!\left(\frac{Q K^{\top}}{\sqrt{d_{k}}}\right) V , \]</span></p>
+<p>so that each output vector is a data-dependent weighted average of all the others —a content-addressed retrieval in which the weights are learned similarities and the factor <span class="math inline">\(\sqrt{d_{k}}\)</span> simply keeps the logits on a suitable scale. Several of these mappings run in parallel (multi-head attention) to capture different relational patterns at once; and since the operation is permutation-equivariant, order must be reinjected through positional encodings. The result is precisely a machine for contextual embedding: it consumes a set (or sequence) of vectors and returns a set of the same shape in which each one has been rewritten in terms of its relevant neighbors. This is why the architecture underpins the contextual text embeddings above; this is why —with images cut into patches and treated as tokens— it gives rise to the Vision Transformer [Dosovitskiy et al.&nbsp;2021]; and this is why, combined with a masked reconstruction objective in the style of the masked autoencoder [He et al.&nbsp;2022], it has become the default engine for learning representations of almost any object we can serialize into tokens.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/vision_transformer_cc.gif" class="img-fluid figure-img"></p>
+<figcaption>Base architecture of a Vision Transformer (By Davide Coccomini - Own work, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=110678226)</figcaption>
+</figure>
+</div>
+</section>
+<section id="from-books-to-maps" class="level3">
+<h3 class="anchored" data-anchor-id="from-books-to-maps">From books to maps</h3>
+<p>Which brings us to the hardest object on the list. The Earth’s surface is neither a finite vocabulary nor a tidy image; it is a continuous, four-dimensional field, observed only indirectly, through a heterogeneous fleet of instruments. Sometimes we see it in optical and thermal bands (Sentinel-2, Landsat); other times through cloud-penetrating radar (Sentinel-1 SAR), laser altimetry of vegetation structure (GEDI, LiDAR), reanalysis climate variables (ERA5-Land), or even the planet’s gravitational field (GRACE) —each with its own resolution, cadence and noise regime, and each riddled with gaps left by clouds, orbit and revisit time. The modeling difficulty is then of a different kind than that of text: not the combinatorics of a discrete set, but the fusion of many partial, continuous and poorly registered views of an evolving system —compounded by the scarcity that dominates the field, namely petabytes of pixels against very few labels, because a single ground-truth datum means that someone physically visited a place at a given time [Jakubik et al.&nbsp;2023; Brown et al.&nbsp;2025]. The natural answer has been to import the machinery just described wholesale: treat stacks of satellite imagery as cubes of spatiotemporal tokens, pre-train a Vision-Transformer encoder through masked reconstruction, and thereby learn a general representation of the surface without labels —the strategy of geospatial foundation models such as Prithvi, pre-trained self-supervised on the harmonized Landsat–Sentinel archive and then fine-tuned for flood mapping, crop segmentation and the like [Jakubik et al.&nbsp;2023; Szwarcman et al.&nbsp;2024]. The object is monstrous, but the recipe is the familiar one: find a mapping <span class="math inline">\(f\)</span> into a computable vector space.</p>
+<p>The culmination is to take the embedding idea to its literal extreme and vectorize the planet itself: assign to each place, and to each year, a compact code that summarizes everything the instruments, taken together, say about it. Two complementary readings of “Earth embedding” have emerged. In the first, the location is embedded: SatCLIP learns a location encoder by contrastively aligning geographic coordinates —lifted to the sphere through spherical-harmonic positional features— with the satellite imagery observed at that place, producing a lightweight <span class="math inline">\(f : (\mathrm{lat}, \mathrm{lon}) \to \mathbb{R}^{d}\)</span> whose vectors already predict temperature, population density or species presence at a point [Klemmer et al.&nbsp;2025]. In the second, more encompassing reading, the surface field itself is embedded directly: AlphaEarth Foundations, from Google DeepMind, assimilates optical, radar, LiDAR, climate, gravimetric and even textual sources into a single time-continuous embedding field model, and emits, for each 10-meter pixel and each year, a 64-dimensional vector —quantized to 8 bits— that distills a full year of multisensor observation into a single analysis-ready code [Brown et al.&nbsp;2025]. The architecture is a synthesis of everything above: a spatiotemporal encoder built on attention, trained as a multimodal autoencoder with implicit decoders that reconstruct missing modalities and dates, regularized toward a smooth and samplable latent geometry —the discipline of the VAE, the mixing of the Transformer, and the distributional intuition of text embeddings, all aimed at the planet. Published as annual, global, analysis-ready layers in Google Earth Engine from 2017 onward [Brown et al.&nbsp;2025; Google 2025], these embeddings allow a practitioner to replace a bespoke, label-hungry pipeline with a nearest-neighbor search or a lightweight classifier over vectors —which is, once again and now at planetary scale, exactly the promise we started with: take a set that is almost impossible to model directly and, via a process <span class="math inline">\(f\)</span>, represent it as a well known, computable and exhaustively studied mathematical object.</p>
+</section>
+</section>
+<section id="open-data-embeddings" class="level2">
+<h2 class="anchored" data-anchor-id="open-data-embeddings">Open Data Embeddings and Embedding Families</h2>
+<p>With the explosion of applications such as ChatGPT and with the growing interest in the creation of embeddings as a standard practice in ML and Deep Learning for research and commercial purposes, particularly for word embeddings, it is important to define some important concepts:</p>
+<p><strong><em>Def (Foundation Models)</em></strong>: foundation models are a concept that includes machine learning or statistical models, weights, or inference obtained by training an algorithm at large scale that, given its general optimization objective and its multipurpose training, can be used as a starting point to serve as input or preprocessed result for a more delimited task.</p>
+<p><strong><em>Def (Transfer Learning)</em></strong>: It refers to any action and method by which some pre-trained, fine-tuned or optimized model or algorithm is used as a starting point for subsequent training in order to improve the performance of the model itself for the original task or for any other where the training is relevant.</p>
+<p>Given the growing use of pre-trained models and weights to improve existing models, not only because of the trust in the entities that publish the models, but also because of the growing cost of maintaining and training the necessary infrastructure required to train such models, those entities also provide models to generate embeddings or, in order to protect intellectual property, open the data of the resulting embedding bases for researchers and practitioners to use.</p>
+<p>That is the case of ChatGPT, Meta and Google, which are pioneers in opening such datasets for text, image or Earth satellite layers.</p>
+<p>In particular, for Earth embeddings there are three main families of embeddings with open databases.</p>
+<section id="clay" class="level3">
+<h3 class="anchored" data-anchor-id="clay">Clay</h3>
+<p>Clay is a community-driven, fully open-source Earth foundation model, developed with Development Seed and fiscally sponsored by the non-profit Radiant Earth. It is a Vision Transformer trained through self-supervised learning with a Masked Autoencoder, which produces semantic embeddings for any location and moment. The v1 model is a 632-million-parameter network split into a 311M MAE encoder, a 15M decoder and a frozen 304M DINOv2 “teacher”, and emits 768-dimensional embeddings; training combines a 95% reconstruction loss (MSE over masked patches) with a 5% representation loss distilled from the DINOv2 teacher, so that it simultaneously optimizes pixel reconstruction and semantic structure. Its design emphasis is flexibility: it ingests a data cube of pixel values plus metadata (time, latitude/longitude, ground sampling distance and central wavelengths), pre-trained across many sensors —Sentinel-1/2, NAIP, MODIS, Landsat-8 and others— so that it works across multiple platforms and resolutions, from drones to satellites. Code and weights are Apache-2.0, documentation is CC-BY, and the published embeddings are ODC-BY on Source Cooperative —the most permissive and fully open of the three.</p>
+</section>
+<section id="ibms-prithvi" class="level3">
+<h3 class="anchored" data-anchor-id="ibms-prithvi">IBM’s Prithvi</h3>
+<p>Built jointly by IBM Research and NASA, it is the reference geospatial foundation model with open weights. It uses a temporal Vision Transformer base architecture with 3D patch embeddings —inputs are cubes of multitemporal, multispectral images split into spatiotemporal “tubelets”— and 3D positional encoding over height, width and time, trained as a Masked Autoencoder. The first release, Prithvi-EO-1.0 (100M parameters), was pre-trained on NASA’s harmonized Landsat–Sentinel-2 archive; Prithvi-EO-2.0 scales to 300M/600M parameters with global coverage and adds temporal-location embeddings, pre-trained on 4.2 million HLS time-series samples at 30-meter resolution. Training masks approximately 75% of the input patches and reconstructs them under an MSE loss. The weights are openly published on Hugging Face (ibm-nasa-geospatial) and are fine-tuned for flood mapping, wildfire scar and crop segmentation, and cloud-gap imputation [Jakubik et al.&nbsp;2023, arXiv:2310.18660; Szwarcman et al.&nbsp;2024, arXiv:2412.02732].</p>
+</section>
+<section id="google-deepminds-alphaearth" class="level3">
+<h3 class="anchored" data-anchor-id="google-deepminds-alphaearth">Google DeepMind’s AlphaEarth</h3>
+<p>AlphaEarth, from Google DeepMind, is the most aggressively engineered of the three and takes a different approach —an embedding field model rather than an image-crop encoder. Its Space-Time Precision encoder combines spatial and temporal attention with convolutions, and is trained as a multimodal autoencoder with implicit decoders that reconstruct missing observations across time and modalities, regularized through teacher-student consistency and contrastive alignment. It assimilates an unusually broad set of sources —optical and thermal imagery from Sentinel-2 and Landsat, cloud-penetrating radar, LiDAR-derived 3D surface measurements, elevation, climate, gravitational fields and even descriptive text. The output is a 64-dimensional embedding for each 10-meter pixel, packing a year of multi-source data into each vector, and the 32-bit embeddings are quantized to 8 bits for a 4× storage reduction with negligible performance loss. These are distributed as annual, global, analysis-ready layers (from 2017 onward, dataset version 1.1 as of November 2025) in the Google Earth Engine catalog under CC-BY 4.0 [Brown et al.&nbsp;2025, arXiv:2507.22291] —open data, although the model weights themselves are not public.</p>
+</section>
+</section>
+<section id="resources" class="level2">
+<h2 class="anchored" data-anchor-id="resources">Resources</h2>
+<p>Harris, Z. S. (1954). Distributional Structure. Word, 10(2–3), 146–162. https://doi.org/10.1080/00437956.1954.11659520</p>
+<p>Firth, J. R. (1957). A Synopsis of Linguistic Theory, 1930–1955. In Studies in Linguistic Analysis (pp.&nbsp;1–32). Oxford: Blackwell.</p>
+<p>Mikolov, T., Sutskever, I., Chen, K., Corrado, G., &amp; Dean, J. (2013). Distributed Representations of Words and Phrases and their Compositionality. NIPS 26, 3111–3119. arXiv:1310.4546. https://arxiv.org/abs/1310.4546</p>
+<p>Pennington, J., Socher, R., &amp; Manning, C. D. (2014). GloVe: Global Vectors for Word Representation. Proceedings of EMNLP 2014, 1532–1543. https://doi.org/10.3115/v1/D14-1162</p>
+<p>Devlin, J., Chang, M.-W., Lee, K., &amp; Toutanova, K. (2019). BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding. NAACL-HLT 2019, 4171–4186. arXiv:1810.04805. https://arxiv.org/abs/1810.04805</p>
+<p>Reimers, N., &amp; Gurevych, I. (2019). Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks. EMNLP-IJCNLP 2019, 3982–3992. arXiv:1908.10084. https://arxiv.org/abs/1908.10084</p>
+<p>Kingma, D. P., &amp; Welling, M. (2014). Auto-Encoding Variational Bayes. ICLR 2014, Banff. arXiv:1312.6114. https://arxiv.org/abs/1312.6114</p>
+<p>Rezende, D. J., Mohamed, S., &amp; Wierstra, D. (2014). Stochastic Backpropagation and Approximate Inference in Deep Generative Models. ICML 2014, 1278–1286. arXiv:1401.4082. https://arxiv.org/abs/1401.4082</p>
+<p>Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., &amp; Polosukhin, I. (2017). Attention Is All You Need. NeurIPS 30, 5998–6008. arXiv:1706.03762. https://arxiv.org/abs/1706.03762</p>
+<p>Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., Dehghani, M., Minderer, M., Heigold, G., Gelly, S., Uszkoreit, J., &amp; Houlsby, N. (2021). An Image is Worth 16×16 Words: Transformers for Image Recognition at Scale. ICLR 2021. arXiv:2010.11929. https://arxiv.org/abs/2010.11929</p>
+<p>He, K., Chen, X., Xie, S., Li, Y., Dollár, P., &amp; Girshick, R. (2022). Masked Autoencoders Are Scalable Vision Learners. CVPR 2022, 16000–16009. arXiv:2111.06377. https://arxiv.org/abs/2111.06377</p>
+<p>Jakubik, J., Roy, S., Phillips, C. E., Fraccaro, P., Godwin, D., Zadrozny, B., Szwarcman, D., et al.&nbsp;(2023). Foundation Models for Generalist Geospatial Artificial Intelligence. arXiv:2310.18660. https://arxiv.org/abs/2310.18660</p>
+<p>Brown, C. F., Kazmierski, M. R., Pasquarella, V. J., Rucklidge, W. J., Samsikova, M., Zhang, C., Shelhamer, E., et al.&nbsp;(2025). AlphaEarth Foundations: An Embedding Field Model for Accurate and Efficient Global Mapping from Sparse Label Data. Google DeepMind. arXiv:2507.22291. https://arxiv.org/abs/2507.22291</p>
+<p>Szwarcman, D., Roy, S., Fraccaro, P., Gíslason, Þ. E., Blumenstiel, B., Ghosal, R., et al.&nbsp;(2024). Prithvi-EO-2.0: A Versatile Multi-Temporal Foundation Model for Earth Observation Applications. arXiv:2412.02732. https://arxiv.org/abs/2412.02732</p>
+<p>Klemmer, K., Rolf, E., Robinson, C., Mackey, L., &amp; Rußwurm, M. (2025). SatCLIP: Global, General-Purpose Location Embeddings with Satellite Imagery. AAAI 39(4), 4347–4355. arXiv:2311.17179. https://doi.org/10.1609/aaai.v39i4.32457</p>
+<p>Google &amp; Google DeepMind (2025). Satellite Embedding V1 (Annual) — AlphaEarth Foundations Satellite Embedding dataset. Earth Engine Data Catalog, GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL. CC-BY 4.0. https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

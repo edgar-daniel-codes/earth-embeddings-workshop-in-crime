@@ -1,0 +1,2013 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Aplicaciones de Embeddings al Crimen – Earth Embeddings &amp; Crime</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9ce2abe5906e9f62962fd5a4218470f6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Earth Embeddings &amp; Crime</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./00_introduction.html" aria-current="page"> 
+<span class="menu-text">Español</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./00_introduction_eng.html"> 
+<span class="menu-text">English</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo lector">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04_embeddings_applications_on_crime.html">Aplicaciones de Embeddings al Crimen</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Earth Embeddings &amp; Crime</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_earth_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embeddings de la Tierra</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_working_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Trabajando con Embeddings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_crime_eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crimen en México</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_embeddings_applications_on_crime.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Aplicaciones de Embeddings al Crimen</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apéndice — Modelos, Métricas y Algoritmos Fundamentales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_geo_data_structures_and_operations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apéndice — Estructuras de Datos Geoespaciales y Operaciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_others.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apéndice — Notas Técnicas Adicionales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#modeling-crime" id="toc-modeling-crime" class="nav-link active" data-scroll-target="#modeling-crime">Modelando el Crimen</a>
+  <ul class="collapse">
+  <li><a href="#decisiones-a-modelar" id="toc-decisiones-a-modelar" class="nav-link" data-scroll-target="#decisiones-a-modelar">Decisiones a modelar</a></li>
+  <li><a href="#procesamiento-y-agregación-de-datos" id="toc-procesamiento-y-agregación-de-datos" class="nav-link" data-scroll-target="#procesamiento-y-agregación-de-datos">Procesamiento y agregación de datos</a></li>
+  <li><a href="#supuestos-habituales-implícitos" id="toc-supuestos-habituales-implícitos" class="nav-link" data-scroll-target="#supuestos-habituales-implícitos">Supuestos habituales (implícitos)</a></li>
+  </ul></li>
+  <li><a href="#data-processing" id="toc-data-processing" class="nav-link" data-scroll-target="#data-processing">Procesamiento de Datos</a>
+  <ul class="collapse">
+  <li><a href="#agregación-a-nivel-de-objeto" id="toc-agregación-a-nivel-de-objeto" class="nav-link" data-scroll-target="#agregación-a-nivel-de-objeto">Agregación a nivel de objeto</a></li>
+  <li><a href="#conjunto-de-datos-de-entrenamiento" id="toc-conjunto-de-datos-de-entrenamiento" class="nav-link" data-scroll-target="#conjunto-de-datos-de-entrenamiento">Conjunto de datos de entrenamiento</a></li>
+  </ul></li>
+  <li><a href="#supervised-methods" id="toc-supervised-methods" class="nav-link" data-scroll-target="#supervised-methods">Ajuste de Modelos: Métodos de Aprendizaje Supervisado</a>
+  <ul class="collapse">
+  <li><a href="#regresión-de-conteo" id="toc-regresión-de-conteo" class="nav-link" data-scroll-target="#regresión-de-conteo">Regresión de conteo</a></li>
+  <li><a href="#clasificación-sobre-la-ocurrencia-del-evento" id="toc-clasificación-sobre-la-ocurrencia-del-evento" class="nav-link" data-scroll-target="#clasificación-sobre-la-ocurrencia-del-evento">Clasificación sobre la ocurrencia del evento</a></li>
+  <li><a href="#comparativas-benchmarks" id="toc-comparativas-benchmarks" class="nav-link" data-scroll-target="#comparativas-benchmarks">Comparativas (Benchmarks)</a></li>
+  </ul></li>
+  <li><a href="#unsupervised-methods" id="toc-unsupervised-methods" class="nav-link" data-scroll-target="#unsupervised-methods">Descubriendo Patrones Ocultos: Métodos de Aprendizaje No Supervisado</a>
+  <ul class="collapse">
+  <li><a href="#reducción-de-dimensionalidad" id="toc-reducción-de-dimensionalidad" class="nav-link" data-scroll-target="#reducción-de-dimensionalidad">Reducción de Dimensionalidad</a></li>
+  <li><a href="#aprendizaje-de-variedades-manifold-learning" id="toc-aprendizaje-de-variedades-manifold-learning" class="nav-link" data-scroll-target="#aprendizaje-de-variedades-manifold-learning">Aprendizaje de Variedades (Manifold Learning)</a></li>
+  <li><a href="#clustering" id="toc-clustering" class="nav-link" data-scroll-target="#clustering">Clustering</a></li>
+  </ul></li>
+  <li><a href="#archetypes" id="toc-archetypes" class="nav-link" data-scroll-target="#archetypes">Aplicaciones: Obteniendo Arquetipos</a>
+  <ul class="collapse">
+  <li><a href="#puntuación-de-riesgo-risk-scoring" id="toc-puntuación-de-riesgo-risk-scoring" class="nav-link" data-scroll-target="#puntuación-de-riesgo-risk-scoring">Puntuación de riesgo (Risk scoring)</a></li>
+  <li><a href="#puntuación-por-clustering" id="toc-puntuación-por-clustering" class="nav-link" data-scroll-target="#puntuación-por-clustering">Puntuación por clustering</a></li>
+  <li><a href="#usabilidad-y-mock-ups-para-el-producto-de-datos" id="toc-usabilidad-y-mock-ups-para-el-producto-de-datos" class="nav-link" data-scroll-target="#usabilidad-y-mock-ups-para-el-producto-de-datos">Usabilidad y Mock-ups para el producto de datos</a></li>
+  </ul></li>
+  <li><a href="#recursos" id="toc-recursos" class="nav-link" data-scroll-target="#recursos">Recursos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Aplicaciones de Embeddings al Crimen</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>El poder de los embeddings para enriquecer modelos y dar la oportunidad de crear analítica geoespacial con solo una variable objetivo se mencionó en el <a href="./02_working_with_embeddings.html">Capítulo 2</a>.</p>
+<p>La mayoría de las aplicaciones provienen de las ciencias de la Tierra, la dinámica económica y la logística; hay una gran oportunidad para entender el comportamiento social y político en general, pero en particular para el uso de embeddings en las ciencias sociales y políticas. En el caso de este trabajo intentaremos aplicarlo a entender el crimen en la Ciudad de México.</p>
+<section id="modeling-crime" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-crime">Modelando el Crimen</h2>
+<p>Uno de los problemas más desafiantes en las ciencias sociales es modelar el crimen, y esto se debe a la complejidad y a la naturaleza multidisciplinaria del crimen.</p>
+<p>Comenzando con advertencias de los datos tales como el subregistro, las denuncias falsas, la fricción burocrática y el desajuste de datos, sin mencionar la corrupción y los sesgos de percepción pública.</p>
+<p>Luego surgen también problemas al usar earth embeddings y otras variables ambientales en la investigación de ciencias sociales, por ejemplo el <em>sesgo oportunista</em>, es decir, donde hay más población también hay más incidencia y propensión a cometer delitos.</p>
+<p>Otra cosa importante que hay que saber es que el enfoque aquí, a pesar del objetivo o característica de entrenamiento y evaluación, al final no busca predecir per se los incidentes delictivos que ocurrirán en las calles, sino usar las salidas predictivas para evaluar niveles de riesgo y sugerir estrategias a nuestros stakeholders (ya sean estos agencias gubernamentales, tomadores de decisiones o investigadores).</p>
+<p>Así que, a pesar de que los modelos finalmente se usan para predecir incidentes sobre datos nuevos, el objetivo final es etiquetar los objetos de interés bajo un nivel (tier) de riesgo y usar el modelo no como una bola de cristal, sino como una herramienta auxiliar para entender los patrones delictivos con base en características estructurales, geográficas y ambientales.</p>
+<section id="decisiones-a-modelar" class="level3">
+<h3 class="anchored" data-anchor-id="decisiones-a-modelar">Decisiones a modelar</h3>
+<p>Al trabajar en modelos hay una serie de decisiones que forman parte del modelado y del diseño del sistema para un modelo; no se trata solo de seleccionar el modelo, sino también de alinear las definiciones de datos y reunir los elementos requeridos para realizar un análisis. Por ejemplo, para este modelado en particular existen los siguientes retos:</p>
+<ul>
+<li>Diferentes agregaciones geoespaciales y geometrías puntuales de los elementos (Rásteres/polígonos) para los embeddings, versus la geometría de punto (coordenada) para los reportes de incidentes delictivos.</li>
+<li>Variaciones en los límites de los datos: Validar las entradas de coordenadas correctas tanto de los datos de embeddings como de los datos puntuales dentro de la división política oficial para la delimitación territorial de la ciudad.</li>
+<li>Definir el(los) modelo(s) y las variables objetivo para explotar los datos de embeddings para tareas predictivas y de inferencia.</li>
+</ul>
+<p>Entonces, las decisiones de modelado a tomar serían las siguientes:</p>
+<ul>
+<li>Definición de la variable objetivo (eventos delictivos, eventos delictivos por población, etc.)</li>
+<li>Definiciones del nivel de agregación geográfico apropiado.</li>
+<li>Pipelines de datos y verificaciones de calidad.</li>
+<li>Modelos generadores de datos (familias de tipo de modelo e hiperparámetros para cada uno, métricas de evaluación).</li>
+</ul>
+<p>Cada enfoque de modelo tomará en cuenta estos factores y se presentará en cada escenario.</p>
+</section>
+<section id="procesamiento-y-agregación-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="procesamiento-y-agregación-de-datos">Procesamiento y agregación de datos</h3>
+<p>Para ejecutar el flujo de datos y el entrenamiento, se asume que los siguientes archivos ya están descargados y guardados en los directorios apropiados con base en las rutas de código:</p>
+<ul>
+<li>Geometría de calles de la CDMX [SHP]: Descargar del <a href="https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=794551163061">Marco Geoestadístico de INEGI</a>. O cualquier otro polígono de interés (Ver unidades de edificios o MZA).</li>
+<li>Carpetas FGJ [CSV]: Base de datos CSV con incidencias delictivas geocodificadas (puntos lat/lon), del área de interés.</li>
+<li>Google Earth Embeddings.</li>
+</ul>
+<p>La razón por la que las bases de datos no se proveen, ni hay un código productivo ejecutable (aunque incluimos los scripts necesarios para ejecutar y obtener los datos), va más allá de un problema de volumen: para los conjuntos de datos delictivos, los cambios en los conjuntos de datos públicos hacen inestables los endpoints, mientras que INEGI y Google Earth son fuentes altamente confiables en términos de datos y APIs; para este conjunto particular de geometrías y assets de ráster se necesita una instancia de interacción manual con la interfaz de usuario. Pero los códigos provistos en las presentes notas y en el repositorio permanecen altamente confiables.</p>
+<p>Para ejecutar el entrenamiento supervisado y no supervisado de extremo a extremo y obtener resultados, pasando por la limpieza de datos y la construcción del conjunto de entrenamiento descritos en esta página, el orden correcto para ejecutar los códigos del repositorio es el siguiente:</p>
+<p>Scripts y tipo de script:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Script</th>
+<th>Etapa</th>
+<th>Ruta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>App de EDA</td>
+<td>Validación - Trabajo previo</td>
+<td><code>./src/eda/app.py</code></td>
+</tr>
+<tr class="even">
+<td>Cobertura de Embeddings</td>
+<td>Validación - Trabajo previo</td>
+<td><code>./src/eda/dq.py</code></td>
+</tr>
+<tr class="odd">
+<td>Datos Socioeconómicos</td>
+<td>Extracción</td>
+<td><code>./src/etl/get_socioecon_data.py</code></td>
+</tr>
+<tr class="even">
+<td>Procesamiento de Embeddings</td>
+<td>Transformación</td>
+<td><code>./src/etl/process_embeddings.py</code></td>
+</tr>
+<tr class="odd">
+<td>Limpieza de Datos de Crimen</td>
+<td>Transformación</td>
+<td><code>./src/eda/core.py</code></td>
+</tr>
+<tr class="even">
+<td>División por Esquinas</td>
+<td>Transformación (si se trabaja con calles)</td>
+<td><code>./src/utils/geom.py</code></td>
+</tr>
+<tr class="odd">
+<td>Asignar punto a Geometría</td>
+<td>Transformación</td>
+<td><code>./src/etl/assign_point_to_geometry.py</code></td>
+</tr>
+<tr class="even">
+<td>Conjunto de Datos de Entrenamiento</td>
+<td>Carga</td>
+<td><code>./src/etl/get_training_sets.py</code></td>
+</tr>
+<tr class="odd">
+<td>Supervisado: Corrida Única</td>
+<td>Entrenamiento</td>
+<td><code>./src/supervised/model_single_run.py</code></td>
+</tr>
+<tr class="even">
+<td>No Supervisado: Reducción de Dimensionalidad</td>
+<td>Entrenamiento</td>
+<td><code>./src/unsupervised/dim_reduction.py</code></td>
+</tr>
+<tr class="odd">
+<td>No Supervisado: Aprendizaje de Variedades (Manifold)</td>
+<td>Entrenamiento</td>
+<td><code>./src/unsupervised/manifold_learning.py</code></td>
+</tr>
+<tr class="even">
+<td>No Supervisado: Clustering K-means</td>
+<td>Entrenamiento</td>
+<td><code>./src/unsupervised/clustering_kmeans.py</code></td>
+</tr>
+</tbody>
+</table>
+<p>Las relaciones entre ellos, como un (Directed Acyclic Graph, por sus siglas en inglés), son las siguientes:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    SocioEcon["Datos Socioeconómicos"] --&gt; TrainSet["Conjunto de Datos de Entrenamiento"]
+    ProcEmb["Procesamiento de Embeddings"] --&gt; TrainSet
+    CleanCrime["Datos de Delitos Limpios"] --&gt; AssignPoint["Asignar Punto a Geometría"]
+    CornerSplit["División de Esquinas"] --&gt; AssignPoint
+    AssignPoint --&gt; TrainSet
+    TrainSet --&gt; SupSingle["Supervisado: Ejecución Única"]
+    TrainSet --&gt; UnsupDim["No Supervisado: Reducción de Dimensionalidad"]
+    TrainSet --&gt; UnsupManifold["No Supervisado: Aprendizaje de Manifold"]
+    TrainSet --&gt; UnsupKmeans["No Supervisado: Clustering K-means"]
+    SupSingle --&gt; AppCase["Caso de Aplicación"]
+    UnsupDim --&gt; AppCase
+    UnsupManifold --&gt; AppCase
+    UnsupKmeans --&gt; AppCase
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="supuestos-habituales-implícitos" class="level3">
+<h3 class="anchored" data-anchor-id="supuestos-habituales-implícitos">Supuestos habituales (implícitos)</h3>
+<p>Hay algunos supuestos particulares que provienen del uso de earth embeddings como proxy o covariables en un análisis de crimen, algunos de los más importantes en términos de definición estructural.</p>
+<section id="supuesto-1-el-crimen-es-estructural" class="level4">
+<h4 class="anchored" data-anchor-id="supuesto-1-el-crimen-es-estructural">Supuesto 1: El crimen es estructural</h4>
+<p>Un supuesto es que las características naturales, geográficas, económicas, políticas y de seguridad de los vecindarios y regiones predisponen a la población a cometer delitos o a ser víctima de ellos.</p>
+<p>A pesar de la crítica fundada de que el crimen en sí mismo impacta a la población, la dinámica y el desarrollo de la región, trabajaremos con un supuesto válido del ciclo de retroalimentación constante:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/crime_feedback_loop_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Dinámica de retroalimentación Crimen-condiciones</figcaption>
+</figure>
+</div>
+<p>Un análisis de cuánto impacta cada componente al otro y de cómo funcionan las dinámicas temporales está fuera del alcance del presente análisis. Sin embargo, es una investigación adicional forzosa y necesaria que debe realizarse para entender el problema.</p>
+<p>Por lo tanto, las relaciones causales esperadas que estamos explorando aquí se definen de la siguiente manera (supuesto):</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    Desarrollo --&gt; Crimen
+    Población --&gt; Crimen
+    Empleo --&gt; Crimen
+    Educación --&gt; Crimen
+    Infraestructura --&gt; Crimen
+    Seguridad_Publica["Seguridad Pública"] --&gt; Crimen
+    Politica_Urbana["Política Urbana"] --&gt; Crimen
+    Natural_Geographical["Condiciones Geográficas y Naturales"] --&gt; Crimen
+    Urban_Design["Diseño Urbano"] --&gt; Crimen
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="supuesto-2-los-embeddings-capturan-condiciones-geográficas-estructurales-y-naturales" class="level4">
+<h4 class="anchored" data-anchor-id="supuesto-2-los-embeddings-capturan-condiciones-geográficas-estructurales-y-naturales">Supuesto 2: Los embeddings capturan condiciones geográficas estructurales y naturales</h4>
+<p>Es importante revisar cómo se conceptualizan los embeddings como una representación de las características del espacio:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/alphaearth_emb.gif" class="img-fluid figure-img"></p>
+<figcaption>Google DeepMind Diagram of how embeddings work.</figcaption>
+</figure>
+</div>
+<p><em>Fuente: <a href="https://deepmind.google/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/">Google DeepMind — AlphaEarth Foundations</a>.</em></p>
+<p>Como podemos ver, el supuesto es que los embeddings para una región dada capturan múltiples cambios y dinámicas ambientales del terreno dado durante el año, sensores satelitales y múltiples procesamientos de imagen de la región, por lo tanto también capturan múltiples características estructurales tales como infraestructura, actividad humana, clima regional, etc.</p>
+<p>A veces los datos no están disponibles o no son confiables para uno o más de estos factores para una cierta región, por ejemplo:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">graph LR
+    Desarrollo --&gt; Embedding
+    Población --&gt; Embedding
+    Empleo --&gt; Embedding
+    Educación --&gt; Embedding
+    Infraestructura --&gt; Embedding
+    Public_Security["Seguridad Pública"] --&gt; Embedding
+    Urban_Policy["Política Urbana"] --&gt; Embedding
+    Natural_Geographical["Condiciones naturales y geográficas"] --&gt; Embedding
+    Urban_Design["Diseño Urbano"] --&gt; Embedding
+    Inflación --&gt; Embedding
+    Geo_relations["Relaciones Geográficas"] --&gt; Embedding
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>A partir de esto, entonces, dadas las restricciones y limitaciones de datos al hablar de datos delictivos, buscamos llegar a un punto en el que estimamos una función <span class="math inline">\(f\)</span> vía el modelo <span class="math inline">\(\hat{f}\)</span>, de:</p>
+<p><span class="math display">\[ y_{\text{crime}} = f(\text{embedding})\]</span></p>
+<p>Donde <span class="math inline">\(y_{\text{crime}}\)</span> podría ser ya sea un indicador de incidentes delictivos o incluso la cantidad de incidentes delictivos esperados que se reportarían en una unidad espacial en un lapso temporal.</p>
+</section>
+</section>
+</section>
+<section id="data-processing" class="level2">
+<h2 class="anchored" data-anchor-id="data-processing">Procesamiento de Datos</h2>
+<section id="agregación-a-nivel-de-objeto" class="level3">
+<h3 class="anchored" data-anchor-id="agregación-a-nivel-de-objeto">Agregación a nivel de objeto</h3>
+<p>Para el siguiente modelo, usaremos los datos agregados de asalto por calle, entendiendo por calle el segmento de calle entre esquinas, con la siguiente lógica:</p>
+<ul>
+<li>Asignamos cada incidente delictivo a la calle más cercana al punto de ocurrencia.</li>
+<li>Para los datos socio-demográficos, asignamos a cada calle el valor del centroide de la MZA que está más cerca de dicha calle.</li>
+<li>Finalmente, para asignar los valores de embedding, tomamos el mosaico de ráster de cobertura que cubre completamente la calle y luego los promediamos y normalizamos a 1 (para mantener la norma del embedding con base en AlphaEarth), asignando ese valor a la calle.</li>
+</ul>
+<p>Además, el proceso de entrenamiento consiste en los siguientes modelos, cada uno de los cuales fue entrenado con la siguiente lógica:</p>
+<ul>
+<li>Validación K-fold agrupada a nivel de año y municipio.</li>
+<li>Dejar fuera 2 municipios y un año para una evaluación fuera de muestra (out-of-sample) de los modelos entrenados.</li>
+<li>Las columnas de características que no forman parte de las capas de embedding se procesaron mínimamente, solo con el fin de observar la mejora (lift) generada sobre un conjunto de datos <em>simple</em> al agregar las capas de embedding.</li>
+</ul>
+<p>Es importante notar que, en el caso en que tenemos una variable geoespacial continua de interés (en este caso coordenadas con delitos), es importante seleccionar el nivel de agregación correcto que tenga una interpretación real en campo, no solo una agregación de datos conveniente; tomemos por ejemplo la siguiente figura:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/crime_aggs.png" class="img-fluid figure-img"></p>
+<figcaption>Nivel de agregación de datos.</figcaption>
+</figure>
+</div>
+<p>En puntos negros, las coordenadas de los delitos reportados, y diferentes agregaciones usando los edificios de Google Earth y las geometrías oficiales de calles. Nos gustaría hacer coincidir el delito de calle, como el <em>Asalto a transeúnte</em>, o incluso la agregación de edificio/MZA para el <em>Robo a casa habitación</em>.</p>
+<p>Por lo cual se sigue la regla de asignación a nivel calle como pivote:</p>
+<ul>
+<li><strong>Crimen</strong>: Se asigna el punto (incidencia) a la línea (calle) más cercana en distancia euclidiana (después de aplicar una proyección sobre un espacio métrico).</li>
+<li><strong>Datos Manzana</strong>: Los valores reportados por el INEGI a nivel MZA se asignan atribuyendo a la calle los valores de la manzana cuyo centroide está más cerca de la calle en un sentido euclidiano (después de la propia proyección métrica).</li>
+<li><strong>Embedding</strong>: Se realiza una agregación (promedio) de todos los embeddings que cubren la calle (ver la siguiente Figura 21) y se normalizan.</li>
+</ul>
+<p>La siguiente figura ejemplifica la lógica de asignación para la construcción del set de entrenamiento para calles.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/assignation_rules.png" class="img-fluid figure-img"></p>
+<figcaption>Reglas de asignación geoespacial a calles con otros datos en diferentes geometrías.</figcaption>
+</figure>
+</div>
+</section>
+<section id="conjunto-de-datos-de-entrenamiento" class="level3">
+<h3 class="anchored" data-anchor-id="conjunto-de-datos-de-entrenamiento">Conjunto de datos de entrenamiento</h3>
+<p>El conjunto de datos final de características a incluir se compone de 3 bases de datos:</p>
+<ul>
+<li>Los 64 Embeddings completos de AlphaEarth.</li>
+<li>Selección de Datos Socio-demográficos.</li>
+<li>Variable objetivo para el conteo: <span class="math inline">\(y_{count}\)</span>.</li>
+<li>Variable objetivo para la clasificación: <span class="math inline">\(y_{ind}\)</span>.</li>
+</ul>
+<p>Todo agregado a nivel de calle.</p>
+</section>
+</section>
+<section id="supervised-methods" class="level2">
+<h2 class="anchored" data-anchor-id="supervised-methods">Ajuste de Modelos: Métodos de Aprendizaje Supervisado</h2>
+<p>Siguiendo los patrones <em>plug and play</em> descritos en el <a href="./02_working_with_embeddings.html#plug-and-play-patterns">Capítulo 2</a>, el enfoque supervisado toma el conjunto de entrenamiento a nivel de calle, embeddings más una selección de covariables socio-demográficas, y ajusta un modelo <span class="math inline">\(\hat{f}\)</span> contra una de las dos variables objetivo definidas arriba: el conteo <span class="math inline">\(y_{count}\)</span> (cuántos incidentes se reportaron en esa calle en ese año) o el indicador <span class="math inline">\(y_{ind}\)</span> (si al menos uno ocurrió).</p>
+<p>Para cada objetivo evaluamos (benchmark) tres familias de modelos, desde el plug-in lineal más simple hasta una cabeza no lineal aprendida, a través de los mismos tres conjuntos de características (solo embeddings, solo otras covariables, y ambos combinados), de manera que la mejora atribuible a los propios embeddings sea directamente comparable:</p>
+<ul>
+<li><strong>Regresión de conteo</strong>: dado que los conteos de delitos por calle están inflados en ceros (la mayoría de las calles no reportan ninguno, unas pocas reportan muchos), ajustamos XGBoost y una cabeza de conteo de Red Neuronal, ambos bajo una especificación de Poisson Inflada en Ceros (y familias relacionadas), en lugar de una regresión lineal o de Poisson simple.</li>
+<li><strong>Clasificación</strong>: los mismos conjuntos de características, pero ajustados contra el indicador binario <span class="math inline">\(y_{ind}\)</span> con Regresión Logística, XGBoost y una cabeza de Red Neuronal, dada la naturaleza altamente desbalanceada del objetivo.</li>
+</ul>
+<p>Cada modelo se entrena con validación K-fold consciente de grupos (agrupada por año y municipio, de modo que ninguna calle se filtre entre folds) y se evalúa en un año y un par de municipios reservados nunca vistos durante el entrenamiento, siguiendo la lógica de procesamiento de datos descrita arriba.</p>
+<p>La siguiente tabla muestra una serie de modelos, tanto supervisados como no supervisados, que fueron utilizados e iterados como parte del ejercicio de evaluación previa a la propuesta del producto de datos. Es importante enfatizar que estos modelos se entrenaron con tres tablas de datos: datos socioeconómicos (INEGI), 64−dim AlphaEarth Embeddings y ambas simultáneamente, optimizando hiperparámetros sobre cada grupo de variables por sí mismos. Además, se utilizó validación cruzada para el entrenamiento y evaluación de modelos, y finalmente para el benchmark se utilizaron muestras holdout (nunca vistas antes y fuera del entrenamiento y ajuste):</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Tipo de aprendizaje</th>
+<th>Modelo</th>
+<th>Hiperparámetros de diseño</th>
+<th>Métricas de evaluación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Supervisado</strong> (clasificación, objetivo <code>y_ind</code>)</td>
+<td>Regresión Logística (línea base)</td>
+<td><code>C=1.0</code>, <code>penalty=l2</code>, <code>class_weight=balanced</code>, <code>max_iter=2000</code>; pipeline con <code>StandardScaler</code>; solver <code>lbfgs</code>/<code>liblinear</code></td>
+<td>ROC-AUC, PR-AUC (precisión promedio), F1, precisión, recall, exactitud balanceada, MCC, log loss, Brier (barrido completo de umbrales)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>XGBoost (clasificador)</td>
+<td><code>n_estimators=300</code>, <code>max_depth=4</code>, <code>learning_rate=0.05</code>, <code>scale_pos_weight=auto</code>, <code>tree_method=hist</code>, <code>eval_metric=aucpr</code></td>
+<td><em>(ídem fila anterior)</em></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Cabeza de red neuronal (MLP, PyTorch)</td>
+<td><code>hidden_dims=[64,32]</code>, <code>dropout=0.2</code>, <code>lr=1e-3</code>, <code>weight_decay=1e-4</code>, <code>epochs=60</code>, <code>batch_size=256</code>, <code>pos_weight=auto</code>; <code>BCEWithLogitsLoss</code>; Adam</td>
+<td><em>(ídem fila anterior)</em></td>
+</tr>
+<tr class="even">
+<td><strong>Supervisado</strong> (regresión de conteo, objetivo <code>y_cnt</code>)</td>
+<td>XGBoost (conteo)</td>
+<td>familias <code>poisson</code>/<code>negbin</code>/<code>hurdle</code>; <code>num_boost_round=300</code>, <code>max_depth=4</code>, <code>learning_rate=0.05</code>, <code>subsample=0.8</code>, <code>colsample_bytree=0.8</code>, <code>min_child_weight=5</code>, <code>reg_lambda=1.0</code>, <code>alpha=1.0</code></td>
+<td>Desviación de Poisson, MAE, RMSE, ρ de Spearman; tasa de ceros observada vs.&nbsp;predicha</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Cabeza de conteo de red neuronal (MLP, PyTorch)</td>
+<td>familias <code>zip</code>/<code>poisson</code>/<code>negbin</code>; <code>hidden_dims=[64,32]</code>, <code>dropout=0.2</code>, <code>lr=1e-3</code>, <code>weight_decay=1e-4</code>, <code>epochs=80</code>, <code>batch_size=256</code>; pérdida NLL específica por familia; Adam</td>
+<td><em>(ídem fila anterior)</em></td>
+</tr>
+<tr class="even">
+<td><strong>No supervisado</strong> (reducción de dimensionalidad)</td>
+<td>PCA</td>
+<td><code>n_components=3</code>, <code>svd_solver=randomized</code>; características estandarizadas</td>
+<td>Razón de varianza explicada</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>SVD truncado</td>
+<td><code>n_components=3</code>; características escaladas, no centradas</td>
+<td>Razón de varianza explicada</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>Distancia de Mahalanobis (diagnóstico)</td>
+<td>covarianza regularizada tipo ridge <code>reg=1e-6</code> (blanqueamiento por Cholesky)</td>
+<td>Distribución de la distancia por bucket de <code>y_cnt</code></td>
+</tr>
+<tr class="odd">
+<td><strong>No supervisado</strong> (aprendizaje de variedades)</td>
+<td>t-SNE</td>
+<td><code>n_components=2</code>, <code>perplexity=50</code>, <code>learning_rate=auto</code>, <code>max_iter=500</code>; muestra de 50k</td>
+<td>Cualitativa: proyección 2-D inspeccionada para verificar separación por nivel de incidencia (sin puntaje escalar)</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>UMAP</td>
+<td><code>n_components=2</code>, <code>n_neighbors=30</code>, <code>min_dist=0.1</code>; ajustado sobre muestra (100k) + transformación por lotes</td>
+<td><em>(ídem fila anterior)</em></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>LLE (Locally Linear Embedding)</td>
+<td><code>n_components=2</code>, <code>n_neighbors=10</code>; muestra de 5k</td>
+<td><em>(ídem fila anterior)</em></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>MDS</td>
+<td><code>n_components=2</code>, <code>n_init=1</code>; muestra de 15k</td>
+<td><em>(ídem fila anterior)</em></td>
+</tr>
+<tr class="odd">
+<td><strong>No supervisado</strong> (clustering)</td>
+<td>K-means esférico (<code>MiniBatchKMeans</code> sobre características normalizadas en L2)</td>
+<td>barrido de <code>k</code> (p.&nbsp;ej. <code>range(2,15)</code>), <code>batch_size=10000</code>, <code>n_init=5</code>, <code>max_iter=200</code>, esférico <code>n_iter=50</code>, <code>tol=1e-4</code></td>
+<td>Inercia (WCSS), silhouette (submuestreada), Calinski-Harabasz, Davies-Bouldin; H de Kruskal-Wallis y ε² vs.&nbsp;<code>y_cnt</code></td>
+</tr>
+</tbody>
+</table>
+<section id="regresión-de-conteo" class="level3">
+<h3 class="anchored" data-anchor-id="regresión-de-conteo">Regresión de conteo</h3>
+<p>La regresión para conteos constituye una generalización del modelo lineal (en el marco de los Modelos Lineales Generalizados, GLM) orientada a ajustar eventos de ocurrencia discreta. Dada la naturaleza de los eventos delictivos —intrínsecamente un conteo de ocurrencias en el espacio y el tiempo—, resulta natural modelar dicha ocurrencia <span class="math inline">\(y\)</span> mediante una distribución <em>Poisson</em> o distribuciones afines para variables de conteo (por ejemplo, <em>Binomial Negativa</em>), donde la variable objetivo <span class="math inline">\(y\)</span> toma valores en los enteros no negativos, esto es,</p>
+<p><span class="math display">\[
+y \in \mathbb{Z}_{\geq 0} = \{0, 1, 2, \dots\}.
+\]</span></p>
+<p>En particular, los eventos delictivos se consideran <em>raros</em> en términos de frecuencia de ocurrencia, y la evidencia del análisis exploratorio confirma una sobrerrepresentación de valores nulos (exceso de ceros) respecto a lo esperado bajo una Poisson o Binomial Negativa estándar. Por ello, se opta por un modelo discreto <em>cero-inflado</em> (<em>zero-inflated</em>), cuya función de masa de probabilidad se define por partes como</p>
+<p><span class="math display">\[
+P(Y = y) =
+\begin{cases}
+\pi + (1-\pi)\, f_Y(0 \mid \theta), &amp; y = 0, \\[4pt]
+(1-\pi)\, f_Y(y \mid \theta), &amp; y \in \{1, 2, 3, \dots\},
+\end{cases}
+\]</span></p>
+<p>donde:</p>
+<ul>
+<li><span class="math inline">\(\pi \in [0,1]\)</span> es la probabilidad de que la observación provenga del componente de <em>cero estructural</em>, es decir, de la sobrerrepresentación de observaciones nulas ajena al proceso de conteo propiamente dicho.</li>
+<li><span class="math inline">\(1-\pi\)</span> es la probabilidad de que la observación provenga del proceso generador de conteos en sí, es decir, del subconjunto de casos en los que el fenómeno delictivo efectivamente ocurre, y <span class="math inline">\(f_Y(\cdot \mid \theta)\)</span> determina cuántos eventos se observan.</li>
+<li><span class="math inline">\(f_Y(\cdot \mid \theta)\)</span> es la función de masa de probabilidad del proceso generador de los datos, parametrizada por <span class="math inline">\(\theta\)</span>.</li>
+</ul>
+<p>En este trabajo se emplean como distribuciones base para <span class="math inline">\(f_Y(\cdot \mid \theta)\)</span> las distribuciones Poisson y Binomial Negativa, además de contrastarse con modelos de tipo <em>Hurdle</em> como especificación alternativa para el tratamiento del exceso de ceros.</p>
+<p>Es importante mencionar que se utiliza el método de <em>boosting</em> por eficiencia computacional. Para un mejor y más apropiado ajuste es recomendable utilizar modelación bayesiana y librerías como <em>STAN</em> para el flujo de modelado. Dicho esto, es importante resaltar que este enfoque no ajusta directamente los modelos cero-inflados, sino que, para conseguir un ajuste equivalente, se realiza en dos partes: un primer ajuste de clasificación y luego una regresión sobre los casos positivos.</p>
+<p>Más aún, una aplicación bayesiana es poco interpretable dada la naturaleza de las características en los embeddings, por lo que no estaríamos ganando interpretabilidad y estaríamos perdiendo tiempo de cómputo. Si se quisiera estudiar los efectos aleatorios por calle, entonces sí debería ajustarse un modelo bayesiano, pero el número de parámetros a estimar lo vuelve intratable; se podría utilizar un modelo CAR para la autocorrelación espacial, pero eso no es necesario por los supuestos de correlación espacial implícita en los embeddings.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/regression/count_fit_feature_sets_xgb_count[poisson]_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Resultados de regresión para Poisson cero-Inflados XGB,</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/regression/count_fit_feature_sets_nn_count[zip]_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Conteos de regresión para Poisson cero-Inflados NN Head</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/regression/count_fit_holdout_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Conteos para <em>holdout</em> para regresión de conteo.</figcaption>
+</figure>
+</div>
+<p>Como podemos ver, el desempeño predicho parece estar realmente cerca de los valores reales al predecir la incidencia inflada en ceros para el crimen a nivel de calle. Aquí, un riesgo particular podría ser el sobreajuste de nuestro modelo. Y también una subrepresentación de conteos de eventos raros, es decir, para calles con incidencia mayor a <span class="math inline">\(3\)</span>. Se necesita un ajuste vía regularización para atender este problema.</p>
+<p>A pesar de tener un sobreajuste en los valores 0 y cercanos a cero como lo son 1 y 2, al decir que el modelo ha ajustado correctamente la variable discreta objetivo <span class="math inline">\(Y ∈{0,1,2,3,...}\)</span>, se podría decir que el modelo ha aprendido a clasificar entre incidencia muy probable (incidencia positiva) y no incidencia, ignorando casos extremos. Si bien se puede trabajar en mejorar los resultados en tanto que un modelo de regresión, la naturaleza del problema exige pensar en el entrenamiento más allá de una predicción puntual, hacia una aplicación de la regresión como un instrumento de evaluación de riesgo de incidencia. Como trabajo futuro se sugiere investigar el uso de predicción conforme para crear intervalos de confianza a partir de estos modelos.</p>
+</section>
+<section id="clasificación-sobre-la-ocurrencia-del-evento" class="level3">
+<h3 class="anchored" data-anchor-id="clasificación-sobre-la-ocurrencia-del-evento">Clasificación sobre la ocurrencia del evento</h3>
+<p>En esta parte, entrenamos el modelo solo con una variable indicadora: si una calle tuvo o no algún delito registrado a lo largo del año.</p>
+<p>Entonces entrenamos las mismas familias de modelos, pero para un problema de clasificación binaria con clases desbalanceadas (dado el comportamiento inflado en ceros presente en la incidencia delictiva).</p>
+<p>Es importante recordar cuál es el objetivo de la clasificación binaria en tanto que algoritmo de aprendizaje supervisado: en este caso, la variable respuesta <span class="math inline">\(Y\)</span> no corresponde al número de incidentes, sino al hecho de que, dado un elemento —en este caso, una calle—, se identifique con <span class="math inline">\(Y=1\)</span> si hubo al menos un delito registrado, o con <span class="math inline">\(Y=0\)</span> si no se registró ningún incidente. Formalmente,</p>
+<p><span class="math display">\[
+Y =
+\begin{cases}
+1, &amp; \text{si la calle registró al menos un delito en el periodo,} \\
+0, &amp; \text{en caso contrario.}
+\end{cases}
+\]</span></p>
+<p>En este trabajo se plantea así un problema de clasificación binaria: dado un conjunto de características <span class="math inline">\(\mathbb{X}\)</span>, se busca encontrar una función <span class="math inline">\(g\)</span> tal que</p>
+<p><span class="math display">\[
+g: \mathbb{X} \longrightarrow \{0,1\},
+\]</span></p>
+<p>y se define el clasificador como</p>
+<p><span class="math display">\[
+f(x \mid \theta) =
+\begin{cases}
+1, &amp; \text{si } g(x) \geq \tau, \\
+0, &amp; \text{en otro caso,}
+\end{cases}
+\]</span></p>
+<p>donde <span class="math inline">\(\tau\)</span> es el umbral de decisión. Los parámetros <span class="math inline">\(\theta\)</span> se ajustan de forma que minimicen la función objetivo</p>
+<p><span class="math display">\[
+\frac{1}{N} \sum_{i=1}^N \mathbb{L}\left(y_i, f(x_i \mid \theta)\right) + \lambda\, R(\theta),
+\]</span></p>
+<p>donde <span class="math inline">\(\mathbb{L}\)</span> es una función de pérdida, <span class="math inline">\(R\)</span> una función de regularización, y <span class="math inline">\(\lambda \geq 0\)</span> el parámetro que controla el peso relativo de dicha regularización.</p>
+<p>Posteriormente, entrenamos las mismas familias de modelos, ahora bajo el enfoque de un problema de clasificación binaria con clases desbalanceadas, dado el comportamiento inflado en cero característico de la incidencia delictiva.</p>
+<p>En las siguientes figuras, se pueden observar los resultados de desempeño en una muestra no vista en el entrenamiento y reservada exclusivamente para la validación para las diferentes configuraciones de clasificación, esto es, los diferentes modelos, descritos en el Cuadro <span class="math inline">\(1\)</span>, con diferentes grupos de datos: <span class="math inline">\(1)\)</span> datos socioeconómicos (<em>other</em>), <span class="math inline">\(2)\)</span> embeddings, <span class="math inline">\(3)\)</span> ambos (<em>combined</em>).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/pr_feature_sets_logreg.png" class="img-fluid figure-img"></p>
+<figcaption>Curvas Precisión-Recall para Regresión Logística</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/roc_feature_sets_logreg.png" class="img-fluid figure-img"></p>
+<figcaption>ROC-AUC para Regresión Logística</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/pr_feature_sets_xgboost.png" class="img-fluid figure-img"></p>
+<figcaption>Curvas Precisión-Recall para XGB</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/roc_feature_sets_xgboost.png" class="img-fluid figure-img"></p>
+<figcaption>ROC-AUC para XGB</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/pr_feature_sets_nn_head.png" class="img-fluid figure-img"></p>
+<figcaption>Curvas Precisión-Recall para RN</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/roc_feature_sets_nn_head.png" class="img-fluid figure-img"></p>
+<figcaption>ROC-AUC para RN</figcaption>
+</figure>
+</div>
+<p>Comparando las curvas de precisión-recall con respecto a los 3 modelos:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/pr_holdout.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación PR entre conjuntos de datos para el modelo ganador</figcaption>
+</figure>
+</div>
+<p>Ahora, tras revisar los datos obtenidos de la evaluación y graficados en las Figuras anteriores, podemos concluir dos puntos importantes, una mala y una buena noticia, es decir, lo siguiente:</p>
+<p><strong>¿Aprendió el modelo a clasificar?</strong> No.&nbsp;Dado el nivel de desbalance de las muestras, el modelo puede alcanzar un nivel alto de exhaustividad (<em>recall</em>) simplemente seleccionando la clase mayoritaria, aunque a un costo muy alto en precisión. Si consideramos el conjunto de las curvas de Precisión-Exhaustividad, la historia que nos cuentan es consistente: el costo en precisión por recuperar casos positivos correctos es demasiado alto, de modo que para recuperar apenas el <span class="math inline">\(20\%\)</span> de los casos positivos, todos los modelos se ubican alrededor de un <span class="math inline">\(10\%\)</span> de precisión.</p>
+<p>Retomando el punto de la clasificación, dado un modelo entrenado <span class="math inline">\(\hat{f}\)</span>, la función de pérdida o error empírico</p>
+<p><span class="math display">\[
+\frac{1}{N} \sum_{i=1}^{N} \left| \hat{f}(x_i) - y_i \right|
+\]</span></p>
+<p>no alcanza un valor lo suficientemente bajo como para que el modelo sea utilizable en aplicaciones prácticas con una interpretación directa sobre la clasificación.</p>
+<p><strong>¿Sirvieron de algo los embeddings?</strong> Sin embargo, lo que sí podemos ver es que, al menos cuando se utilizan embeddings, el desempeño del modelo mejora. Consideremos que la incidencia o no de un delito entre una calle y otra, particularmente para elementos de baja incidencia, podría ser circunstancial más que sistémica. Más aún, siendo estrictos con la interpretación de la curva ROC-AUC, y abusando de esta interpretación, el modelo mejora la decisión de catalogar una calle como riesgosa o no comparada con una selección aleatoria, pero remarcando que no lo suficiente para proponer una solución <em>as is</em>. Esto se debe consultar con un experto en la materia; en términos técnicos y propios del entrenamiento, la clasificación es pobre, pero el valor que aporte y la tolerancia a falsos positivos, entre otros, queda bajo la determinación del experto en la materia para una decisión o implementación final.</p>
+</section>
+<section id="comparativas-benchmarks" class="level3">
+<h3 class="anchored" data-anchor-id="comparativas-benchmarks">Comparativas (Benchmarks)</h3>
+<p>De las siguientes figuras, podemos concluir que tanto NN como XGBoost tienen mejor desempeño que la regresión logística para la Clasificación, y para la Regresión de Conteo, tanto XGB como NN son bastante similares bajo el mismo conjunto de datos, ambos con Regresión de Poisson Inflada en Ceros, mientras que claramente hay una gran ganancia en las métricas de evaluación con los conjuntos de datos que incluyen embeddings vectoriales.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/summary_feature_sets.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación de métricas entre conjuntos de variables en Holdout</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/summary_feature_sets_cv.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación de métricas entre conjuntos de variables en CV fuera de muestra</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/supervised/classification/roc_holdout.png" class="img-fluid figure-img"></p>
+<figcaption>Comparación de modelos por ROC-AUC</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="unsupervised-methods" class="level2">
+<h2 class="anchored" data-anchor-id="unsupervised-methods">Descubriendo Patrones Ocultos: Métodos de Aprendizaje No Supervisado</h2>
+<p>A diferencia del enfoque supervisado, aquí no hay una variable objetivo contra la cual ajustar; solo tenemos el propio espacio de características de embedding (y covariables), y la pregunta cambia de <em>“¿podemos predecir <span class="math inline">\(y\)</span>?”</em> a <em>“¿el espacio de características, por sí mismo, organiza las calles en grupos significativamente distintos?”</em>. Esto importa para el modelado de crimen precisamente por la lógica de <em>arquetipo</em> introducida arriba: si las calles con características estructurales y ambientales similares (según lo capturado por los embeddings) se agrupan sin importar su incidencia reportada, entonces esa estructura puede usarse para señalar <em>calles más riesgosas</em> incluso donde los incidentes están subreportados o simplemente aún no han ocurrido, usando la vecindad en el espacio de características como un proxy del riesgo en lugar del conteo histórico únicamente.</p>
+<p>Abordamos esto de dos maneras complementarias, ambas puramente sobre el espacio de características: primero, la reducción de dimensionalidad (PCA, t-SNE y otros métodos de aprendizaje de variedades) para visualizar si las calles de alta y baja incidencia ya se separan en una proyección de baja dimensión; y segundo, el clustering (K-means esférico) para asignar a cada calle, reportada o no, a un grupo discreto que después pueda caracterizarse y ordenarse por riesgo.</p>
+<section id="reducción-de-dimensionalidad" class="level3">
+<h3 class="anchored" data-anchor-id="reducción-de-dimensionalidad">Reducción de Dimensionalidad</h3>
+<p>Primero, dado que tenemos una serie de características no etiquetadas, un primer paso es realizar una serie de reducciones de dimensionalidad para visualizar el potencial de los embeddings para agrupar o caracterizar los datos, particularmente manteniendo el significado en el contexto de los delitos cometidos en las calles.</p>
+<section id="análisis-de-componentes-principales" class="level4">
+<h4 class="anchored" data-anchor-id="análisis-de-componentes-principales">Análisis de Componentes Principales</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/pca_yearly_comp_esp.png" class="img-fluid figure-img"></p>
+<figcaption>PCA para cada calle con color por número de incidencias.</figcaption>
+</figure>
+</div>
+<p>Como podemos ver, al reducir la dimensionalidad podemos ver que los registros o calles con alta incidencia muestran un agrupamiento que podría caracterizarse mediante modelos de clustering u otros algoritmos no supervisados.</p>
+</section>
+<section id="t-sne" class="level4">
+<h4 class="anchored" data-anchor-id="t-sne">t-SNE</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/tsne_by_year_and_incidence_esp.png" class="img-fluid figure-img"></p>
+<figcaption>t-SNE para AlphaEarth embeddings de 2022 a 2024.</figcaption>
+</figure>
+</div>
+<p>Aquí también vemos algún tipo de agrupamiento por nivel de incidencia, y dado que t-SNE es un algoritmo que mantiene tanto la similitud local como la global, verificaremos si el clustering puede generar una caracterización para los hotspots delictivos.</p>
+</section>
+<section id="svd" class="level4">
+<h4 class="anchored" data-anchor-id="svd">SVD</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/svd_yearly_comp_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Proyección SVD de AlphaEarth embeddings por año, color por número de incidencias.</figcaption>
+</figure>
+</div>
+<p>Aquí podemos observar otra técnica poderosa para la factorización de matrices llamada Descomposición en Valores Singulares (SVD), que es una generalización de la descomposición en vectores propios (eigenvectores), usada a veces como una técnica de compresión de datos (reducción de dimensionalidad) que consiste en operaciones geométricas: rotación, escalamiento y rotación. Podemos observar la naturaleza de los embeddings y los patrones de dispersión para los valores de ocurrencia delictiva. Dado que, en el fondo, la mayoría de las operaciones de PCA a gran escala usan una forma de SVD, continuamos usando PCA como nuestra técnica principal de reducción de dimensionalidad. Sin embargo, una investigación futura más profunda sobre esta descomposición podría ser valiosa.</p>
+</section>
+</section>
+<section id="aprendizaje-de-variedades-manifold-learning" class="level3">
+<h3 class="anchored" data-anchor-id="aprendizaje-de-variedades-manifold-learning">Aprendizaje de Variedades (Manifold Learning)</h3>
+<p>También conocidas como técnicas de Reducción de Dimensionalidad No Lineal, estas son más técnicas de reducción de dimensionalidad donde, en contraste, por ejemplo, con PCA, la reducción no ocurre mediante un proceso lineal sino vía factorización por kernel y técnicas de optimización. Algunas de ellas se presentan aquí para ver si se revela algún patrón interesante en un espacio no lineal con respecto a los valores de embedding relacionados con la incidencia delictiva a nivel de calle.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/umap_by_year_esp.png" class="img-fluid figure-img"></p>
+<figcaption>UMAP para Alpha Earth embeddings de 2022 a 2024</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/lle_by_year_esp.png" class="img-fluid figure-img"></p>
+<figcaption>LLE para Alpha Earth embeddings de 2022 a 2024</figcaption>
+</figure>
+</div>
+<p>Para el primer modelo UMAP, se puede observar un patrón en la sección superior de la superficie aprendida. En la proyección LLE mostrada en la pareciera que la mayor parte de las calles con incidencias altas están asociadas a características en el espacio aprendido que se encuentran en la misma sección colineal.</p>
+<p>Esto nos dice que, si bien no estamos haciendo inferencia alguna, pareciera que en la reducción de dimensionalidad encontramos que las calles con incidencias altas parecen estar cerca en el espacio, tanto de características originales de los embeddings como en espacios aprendidos. De aquí surge la posibilidad de experimentar con las siguientes estrategias o arquitecturas de modelado:</p>
+<ul>
+<li>Directo: K-means o agrupamiento directo entre vectores (riesgo de varianza por maldición de la dimensionalidad). Particularmente, K-means, como se explica en este trabajo, funciona bien con alta dimensión al reducir la distancia de la dimensión original a una diferencia escalar por medio de la distancia coseno en la esfera (donde viven los embeddings).</li>
+<li>Reducción de dimensionalidad + Agrupamiento: la reducción de dimensión permite mantener la mayor cantidad de información y tener valores en dimensiones bajas y manejables; dependiendo del modelo de Reducción de Dimensionalidad, el costo computacional podría ser restrictivo. Se sugiere utilizar k vecinos más cercanos o modelos como DBSCAN como agrupamiento, dado el bajo costo a escala y la interpretabilidad.</li>
+</ul>
+<p>Es importante resaltar que la validez estadística de la clusterización radica en efectuar pruebas de hipótesis para determinar la diferencia distribucional de los clústeres; métodos como la Energy Distance y dichas pruebas se omitirán por escapar del alcance del presente trabajo y por su costo computacional a esta escala de datos.</p>
+</section>
+<section id="clustering" class="level3">
+<h3 class="anchored" data-anchor-id="clustering">Clustering</h3>
+<p>Para hacer clustering en una escala tan grande de puntos, y considerando que los datos dados provienen de un intervalo normalizado <span class="math inline">\([-1,1]\)</span>, el camino más directo para obtener un clustering a partir de los embeddings es vía clustering k-Means sobre la esfera (equivalente al clustering K-means esférico coseno, dado que está normalizado).</p>
+<p>El ejemplo para 2022, 2023 y 2024:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_sweep_diagnostics_2022_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Diagnósticos de agrupamiento K-means para 2022</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_sweep_diagnostics_2023_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Diagnósticos de agrupamiento K-means para 2023</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_sweep_diagnostics_2024_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Diagnósticos de agrupamiento K-means para 2024</figcaption>
+</figure>
+</div>
+<p>Los clústeres correspondientes generados, cuando se analizan desde el punto de vista del número de incidentes ocurridos, muestran los siguientes patrones:</p>
+<p>Para <span class="math inline">\(k=3\)</span>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Año</th>
+<th>Cluster</th>
+<th style="text-align: right;">Conteo</th>
+<th style="text-align: right;">Media</th>
+<th style="text-align: right;">Std</th>
+<th style="text-align: right;">Min</th>
+<th style="text-align: right;">25%</th>
+<th style="text-align: right;">50%</th>
+<th style="text-align: right;">75%</th>
+<th style="text-align: right;">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2022</td>
+<td>0</td>
+<td style="text-align: right;">66387</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.371</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="even">
+<td>2022</td>
+<td>1</td>
+<td style="text-align: right;">53920</td>
+<td style="text-align: right;">0.042</td>
+<td style="text-align: right;">0.240</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td>2022</td>
+<td>2</td>
+<td style="text-align: right;">57730</td>
+<td style="text-align: right;">0.058</td>
+<td style="text-align: right;">0.285</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>0</td>
+<td style="text-align: right;">32241</td>
+<td style="text-align: right;">0.023</td>
+<td style="text-align: right;">0.183</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>2023</td>
+<td>1</td>
+<td style="text-align: right;">85420</td>
+<td style="text-align: right;">0.059</td>
+<td style="text-align: right;">0.336</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>2</td>
+<td style="text-align: right;">60376</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.272</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td>2024</td>
+<td>0</td>
+<td style="text-align: right;">37131</td>
+<td style="text-align: right;">0.020</td>
+<td style="text-align: right;">0.155</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>2024</td>
+<td>1</td>
+<td style="text-align: right;">53567</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.258</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>2024</td>
+<td>2</td>
+<td style="text-align: right;">87339</td>
+<td style="text-align: right;">0.054</td>
+<td style="text-align: right;">0.276</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+<p>Para <span class="math inline">\(k=4\)</span>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Año</th>
+<th>Cluster</th>
+<th style="text-align: right;">Conteo</th>
+<th style="text-align: right;">Media</th>
+<th style="text-align: right;">Std</th>
+<th style="text-align: right;">Min</th>
+<th style="text-align: right;">25%</th>
+<th style="text-align: right;">50%</th>
+<th style="text-align: right;">75%</th>
+<th style="text-align: right;">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2022</td>
+<td>0</td>
+<td style="text-align: right;">25209</td>
+<td style="text-align: right;">0.050</td>
+<td style="text-align: right;">0.268</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>2022</td>
+<td>1</td>
+<td style="text-align: right;">44891</td>
+<td style="text-align: right;">0.044</td>
+<td style="text-align: right;">0.244</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td>2022</td>
+<td>2</td>
+<td style="text-align: right;">42985</td>
+<td style="text-align: right;">0.057</td>
+<td style="text-align: right;">0.285</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td>2022</td>
+<td>3</td>
+<td style="text-align: right;">64952</td>
+<td style="text-align: right;">0.076</td>
+<td style="text-align: right;">0.372</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td>2023</td>
+<td>0</td>
+<td style="text-align: right;">25190</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>1</td>
+<td style="text-align: right;">51453</td>
+<td style="text-align: right;">0.062</td>
+<td style="text-align: right;">0.365</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="odd">
+<td>2023</td>
+<td>2</td>
+<td style="text-align: right;">46583</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.252</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>3</td>
+<td style="text-align: right;">54811</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.294</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="odd">
+<td>2024</td>
+<td>0</td>
+<td style="text-align: right;">28203</td>
+<td style="text-align: right;">0.017</td>
+<td style="text-align: right;">0.145</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>2024</td>
+<td>1</td>
+<td style="text-align: right;">23812</td>
+<td style="text-align: right;">0.046</td>
+<td style="text-align: right;">0.246</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td>2024</td>
+<td>2</td>
+<td style="text-align: right;">48059</td>
+<td style="text-align: right;">0.045</td>
+<td style="text-align: right;">0.245</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>2024</td>
+<td>3</td>
+<td style="text-align: right;">77963</td>
+<td style="text-align: right;">0.055</td>
+<td style="text-align: right;">0.282</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+<p>Para <span class="math inline">\(k=5\)</span>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Año</th>
+<th>Cluster</th>
+<th style="text-align: right;">Conteo</th>
+<th style="text-align: right;">Media</th>
+<th style="text-align: right;">Std</th>
+<th style="text-align: right;">Min</th>
+<th style="text-align: right;">25%</th>
+<th style="text-align: right;">50%</th>
+<th style="text-align: right;">75%</th>
+<th style="text-align: right;">Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2022</td>
+<td>0</td>
+<td style="text-align: right;">33371</td>
+<td style="text-align: right;">0.075</td>
+<td style="text-align: right;">0.357</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">13</td>
+</tr>
+<tr class="even">
+<td>2022</td>
+<td>1</td>
+<td style="text-align: right;">33149</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: right;">0.260</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">7</td>
+</tr>
+<tr class="odd">
+<td>2022</td>
+<td>2</td>
+<td style="text-align: right;">36797</td>
+<td style="text-align: right;">0.051</td>
+<td style="text-align: right;">0.274</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td>2022</td>
+<td>3</td>
+<td style="text-align: right;">50823</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">0.360</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">17</td>
+</tr>
+<tr class="odd">
+<td>2022</td>
+<td>4</td>
+<td style="text-align: right;">23897</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">0.214</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>0</td>
+<td style="text-align: right;">21153</td>
+<td style="text-align: right;">0.016</td>
+<td style="text-align: right;">0.152</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>2023</td>
+<td>1</td>
+<td style="text-align: right;">50525</td>
+<td style="text-align: right;">0.062</td>
+<td style="text-align: right;">0.362</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">18</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>2</td>
+<td style="text-align: right;">24662</td>
+<td style="text-align: right;">0.053</td>
+<td style="text-align: right;">0.281</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="odd">
+<td>2023</td>
+<td>3</td>
+<td style="text-align: right;">52336</td>
+<td style="text-align: right;">0.056</td>
+<td style="text-align: right;">0.297</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">14</td>
+</tr>
+<tr class="even">
+<td>2023</td>
+<td>4</td>
+<td style="text-align: right;">29361</td>
+<td style="text-align: right;">0.038</td>
+<td style="text-align: right;">0.226</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>2024</td>
+<td>0</td>
+<td style="text-align: right;">23246</td>
+<td style="text-align: right;">0.015</td>
+<td style="text-align: right;">0.136</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>2024</td>
+<td>1</td>
+<td style="text-align: right;">21313</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.253</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="odd">
+<td>2024</td>
+<td>2</td>
+<td style="text-align: right;">28324</td>
+<td style="text-align: right;">0.039</td>
+<td style="text-align: right;">0.221</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">6</td>
+</tr>
+<tr class="even">
+<td>2024</td>
+<td>3</td>
+<td style="text-align: right;">48963</td>
+<td style="text-align: right;">0.049</td>
+<td style="text-align: right;">0.260</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>2024</td>
+<td>4</td>
+<td style="text-align: right;">56191</td>
+<td style="text-align: right;">0.056</td>
+<td style="text-align: right;">0.286</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+<p>Como podemos ver, el clustering para <span class="math inline">\(k=4\)</span> muestra un comportamiento más consistente e interpretable, así que profundizaremos en este parámetro del modelo para un análisis posterior.</p>
+<p>No solo eso, sino que las cuatro métricas consideradas muestran un mejor desempeño para <span class="math inline">\(k=4\)</span>, mostrando ya sea una inflexión o un óptimo local (un máximo para silhouette y Calinski-Harabasz, un mínimo para Davies-Bouldin).</p>
+<p>El mapeo se basará en el número máximo de incidencia por clúster, clasificando en los niveles de riesgo Bajo, Medio y Alto.</p>
+<p>Aquí están los clústeres anuales generados para cada año estudiado:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2022_k3_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2022 (k=3)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2023_k3_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2023 (k=3)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2024_k3_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2024 (k=3)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2022_k4_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2022 (k=4)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2023_k4_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2023 (k=4)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2024_k4_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2024 (k=4)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2022_k5_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2022 (k=5)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2023_k5_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2023 (k=5)</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_pca_2024_k5_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Clústeres proyectados sobre PCA para visualización, 2024 (k=5)</figcaption>
+</figure>
+</div>
+<p>Para interpretar los resultados con el fin de clarificarlos a un stakeholder, por ejemplo, dividiríamos los clústeres en los siguientes 3 niveles de riesgo:</p>
+<ul>
+<li>Calles de alto riesgo: Aquellas dentro del clúster con el mayor número máximo de ocurrencias.</li>
+<li>Moderado: Los dos intermedios en orden de número máximo de ocurrencias.</li>
+<li>Calles de bajo riesgo: Aquellas dentro del clúster con el menor número máximo de ocurrencias.</li>
+</ul>
+<p>Una conclusión final apropiada para confirmar que el clustering realmente está identificando grupos estadísticamente diferentes es aplicar pruebas de distribución multivariada para validar estadísticamente el clustering.</p>
+<p><strong>¿Cómo es esto siquiera útil en lugar de simplemente clasificar sin hacer clustering?</strong></p>
+<p>Eso es porque ahora que agrupamos, podemos identificar calles con las mismas características que aquellas con alta incidencia reportada, incluso si no tienen incidentes, usando la estructura geográfica para detectar riesgo en calles incluso si están subreportadas.</p>
+<p>Observa el siguiente ejemplo sobre los municipios de Coyoacán, Benito Juárez, Miguel Hidalgo y Álvaro Obregón, agrupados para los años <span class="math inline">\(2022, 2023, 2024\)</span>, con base en la lógica descrita arriba:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_clustering_cluster_sample_01_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Inferencia de Clúster para áreas seleccionadas</figcaption>
+</figure>
+</div>
+<p>A partir de la exploración de los incidentes delictivos realizada tanto desde la investigación cualitativa como desde el EDA en el <a href="./03_crime_eda.html">Capítulo 3</a>, podemos ver que el clustering para Coyoacán y Álvaro Obregón es muy similar a la incidencia y percepción de seguridad de algunas áreas subdesarrolladas y de zonas de alto ingreso y alta seguridad. Sin embargo, para Benito Juárez (BJ) los resultados parecen ser más drásticos de lo que dicen los datos, y esto puede tener dos explicaciones distintas: una es el subregistro: tal vez el modelo realmente nos está diciendo dónde están ocurriendo los incidentes y estos no se están reportando adecuadamente. La otra es que el modelo en realidad está capturando el <em>sesgo oportunista</em>, es decir, ha identificado que las zonas peatonales conectadas de alta movilidad son propensas a registrar incidencias de asalto, y entonces clasifica una gran cantidad de calles en BJ como un nivel de Riesgo, debido a la naturaleza del propio municipio como centro de movilidad para zonas turísticas, comerciales y de experiencia.</p>
+</section>
+</section>
+<section id="archetypes" class="level2">
+<h2 class="anchored" data-anchor-id="archetypes">Aplicaciones: Obteniendo Arquetipos</h2>
+<p>Como se ha mencionado antes, el ideal de modelar los incidentes delictivos no es predecir dónde y en qué cantidad ocurrirá el crimen, sino entender las características de las calles —y, en general, del objeto geométrico de interés— vía las características de embedding: las características de las calles que son propensas a crear incentivos y oportunidad para que el crimen ocurra.</p>
+<p>Por lo tanto, la idea es que, ya sea vía aprendizaje supervisado (Regresión/Clasificación) o aprendizaje no supervisado (clustering), las calles puedan agruparse por nivel de riesgo; esto permite, de nuevo, no predecir en un sentido literal, sino definir las áreas de alto riesgo, y abre la puerta a entender, con la ayuda de un especialista de campo, los casos de uso:</p>
+<ul>
+<li>Definir estrategias de seguridad en términos de priorización o asignación de capital humano.</li>
+<li>Comparación preventiva dentro del clúster (futuro): Tomar calles de alto riesgo y comparar las no reportadas de ese grupo; podría usarse como zonas de vigilancia donde, de no atenderse, la incidencia podría aumentar.</li>
+<li>Comparación preventiva dentro del clúster (diagnóstico): Tomar calles de alto riesgo y comparar las no reportadas de ese grupo; en retrospectiva, podría llevarnos a encontrar lugares donde el crimen está siendo subreportado.</li>
+<li>Entender características de calles más particulares con datos exclusivos de gobierno de alta calidad: Infraestructura, mantenimiento de cámaras de seguridad, impacto del despliegue de fuerzas y efecto causal.</li>
+</ul>
+<p>Entre muchos otros casos de uso. Esto muestra que, a pesar de no poder prometer una predicción, ambos enfoques de modelado nos dan herramientas útiles para generar insights y acciones (actionables) valiosas.</p>
+<section id="puntuación-de-riesgo-risk-scoring" class="level3">
+<h3 class="anchored" data-anchor-id="puntuación-de-riesgo-risk-scoring">Puntuación de riesgo (Risk scoring)</h3>
+<p>Tanto el aprendizaje supervisado como el no supervisado son herramientas intermedias para nuestra aplicación principal de puntuación de riesgo en calles, como habilitador para la toma de decisiones y estrategia y modelado posteriores.</p>
+<p><strong>Riesgo basado en regresión</strong></p>
+<p>Aquí usamos modelos de regresión entrenados para el proceso de conteo, no para simplemente predecir el nivel de incidencia en cada calle, sino que, particularmente al elegir la cabeza de NN, nos enfocamos en obtener una puntuación de probabilidad por calle que nos permita clasificar cada entidad en un nivel de riesgo personalizado.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/regression_risk_2025_full_cdmx_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Riesgo basado en regresión a nivel ciudad</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/regression_risk_2025_sample_muns_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Riesgo basado en regresión para alcaldías seleccionadas</figcaption>
+</figure>
+</div>
+<p><strong>Riesgo basado en clasificación</strong></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/classification_risk_2025_full_cdmx_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Riesgo basado en clasificación a nivel ciudad</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/classification_risk_2025_sample_muns_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Riesgo basado en clasificación para alcaldías seleccionadas</figcaption>
+</figure>
+</div>
+</section>
+<section id="puntuación-por-clustering" class="level3">
+<h3 class="anchored" data-anchor-id="puntuación-por-clustering">Puntuación por clustering</h3>
+<p>Volviendo al clustering, podemos seleccionar algunas de las calles de nivel alto con base en las estadísticas descriptivas de los incidentes, y comenzar un estudio más profundo sobre lo que realmente está ocurriendo en esas calles, y entender si es realmente una señal válida o solo un falso positivo.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_clustering_cluster_sample_01_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Adaptación del agrupamiento K-Means para alcaldías y años seleccionados</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/unsupervised/kmeans_clustering_full_cdmx_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Adaptación del agrupamiento K-Means a nivel ciudad por año</figcaption>
+</figure>
+</div>
+<p><strong>Algoritmo 1:</strong> Asignación de niveles de riesgo mediante agrupamiento</p>
+<p><strong>Entrada:</strong> Matriz de datos <code>X</code></p>
+<p><strong>Salida:</strong> Etiqueta de riesgo <code>ℓ(C_j)</code> para <code>j = 1, …, k*</code></p>
+<pre><code>1:  Fit a clustering model on X; select the optimal number of clusters k*
+2:  for j = 1 to k* do
+3:      Compute descriptive statistics of cluster C_j
+4:      M_j ← max{ incidences within C_j }
+5:  end for
+6:  j⁻ ← argmin_j M_j          ▷ cluster with lowest statistic of interest
+7:  j⁺ ← argmax_j M_j          ▷ cluster with highest statistic of interest
+8:  ℓ(C_{j⁻}) ← "bajo riesgo"
+9:  ℓ(C_{j⁺}) ← "alto riesgo"
+10: for all j ∉ {j⁻, j⁺} do
+11:     ℓ(C_j) ← "riesgo moderado"
+12: end for
+13: return ℓ</code></pre>
+<p><strong>Nota sobre buena definición (well-posedness)</strong></p>
+<p>Los pasos 4–5 asumen implícitamente que <code>argmin_j M_j</code> y <code>argmax_j M_j</code> son cada uno único. Si <code>M_j</code> presenta empates en los extremos (plausible si las incidencias son valores enteros y los clústeres son pequeños), <code>j⁻</code> o <code>j⁺</code> quedan multivaluados y el etiquetado no está completamente especificado. Se recomienda una regla de desempate (p.&nbsp;ej. menor índice de clúster, o mayor <code>|C_j|</code>) para que el procedimiento sea determinista y reproducible.</p>
+<p>Algunas decisiones particulares de modelado y diseño de datos que importan: - La mayoría de los intervalos de riesgo se definen de manera determinista; es importante hacerlo conjuntamente con un experto de campo para calibrar los umbrales. - Las visualizaciones de datos se han diseñado para ser neutrales en términos de comunicar el mensaje de los datos, pero siempre está abierto a redefiniciones y mejoras; ten cuidado de cómo se ve. - La arquitectura de la NN, los hiperparámetros y otras decisiones de entrenamiento pueden impactar los resultados finales y las interpretaciones. - Los modelos y datos de conteo inflados en ceros hacen que cada modelo, sin importar qué tan optimizado esté, sea un pobre predictor de conteos futuros a nivel de segmento (calle).</p>
+</section>
+<section id="usabilidad-y-mock-ups-para-el-producto-de-datos" class="level3">
+<h3 class="anchored" data-anchor-id="usabilidad-y-mock-ups-para-el-producto-de-datos">Usabilidad y Mock-ups para el producto de datos</h3>
+<p>Como resultado, se propone profundizar en el estudio de los resultados obtenidos del índice de riesgo que se definió anteriormente y, en conjunto con expertos en el área, evaluar el mejor modelo en términos de representación estructural de riesgo de seguridad pública y, posteriormente, llevar a producción las aplicaciones propuestas a continuación.</p>
+<section id="monitor-de-eventos-delictivos" class="level4">
+<h4 class="anchored" data-anchor-id="monitor-de-eventos-delictivos">Monitor de eventos delictivos</h4>
+<p>Se trata de un panel de Streamlit basado en configuraciones para el análisis exploratorio de datos sobre incidentes delictivos en la Ciudad de México. La carga, preparación y agregación de datos se delegan a los códigos fuente y se envuelven en cachés de Streamlit, de modo que los pasos más costosos (carga, división de calles en intersecciones, uniones espaciales) solo se ejecutan una vez. Una barra lateral muestra filtros para el intervalo de años, la categoría de delito, el tipo de delito y el municipio, e indica cuántos incidentes se han seleccionado y cuántos están geolocalizados.</p>
+<p>En la siguiente figura se puede ver la ventana de inicio de la aplicación desplegada con ayuda del código <em>src/eda/app_esp.py</em> (<em>src/eda/app.py</em>, en inglés).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/app_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Captura de pantalla de aplicación de Monitoreo de reportes de actividad delictiva</figcaption>
+</figure>
+</div>
+</section>
+<section id="marcaje-predictivo-de-zonas-de-riesgo" class="level4">
+<h4 class="anchored" data-anchor-id="marcaje-predictivo-de-zonas-de-riesgo">Marcaje predictivo de zonas de riesgo</h4>
+<p>Se trata de una presentación interactiva ligera y con un volumen reducido de datos de los resultados de la modelización. Contiene la geometría real LineString de cada calle, su nombre, las predicciones, el nivel de riesgo, el clúster de k-means y las coordenadas de PCA. El diseño presenta dos paneles vinculados uno al lado del otro: a la izquierda, un mapa de calles de la CDMX sobre un mapa base de Carto Positron en el que cada calle aparece representada con el color correspondiente a su nivel de riesgo de regresión (paleta de riesgos de viviendas); a la derecha, un gráfico de dispersión en el espacio de características del PCA con puntos coloreados según su clúster esférico k-means k=4.</p>
+<p>Las dos vistas están vinculadas entre sí a través del identificador CVEGEO de cada calle: al hacer clic en una calle de cualquiera de los paneles, la selección se guarda en el estado de la sesión y se vuelve a ejecutar la aplicación. Se espera que, de ser aceptada por los interesados, las funcionalidades aumenten, permitiendo su uso para los casos de uso descritos anteriormente como base para la toma de decisiones relacionadas con la seguridad pública basada en datos enriquecidos.</p>
+<p>En la siguiente figura se puede ver la ventana de inicio de la aplicación desplegada con ayuda del código <em>src/showcase/app_esp.py</em> (<em>src/showcase/app.py</em>, en inglés).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./figures/sec_app_esp.png" class="img-fluid figure-img"></p>
+<figcaption>Captura de pantalla de aplicación para marcaje predictivo</figcaption>
+</figure>
+</div>
+</section>
+</section>
+</section>
+<section id="recursos" class="level2">
+<h2 class="anchored" data-anchor-id="recursos">Recursos</h2>
+<p><a href="https://deepmind.google/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/">Google DeepMind Official Alpha Earth Site</a></p>
+<p><a href="https://scikit-learn.org/stable/modules/clustering.html">scikit-learn: Clustering, PCA, t-SNE and manifold learning</a></p>
+<p><a href="https://xgboost.readthedocs.io/">XGBoost Documentation</a></p>
+<p><a href="https://optuna.org/">Optuna: Hyperparameter Optimization Framework</a></p>
+<p><a href="https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=794551163061">Mexico INEGI’s Marco Geoestadístico</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

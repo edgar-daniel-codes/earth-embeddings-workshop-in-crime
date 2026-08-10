@@ -1,0 +1,40 @@
+---
+title: "Conclusiones"
+lang: es
+---
+
+Aquí compartimos algunos de los aprendizajes derivados que surgieron de los datos, los modelos y, lo más importante, del trabajo y la realización del presente ejercicio.
+
+## Aprendizajes sobre los Embeddings {#embedding-learnings}
+
+Las agregaciones y la representación en ráster de objetos geométricos continuos y no bien definidos (como edificios, calles, etc.) resultaron ser clave para realmente recuperar datos abiertos y directos valiosos a gran escala de nuestros objetos de interés. Sin una lógica sensata de agregación y asignación, los embeddings simplemente no se traducen en algo que una calle o un polígono pueda usar como característica.
+
+También aprendimos que entender la arquitectura de entrenamiento original y los datos de entrenamiento usados detrás de los embeddings ayuda a entender tanto sus ventajas como sus limitaciones; no basta con simplemente consumir los vectores como una caja negra: saber a qué fue expuesto el modelo durante el entrenamiento nos dice qué puede y qué no puede representar bien.
+
+Finalmente, los embeddings incluyen una gran cantidad de características implícitas de los lugares, así que tenemos que ser cuidadosos al entender las similitudes entre lugares realmente distintos en la misma ciudad. Dos calles pueden parecer cercanas en el espacio de embedding por razones que no tienen nada que ver con el crimen, así que escalar en las comparaciones de similitud y otros enriquecimientos de variables (socio-demográficas, uso de suelo, etc.) es clave para interpretarlas correctamente.
+
+## Aprendizajes de los Datos de Crimen y los Modelos {#crime-data-learnings}
+
+Los datos reales son desordenados, y los datos de crimen lo son aún más. El sesgo, la baja calidad de los datos y los registros no actualizados de manera consistente pueden afectar los resultados de los modelos y sus aplicaciones, sin importar qué tan correctos sean la implementación, el entrenamiento y la interpretación. Trabajar con los reportes oficiales de delitos hizo esto muy concreto: el subregistro y las actualizaciones inconsistentes no son casos aislados, son la norma en torno a la cual tenemos que diseñar.
+
+Por eso es importante usar los datos como evidencia y como una herramienta auxiliar, considerando siempre la naturaleza del problema en cuestión. En este caso, eso significa entender que el comportamiento delictivo no se basa únicamente en datos observables; hay factores estructurales, sociales y políticos que ningún conjunto de datos captura por completo, así que los modelos están destinados a informar, no a reemplazar, ese juicio más amplio.
+
+## ¿Qué se descubrió? {#what-we-found}
+
+El crimen no ocurre de manera completamente aleatoria. A pesar de ser un fenómeno complejo, características como los embeddings nos permiten mostrar que podemos entender patrones significativos en el crimen con base en las características del terreno y del espacio; los niveles de riesgo construidos a partir de los modelos no son ruido, se alinean con geografía reconocible.
+
+También hay algunos patrones interesantes en términos de niveles de riesgo; por ejemplo, algunas de las zonas más riesgosas incluyen tanto áreas urbanas altamente desarrolladas como áreas de bajo desarrollo por igual, y esto parece explicarse por mecanismos distintos para cada una: las áreas de bajo desarrollo tienden a recurrir al crimen como una forma de acceder a recursos, mientras que las áreas altamente desarrolladas parecen ser lugares objetivo para que ocurran los delitos.
+
+Por último, los embeddings usados como covariable junto con otras características socio-demográficas pueden mejorar el desempeño del modelo; no están destinados a reemplazar los datos censales o socioeconómicos, sino a complementarlos con la señal espacial y estructural que esas variables por sí solas no llevan.
+
+## Trabajo futuro y mejoras {#future-work}
+
+Ya se han detectado muchas cosas por mejorar en el flujo actual; sin ser exhaustiva, la siguiente lista:
+
+Lo más obvio: es claro que el sesgo oportunista está presente; las áreas más riesgosas tienen una fuerte correlación con las áreas pobladas. Sin embargo, la solución no es directa; no basta con simplemente calcular tasas per cápita, ya que los embeddings también contienen información sobre geografía que se correlaciona con la actividad humana y, por lo tanto, con la población, así que la *normalización* no es trivial y merece un tratamiento dedicado propio.
+
+La lógica de asignación también puede volverse más inteligente, no solo mediante la asignación directa vía el objeto más cercano, sino también incluyendo una lógica ponderada que tome en cuenta cuánto de un objeto realmente se traslapa o se ubica cerca de cada calle o polígono, en lugar de un corte rígido por vecino más cercano.
+
+Se requieren pruebas estadísticas formales sobre los algoritmos de clustering para escalar las conclusiones y realmente tratar el modelado por clustering como útil.
+
+Finalmente, las técnicas de reducción de dimensionalidad como PCA funcionan bien con datos distribuidos normalmente, y aquí se usa principalmente como una herramienta de visualización para mostrar las características de la representación de los embeddings en una vista de baja dimensión, más que como una proyección estadística rigurosa, así que hay margen para explorar técnicas mejor adaptadas a la distribución real de los embeddings.

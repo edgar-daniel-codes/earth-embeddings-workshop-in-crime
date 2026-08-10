@@ -1,0 +1,21 @@
+---
+title: "Earth Embeddings & Crime"
+lang: es
+toc: false
+---
+
+## Español
+
+Serie de páginas sobre el uso de *Earth Embeddings* (bases vectoriales) para modelar la incidencia delictiva en la Ciudad de México.
+
+[Comenzar →](00_introduction.qmd)
+
+![Calles contra su geometría en dimensión reducida. ](./resources/unsupervised/flash_highlight_svd_2023_esp.gif)
+
+## English
+
+A series of pages on the use of *Earth Embeddings* (vector bases) to model crime incidence in Mexico City.
+
+[Start here →](00_introduction_eng.qmd)
+
+![Low dimension projection by street. ](./resources/unsupervised/flash_highlight_svd_2023_esp.gif)

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.42">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Apéndice — Modelos, Métricas y Algoritmos Fundamentales – Earth Embeddings &amp; Crime</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-9ce2abe5906e9f62962fd5a4218470f6.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Sin resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Earth Embeddings &amp; Crime</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./00_introduction.html" aria-current="page"> 
+<span class="menu-text">Español</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./00_introduction_eng.html"> 
+<span class="menu-text">English</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo lector">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./99_appendix_basics.html">Apéndices</a></li><li class="breadcrumb-item"><a href="./99_appendix_basics.html">Apéndice — Modelos, Métricas y Algoritmos Fundamentales</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Earth Embeddings &amp; Crime</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_earth_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embeddings de la Tierra</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_working_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Trabajando con Embeddings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_crime_eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Crimen en México</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_embeddings_applications_on_crime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Aplicaciones de Embeddings al Crimen</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_basics.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Apéndice — Modelos, Métricas y Algoritmos Fundamentales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_geo_data_structures_and_operations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apéndice — Estructuras de Datos Geoespaciales y Operaciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_others.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apéndice — Notas Técnicas Adicionales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#models" id="toc-models" class="nav-link active" data-scroll-target="#models">Modelos</a></li>
+  <li><a href="#metrics" id="toc-metrics" class="nav-link" data-scroll-target="#metrics">Métricas</a></li>
+  <li><a href="#basic-math-and-algorithms" id="toc-basic-math-and-algorithms" class="nav-link" data-scroll-target="#basic-math-and-algorithms">Matemáticas Básicas y Algoritmos de Cómputo</a></li>
+  <li><a href="#recursos" id="toc-recursos" class="nav-link" data-scroll-target="#recursos">Recursos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./99_appendix_basics.html">Apéndices</a></li><li class="breadcrumb-item"><a href="./99_appendix_basics.html">Apéndice — Modelos, Métricas y Algoritmos Fundamentales</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Apéndice — Modelos, Métricas y Algoritmos Fundamentales</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Este apéndice reúne descripciones breves de los modelos, métricas de evaluación y bloques matemáticos/de cómputo fundamentales usados a lo largo de este repositorio, cada uno con un enlace a una referencia básica y validada (mayormente Wikipedia) para quien quiera profundizar un nivel más. Al igual que los otros apéndices, esto no es un libro de texto general de ML, solo lo que realmente se usa en el código.</p>
+<section id="models" class="level2">
+<h2 class="anchored" data-anchor-id="models">Modelos</h2>
+<p><strong>Regresión Logística</strong> — un modelo lineal para un resultado binario: ajusta una combinación lineal de las características y la comprime a través de la función sigmoide para producir una probabilidad, <span class="math inline">\(P(y=1\mid x) = \sigma(x^{\top}\beta)\)</span> con <span class="math inline">\(\sigma(z) = \tfrac{1}{1+e^{-z}}\)</span>. Se usa como el clasificador base más simple para el objetivo “¿esta calle reportó algún incidente?” (<code>src/supervised/models/clf_logreg.py</code>). Ver <a href="https://en.wikipedia.org/wiki/Logistic_regression">Logistic regression</a>.</p>
+<p><strong>Árboles con Boosting de Gradiente (XGBoost)</strong> — un ensamble de árboles de decisión poco profundos construidos secuencialmente, donde cada nuevo árbol se ajusta a los errores residuales (gradiente) del ensamble hasta ese momento. Se usa tanto para clasificación (<code>clf_xgb.py</code>) como, con un objetivo Poisson/Binomial-Negativo/hurdle, para regresión de conteo (<code>reg_xgb.py</code>). Ver <a href="https://en.wikipedia.org/wiki/Gradient_boosting">Gradient boosting</a> y <a href="https://en.wikipedia.org/wiki/XGBoost">XGBoost</a>.</p>
+<p><strong>Cabezas de Red Neuronal (MLP)</strong> — un Perceptrón Multicapa, una pila de capas totalmente conectadas con una activación no lineal entre ellas, entrenado de extremo a extremo sobre el vector de embedding. Se usa como la tercera familia de modelos tanto para el objetivo de clasificación como para el de conteo (<code>clf_nn.py</code>, <code>reg_nn.py</code>), entrenado vía backpropagation (ver abajo). Ver <a href="https://en.wikipedia.org/wiki/Multilayer_perceptron">Multilayer perceptron</a>.</p>
+<p><strong>Regresión de Poisson / Binomial Negativa / Poisson Inflada en Ceros</strong> — modelos de regresión para un resultado entero no negativo (conteo), en lugar del resultado continuo asumido por mínimos cuadrados ordinarios. Poisson simple asume <span class="math inline">\(P(Y=k) = \tfrac{\mu^{k} e^{-\mu}}{k!}\)</span> con <span class="math inline">\(\mu = e^{x^{\top}\beta}\)</span>; Binomial Negativa agrega un parámetro de sobredispersión sobre el Poisson simple, y Poisson Inflada en Ceros (ZIP) además mezcla una masa de probabilidad extra <span class="math inline">\(\pi\)</span> en cero, <span class="math inline">\(P(Y=0) = \pi + (1-\pi)e^{-\mu}\)</span> y <span class="math inline">\(P(Y=k&gt;0) = (1-\pi)\tfrac{\mu^{k}e^{-\mu}}{k!}\)</span>. Se usa para el objetivo de conteo <span class="math inline">\(y_{cnt}\)</span>, dado que los conteos de crimen por calle son exactamente esto: no negativos, enteros y dominados por ceros. Ver <a href="https://en.wikipedia.org/wiki/Poisson_regression">Poisson regression</a> y <a href="https://en.wikipedia.org/wiki/Zero-inflated_model">Zero-inflated model</a>.</p>
+<p><strong>Análisis de Componentes Principales (PCA)</strong> — una técnica lineal de reducción de dimensionalidad que encuentra las direcciones ortogonales (componentes) de máxima varianza en los datos. Se usa a lo largo de <code>src/unsupervised/dim_reduction.py</code> y en la demostración de la estructura de embeddings como la forma predeterminada de visualizar el espacio de embedding en 2-3 dimensiones. Ver <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">Principal component analysis</a>.</p>
+<p><strong>t-SNE</strong> — una técnica no lineal de reducción de dimensionalidad que preserva la estructura de vecindad local, buena para revelar clústeres que la proyección lineal de PCA puede ocultar. Se usa en <code>src/unsupervised/manifold_learning.py</code>, siempre sobre una muestra acotada, dado que no escala a millones de filas. Ver <a href="https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding">T-distributed stochastic neighbor embedding</a>.</p>
+<p><strong>UMAP</strong> — otra técnica no lineal de reducción de dimensionalidad, construida sobre un fundamento matemático distinto (aprendizaje de variedades / análisis topológico de datos) al de t-SNE, generalmente más rápida y mejor para preservar algo de la estructura global junto con la local. Se usa en <code>compute_umap</code> de <code>manifold_learning.py</code>, ajustado sobre una muestra y luego aplicado al resto de los datos por lotes. Ver <a href="https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection">UMAP</a>.</p>
+<p><strong>Locally Linear Embedding (LLE)</strong> — una técnica de aprendizaje de variedades que reconstruye cada punto como una combinación ponderada de sus vecinos más cercanos, y luego encuentra un embedding de menor dimensión que mejor preserva esos pesos locales. Se usa en <code>compute_lle</code> de <code>manifold_learning.py</code>. Ver <a href="https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Locally-linear_embedding">Nonlinear dimensionality reduction</a>.</p>
+<p><strong>Escalamiento Multidimensional (MDS)</strong> — coloca puntos en un espacio de baja dimensión de modo que sus distancias por pares coincidan, lo más fielmente posible, con las distancias por pares originales en el espacio de características completo. Se usa en <code>compute_mds</code> de <code>manifold_learning.py</code>, acotado a una muestra pequeña, dado que necesita la matriz completa de distancias por pares. Ver <a href="https://en.wikipedia.org/wiki/Multidimensional_scaling">Multidimensional scaling</a>.</p>
+<p><strong>K-means (variante esférica)</strong> — un algoritmo de clustering iterativo que asigna cada punto a su centroide más cercano de entre <span class="math inline">\(k\)</span>, y luego recalcula cada centroide como la media de sus puntos asignados, hasta la convergencia. Se usa en <code>src/unsupervised/clustering_kmeans.py</code> vía <code>MiniBatchKMeans</code> (ver algoritmos de mini-lote abajo), con los centroides renormalizados a la esfera unitaria después de cada actualización, de modo que la distancia Euclidiana se comporte como la distancia coseno —la adaptación “esférica” apropiada para los embeddings normalizados de AlphaEarth. Ver <a href="https://en.wikipedia.org/wiki/K-means_clustering">K-means clustering</a>.</p>
+<p><strong>DBSCAN</strong> — un algoritmo de clustering basado en densidad: un punto con suficientes vecinos dentro de un radio dado ancla un clúster, y todo lo demás que no pueda alcanzarse de esta manera se etiqueta como ruido, sin necesidad de fijar el número de clústeres de antemano. Se usa en <code>gif_dbscan_by_year</code> de <code>src/eda/core.py</code> sobre las coordenadas de crimen proyectadas (métricas). Ver <a href="https://en.wikipedia.org/wiki/DBSCAN">DBSCAN</a>.</p>
+</section>
+<section id="metrics" class="level2">
+<h2 class="anchored" data-anchor-id="metrics">Métricas</h2>
+<p>Notación, en lo que sigue: <span class="math inline">\(TP, FP, FN, TN\)</span> son las celdas de la matriz de confusión (verdaderos/falsos positivos/negativos); <span class="math inline">\(y_i \in \{0,1\}\)</span> es la etiqueta verdadera (o <span class="math inline">\(y_i \in \mathbb{N}\)</span> para conteos), <span class="math inline">\(\hat{y}_i\)</span> el valor predicho y <span class="math inline">\(p_i \in [0,1]\)</span> la probabilidad predicha, sobre <span class="math inline">\(N\)</span> observaciones.</p>
+<p><strong>Curva ROC / ROC-AUC</strong> — la curva Receiver Operating Characteristic grafica la tasa de verdaderos positivos contra la tasa de falsos positivos a través de todos los umbrales; el área bajo ella (AUC) resume la calidad del ordenamiento (ranking) en un solo número, en gran medida insensible al desbalance de clases. De manera equivalente, <span class="math inline">\(\mathrm{AUC} = P\big(s(x^{+}) &gt; s(x^{-})\big)\)</span> para un par positivo/negativo aleatorio con puntuaciones <span class="math inline">\(s\)</span>. Ver <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">Receiver operating characteristic</a>.</p>
+<p><strong>Precisión, Recall y puntuación F1</strong> — la precisión es la proporción de positivos predichos que son correctos, el recall es la proporción de positivos reales que fueron encontrados, y F1 es su media armónica:</p>
+<p><span class="math display">\[ \mathrm{Precision} = \frac{TP}{TP+FP}, \qquad \mathrm{Recall} = \frac{TP}{TP+FN}, \qquad F_1 = \frac{2\,\mathrm{Precision}\cdot\mathrm{Recall}}{\mathrm{Precision}+\mathrm{Recall}}. \]</span></p>
+<p>Reportadas en un umbral fijo de 0.5 y a través de una <a href="../src/supervised/metrics.py">tabla de escenarios de umbral</a> completa para los modelos de clasificación. Ver <a href="https://en.wikipedia.org/wiki/Precision_and_recall">Precision and recall</a>.</p>
+<p><strong>PR-AUC / Precisión Promedio</strong> — el área bajo la curva de Precisión-Recall; a diferencia de ROC-AUC, no promedia el conteo (muy grande) de verdaderos negativos, lo que la convierte en el resumen más informativo aquí, dado qué tan desbalanceado está el indicador de crimen. En su forma de Precisión Promedio, <span class="math inline">\(\mathrm{AP} = \sum_k (R_k - R_{k-1})\,P_k\)</span>, una suma ponderada de precisiones <span class="math inline">\(P_k\)</span> sobre los incrementos de recall <span class="math inline">\(R_k - R_{k-1}\)</span>. Es también la métrica contra la cual Optuna afina los clasificadores. Ver <a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision">Average precision</a>.</p>
+<p><strong>Exactitud Balanceada (Balanced Accuracy)</strong> — el promedio del recall obtenido en cada clase, corrigiendo el sesgo de la exactitud simple hacia la clase mayoritaria bajo desbalance: <span class="math inline">\(\tfrac{1}{2}\big(\mathrm{TPR} + \mathrm{TNR}\big)\)</span>, con <span class="math inline">\(\mathrm{TPR} = \tfrac{TP}{TP+FN}\)</span> y <span class="math inline">\(\mathrm{TNR} = \tfrac{TN}{TN+FP}\)</span>. Ver <a href="https://en.wikipedia.org/wiki/Accuracy_and_precision">Accuracy and precision</a>.</p>
+<p><strong>Coeficiente de Correlación de Matthews (MCC)</strong> — una única puntuación tipo correlación entre <span class="math inline">\(-1\)</span> y <span class="math inline">\(1\)</span> calculada a partir de las cuatro celdas de la matriz de confusión a la vez, considerada un resumen robusto incluso bajo un fuerte desbalance de clases:</p>
+<p><span class="math display">\[ \mathrm{MCC} = \frac{TP\cdot TN - FP\cdot FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}. \]</span></p>
+<p>Ver <a href="https://en.wikipedia.org/wiki/Phi_coefficient">Phi coefficient</a>.</p>
+<p><strong>Log loss (entropía cruzada)</strong> — penaliza un pronóstico de probabilidad por la log-verosimilitud negativa que asigna al resultado verdadero, recompensando no solo una clase correcta sino una confianza bien calibrada: <span class="math inline">\(-\tfrac{1}{N}\sum_{i=1}^{N}\big[y_i\log p_i + (1-y_i)\log(1-p_i)\big]\)</span>. Ver <a href="https://en.wikipedia.org/wiki/Cross-entropy">Cross-entropy</a>.</p>
+<p><strong>Brier score</strong> — el error cuadrático medio entre una probabilidad predicha y el resultado real (0/1), <span class="math inline">\(\tfrac{1}{N}\sum_{i=1}^{N}(p_i - y_i)^2\)</span>; otro compañero sensible a la calibración de las métricas de ranking de arriba. Ver <a href="https://en.wikipedia.org/wiki/Brier_score">Brier score</a>.</p>
+<p><strong>Desviance de Poisson</strong> — una medida de bondad de ajuste para modelos de conteo, que compara la media ajustada <span class="math inline">\(\hat{\mu}_i\)</span> contra el conteo observado <span class="math inline">\(y_i\)</span> bajo la verosimilitud de Poisson, <span class="math inline">\(D = 2\sum_{i=1}^{N}\big[y_i\log\tfrac{y_i}{\hat{\mu}_i} - (y_i - \hat{\mu}_i)\big]\)</span>; usada aquí como la métrica principal de ajuste (tuning) para los modelos de regresión de conteo. Ver <a href="https://en.wikipedia.org/wiki/Deviance_(statistics)">Deviance (statistics)</a>.</p>
+<p><strong>MAE / RMSE</strong> — Error Absoluto Medio y Raíz del Error Cuadrático Medio, los dos resúmenes de error dependientes de la escala estándar para el conteo predicho contra el observado, <span class="math inline">\(\mathrm{MAE} = \tfrac{1}{N}\sum_i |y_i - \hat{y}_i|\)</span> y <span class="math inline">\(\mathrm{RMSE} = \sqrt{\tfrac{1}{N}\sum_i (y_i - \hat{y}_i)^2}\)</span>, reportados junto con la desviance de Poisson. Ver <a href="https://en.wikipedia.org/wiki/Mean_absolute_error">Mean absolute error</a> y <a href="https://en.wikipedia.org/wiki/Root_mean_square_deviation">Root mean square deviation</a>.</p>
+<p><strong>Correlación de rangos de Spearman</strong> — correlación entre los <em>rangos</em> de dos variables en lugar de sus valores crudos, <span class="math inline">\(\rho = 1 - \tfrac{6\sum_i d_i^2}{n(n^2-1)}\)</span> con <span class="math inline">\(d_i\)</span> la diferencia en rangos (para rangos distintos); se usa para verificar si el conteo predicho al menos ordena correctamente las calles, incluso donde el conteo absoluto es difícil de precisar. Ver <a href="https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient">Spearman’s rank correlation coefficient</a>.</p>
+<p><strong>Silhouette score</strong> — para cada punto <span class="math inline">\(i\)</span>, compara su distancia promedio <span class="math inline">\(a_i\)</span> a los puntos de su propio clúster contra su distancia <span class="math inline">\(b_i\)</span> al clúster más cercano distinto, <span class="math inline">\(s_i = \tfrac{b_i - a_i}{\max(a_i, b_i)}\)</span>; promediado sobre todos los puntos, es uno de los diagnósticos usados para elegir <span class="math inline">\(k\)</span> en el barrido de k-means. Ver <a href="https://en.wikipedia.org/wiki/Silhouette_(clustering)">Silhouette (clustering)</a>.</p>
+<p><strong>Índice de Calinski-Harabasz</strong> — la razón entre la dispersión entre-clústeres y la dispersión dentro-de-clústeres, <span class="math inline">\(\mathrm{CH} = \tfrac{\operatorname{tr}(B_k)/(k-1)}{\operatorname{tr}(W_k)/(N-k)}\)</span> con <span class="math inline">\(B_k\)</span>, <span class="math inline">\(W_k\)</span> las matrices de dispersión entre- y dentro-de-clústeres; más alto es mejor separado, y es lo suficientemente barato de calcular sobre el conjunto de datos completo (a diferencia de silhouette, que aquí se submuestrea). Ver <a href="https://en.wikipedia.org/wiki/Calinski%E2%80%93Harabasz_index">Calinski–Harabasz index</a>.</p>
+<p><strong>Índice de Davies-Bouldin</strong> — la similitud promedio entre cada clúster y su clúster más similar, <span class="math inline">\(\mathrm{DB} = \tfrac{1}{k}\sum_{i}\max_{j\neq i}\tfrac{s_i + s_j}{d_{ij}}\)</span> con <span class="math inline">\(s_i\)</span> la dispersión dentro-del-clúster y <span class="math inline">\(d_{ij}\)</span> la distancia entre centroides; más bajo es mejor separado. Se usa junto con silhouette y Calinski-Harabasz en el barrido de selección de <span class="math inline">\(k\)</span>. Ver <a href="https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_index">Davies–Bouldin index</a>.</p>
+<p><strong>Prueba H de Kruskal-Wallis</strong> — una prueba no paramétrica sobre si varios grupos (aquí, los clústeres de k-means) provienen de la misma distribución del resultado, sin asumir normalidad. Debido a que los tamaños de muestra aquí son enormes (cientos de miles de calles), el valor <span class="math inline">\(p\)</span> colapsa a cero para casi cualquier efecto real, así que el pipeline reporta el tamaño del efecto <span class="math inline">\(\epsilon^2 = \tfrac{H - k + 1}{N - k}\)</span> derivado del estadístico de prueba <span class="math inline">\(H\)</span> en lugar de solo <span class="math inline">\(p\)</span>. Ver <a href="https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_test">Kruskal–Wallis test</a>.</p>
+</section>
+<section id="basic-math-and-algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="basic-math-and-algorithms">Matemáticas Básicas y Algoritmos de Cómputo</h2>
+<p><strong>Similitud coseno y normalización L2</strong> — la similitud basada en ángulo entre dos vectores, y la operación que reescala un vector a longitud unitaria. Ambas se cubren extensamente, con sus definiciones formales, en el <a href="./02_working_with_embeddings.html#entity-similarity">Capítulo 2</a>; reaparecen aquí como la razón por la que k-means se ejecuta en su forma <em>esférica</em> y la razón por la que la agregación de cobertura de píxeles (ver <a href="./99_appendix_geo_data_structures_and_operations.html">Apéndice de Datos Geoespaciales</a>) renormaliza después de promediar.</p>
+<p><strong>Descenso de Gradiente y Backpropagation</strong> — el descenso de gradiente es la receta general para minimizar una función de pérdida dando pasos repetidos en dirección opuesta a su gradiente; backpropagation es el algoritmo eficiente que calcula ese gradiente para cada peso en una red neuronal mediante la regla de la cadena, capa por capa. Así es como se entrenan las cabezas de NN (<code>clf_nn.py</code>, <code>reg_nn.py</code>), vía <code>torch.optim.Adam</code>, una variante adaptativa del descenso de gradiente. Ver <a href="https://en.wikipedia.org/wiki/Gradient_descent">Gradient descent</a> y <a href="https://en.wikipedia.org/wiki/Backpropagation">Backpropagation</a>.</p>
+<p><strong>Descomposición en Valores Singulares (SVD) y su variante aleatorizada</strong> — SVD factoriza cualquier matriz en componentes de rotación/escalamiento/rotación; PCA es, en el fondo, un SVD de la matriz de datos (centrada). Debido a que un SVD exacto es demasiado lento para millones de filas, en su lugar se usa <code>PCA(svd_solver="randomized")</code> de <code>sklearn</code>, un algoritmo aproximado que alcanza una descomposición comparable mucho más rápido usando proyecciones aleatorias. Ver <a href="https://en.wikipedia.org/wiki/Singular_value_decomposition">Singular value decomposition</a> y <a href="https://en.wikipedia.org/wiki/Randomized_algorithm">Randomized algorithm</a>.</p>
+<p><strong>Validación Cruzada K-fold (consciente de grupos)</strong> — la receta estándar de dividir los datos en <span class="math inline">\(k\)</span> folds, entrenar en <span class="math inline">\(k-1\)</span> y validar en el reservado, repitiendo <span class="math inline">\(k\)</span> veces. Este pipeline usa una variante de <em>grupo</em> (<code>src/supervised/cv.py</code>), donde cada celda (año, municipio) permanece completamente dentro de un solo fold, de modo que la información de ninguna calle se filtre a través de la división entrenamiento/validación por medio de sus vecinos. Ver <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)">Cross-validation (statistics)</a>.</p>
+<p><strong>Búsqueda bayesiana de hiperparámetros (TPE)</strong> — en lugar de una búsqueda en grilla o aleatoria, <code>src/supervised/tuning.py</code> usa el Tree-structured Parzen Estimator de Optuna, un método de optimización bayesiana que construye un modelo probabilístico de “qué hiperparámetros tienden a dar buenos resultados” a partir de los ensayos vistos hasta ahora, y lo usa para proponer candidatos más prometedores para el siguiente ensayo. Ver <a href="https://en.wikipedia.org/wiki/Bayesian_optimization">Bayesian optimization</a>.</p>
+<p><strong>Optimización estocástica por mini-lotes</strong> — en lugar de recalcular una actualización a partir de todo el conjunto de datos, el modelo se actualiza repetidamente a partir de pequeños lotes aleatorios, lo cual es tanto más barato por paso como, para conjuntos de datos muy grandes, la única opción tratable. <code>MiniBatchKMeans</code> (el motor detrás del k-means esférico de arriba) aplica exactamente esta idea a la actualización clásica de k-means. Ver <a href="https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Mini-batch">Stochastic gradient descent</a>.</p>
+</section>
+<section id="recursos" class="level2">
+<h2 class="anchored" data-anchor-id="recursos">Recursos</h2>
+<p><a href="https://www.wikipedia.org/">Wikipedia</a> — general reference for every entry above.</p>
+<p><a href="https://scikit-learn.org/stable/user_guide.html">scikit-learn User Guide</a> — implementation reference for the dimensionality-reduction, clustering and metric functions used throughout <code>src/unsupervised/</code> and <code>src/supervised/</code>.</p>
+<p><a href="https://xgboost.readthedocs.io/">XGBoost Documentation</a></p>
+<p><a href="https://pytorch.org/docs/stable/index.html">PyTorch Documentation</a></p>
+<p><a href="https://optuna.readthedocs.io/">Optuna Documentation</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copiado");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copiado");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+          // target, if specified
+          link.setAttribute("target", "_blank");
+          if (link.getAttribute("rel") === null) {
+            link.setAttribute("rel", "noopener");
+          }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

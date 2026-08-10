@@ -1,0 +1,63 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - "*.qmd"
+
+website:
+  title: "Earth Embeddings & Crime"
+  reader-mode: true
+  navbar:
+    left:
+      - text: "Español"
+        href: 00_introduction.qmd
+      - text: "English"
+        href: 00_introduction_eng.qmd
+  sidebar:
+    - id: es
+      title: "Español"
+      style: floating
+      collapse-level: 2
+      contents:
+        - index.qmd
+        - 00_introduction.qmd
+        - 01_earth_embeddings.qmd
+        - 02_working_with_embeddings.qmd
+        - 03_crime_eda.qmd
+        - 04_embeddings_applications_on_crime.qmd
+        - 05_conclusions.qmd
+        - section: "Apéndices"
+          contents:
+            - 99_appendix_basics.qmd
+            - 99_appendix_geo_data_structures_and_operations.qmd
+            - 99_appendix_others.qmd
+    - id: en
+      title: "English"
+      style: floating
+      collapse-level: 2
+      contents:
+        - index.qmd
+        - 00_introduction_eng.qmd
+        - 01_earth_embeddings_eng.qmd
+        - 02_working_with_embeddings_eng.qmd
+        - 03_crime_eda_eng.qmd
+        - 04_embeddings_applications_on_crime_eng.qmd
+        - 05_conclusions_eng.qmd
+        - section: "Appendices"
+          contents:
+            - 99_appendix_basics_eng.qmd
+            - 99_appendix_geo_data_structures_and_operations_eng.qmd
+            - 99_appendix_others_eng.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap
+    link-external-newwindow: true
+    mermaid:
+      theme: neutral
+    html-math-method: mathjax

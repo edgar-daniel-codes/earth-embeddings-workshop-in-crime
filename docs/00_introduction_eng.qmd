@@ -1,0 +1,137 @@
+---
+title: "Introduction"
+lang: en
+---
+
+## About these notebooks {#about-these-notebooks}
+
+This series of pages is an exercise carried out to assess the ability to use Earth Embeddings (vector bases) to model complex phenomena related to spatial features. This work is even more ambitious and takes it one step further by using them in an application in the field of the social sciences: crime incidents.
+
+The intent of the book is to be a self-contained data analysis exercise for using and replicating or improving the current models and training. Thus, the referenced repository contains the scripts needed (both Python and Google Earth Engine) to replicate the analysis by following the given instructions and the pages of this book themselves. At the same time, the pages also aim to be self-contained in terms of content, where a minimal background in machine learning models, applied statistics and programming is needed to understand the present pipelines, including a basic description of geospatial concepts and techniques so the logic of the analysis can be followed based on current practice.
+
+Finally, the repository includes data to deploy 2 small web applications to perform an EDA analysis and a demonstration of the predicted street features based on the analysis.
+
+Thus, anyone with a general background can understand both the content as a stakeholder report and the source code to replicate and use the databases. The logic of the notes is as follows:
+
+- Understand what an embedding is.
+- How embeddings are typically used as features.
+- Data processing, modeling and training decisions.
+- Conclusion.
+
+In addition, there are 3 appendices with the following purposes:
+
+- Briefly explain the algorithms, the metric evaluation and the mathematics behind the algorithms used.
+- Describe particular methods or logics used in the code that require explanation.
+- Explain the basic geospatial analysis and the operations needed to understand the decisions behind each analysis.
+
+Furthermore, the repository itself contains an FAQ section in its README.md file.
+
+## Table of contents
+
+- [Introduction](00_introduction_eng.qmd) — *this page*
+  - [About these notebooks](./00_introduction_eng.qmd#about-these-notebooks)
+- [1. Earth Embeddings](01_earth_embeddings_eng.qmd)
+  - [What exactly is an embedding?](./01_earth_embeddings_eng.qmd#what-is-an-embedding)
+  - [Open Data Embeddings and Embedding Families](./01_earth_embeddings_eng.qmd#open-data-embeddings)
+- [2. Working with Embeddings](02_working_with_embeddings_eng.qmd)
+  - [How to start using Google Earth Embeddings](./02_working_with_embeddings_eng.qmd#getting-started)
+  - [Working with Vector Embeddings](./02_working_with_embeddings_eng.qmd#working-with-vector-embeddings)
+  - [Applications of embeddings](./02_working_with_embeddings_eng.qmd#embedding-applications)
+  - [Caveats when working with embeddings](./02_working_with_embeddings_eng.qmd#caveats)
+- [3. Crime in Mexico](03_crime_eda_eng.qmd)
+  - [Context and phenomenon](./03_crime_eda_eng.qmd#context-and-phenomenon)
+  - [Crime incidence in Mexico City (CDMX) — Available data](./03_crime_eda_eng.qmd#available-data)
+- [4. Embeddings Applications on Crime](04_embeddings_applications_on_crime_eng.qmd)
+  - [Modeling Crime](./04_embeddings_applications_on_crime_eng.qmd#modeling-crime)
+  - [Data Processing](./04_embeddings_applications_on_crime_eng.qmd#data-processing)
+  - [Model Fitting: Supervised Learning Methods](./04_embeddings_applications_on_crime_eng.qmd#supervised-methods)
+  - [Discovering Hidden Patterns: Unsupervised Learning Methods](./04_embeddings_applications_on_crime_eng.qmd#unsupervised-methods)
+  - [Getting Archetypes — Applications](./04_embeddings_applications_on_crime_eng.qmd#archetypes)
+- [5. Conclusions](05_conclusions_eng.qmd)
+  - [Learnings about Embeddings](./05_conclusions_eng.qmd#embedding-learnings)
+  - [Learnings from Crime Data and Models](./05_conclusions_eng.qmd#crime-data-learnings)
+  - [What was found](./05_conclusions_eng.qmd#what-we-found)
+  - [Future work and improvements](./05_conclusions_eng.qmd#future-work)
+- Appendices
+  - [A. Fundamental Models, Metrics and Algorithms](99_appendix_basics_eng.qmd) — [Models](./99_appendix_basics_eng.qmd#models) · [Metrics](./99_appendix_basics_eng.qmd#metrics) · [Basic Mathematics and Computing Algorithms](./99_appendix_basics_eng.qmd#basic-math-and-algorithms)
+  - [B. Geospatial Data Structures and Operations](99_appendix_geo_data_structures_and_operations_eng.qmd) — [Data Structures](./99_appendix_geo_data_structures_and_operations_eng.qmd#geospatial-data-structures) · [CRS](./99_appendix_geo_data_structures_and_operations_eng.qmd#crs) · [Spatial Operations](./99_appendix_geo_data_structures_and_operations_eng.qmd#spatial-operations) · [Pixel Coverage](./99_appendix_geo_data_structures_and_operations_eng.qmd#raster-to-vector)
+  - [C. Additional Technical Notes](99_appendix_others_eng.qmd) — [Large-Scale Cosine Similarity Statistics](./99_appendix_others_eng.qmd#large-scale-cosine-stats)
+
+## Organization and Notebook Context {#organization-context}
+
+In general, the development of this work is carried out within the framework of the Research Internship of the Master's in Data Science at ITAM, which, as the educational organization that promotes and sponsors this project, in its pursuit of contributing to the vision of a fairer and more prosperous society, opens the way to the open development of solutions and applications of Data Science techniques with the purpose of understanding, disseminating, studying and developing phenomena of a scientific, social, economic and cultural nature. It is in this context that the present work responds to the need to provide a starting point in the use of state-of-the-art tools and data for the understanding of social phenomena such as crime. The problem is of interest to the institution, since the purpose, beyond a model, explanation or final implementation, is to provide tools and a methodology for the development of data-based applications and strategies for organizations and entities interested in modeling the phenomenon of crime, among them:
+
+- Public Security Institutions
+- Government agencies in general
+- Human rights and public policy observers
+- Researchers in the field
+- Civil Society and
+- The business sector.
+
+In a context where code development solutions seem to be within everyone's reach and, in parallel, the gap in access to information and to advances in data science development and analysis on the part of civil society appears to be increasingly concentrated in a few institutions and bodies, it is imperative to make public and to set a precedent in closing the gap between leading, frontier models and algorithms and their application to research and to the understanding of phenomena that impact society and communities. It is therefore intended that the present work be a starting point in the conversation toward the development of data-based social research within the ITAM community and, in general, for practitioners and researchers.
+
+## Resources
+
+Below we gather, in a single place, every external reference cited throughout the chapters and appendices, grouped by type and without duplicates. All entries are formatted in APA style (7th ed.) and, within each group, ordered alphabetically by author. Each chapter and appendix also keeps its own `Resources` list at the foot; this is the cumulative view.
+
+### Academic references
+
+*(Cited mainly in [Chapter 1](01_earth_embeddings_eng.qmd), and referenced by the applied chapters.)*
+
+- Brown, C. F., Kazmierski, M. R., Pasquarella, V. J., Rucklidge, W. J., Samsikova, M., Zhang, C., Shelhamer, E., et al. (2025). *AlphaEarth Foundations: An embedding field model for accurate and efficient global mapping from sparse label data* [Preprint]. arXiv. https://arxiv.org/abs/2507.22291
+- Devlin, J., Chang, M.-W., Lee, K., & Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. In *Proceedings of NAACL-HLT 2019* (pp. 4171–4186). https://arxiv.org/abs/1810.04805
+- Dosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn, D., Zhai, X., Unterthiner, T., Dehghani, M., Minderer, M., Heigold, G., Gelly, S., Uszkoreit, J., & Houlsby, N. (2021). An image is worth 16×16 words: Transformers for image recognition at scale. In *International Conference on Learning Representations (ICLR) 2021*. https://arxiv.org/abs/2010.11929
+- Firth, J. R. (1957). A synopsis of linguistic theory, 1930–1955. In *Studies in linguistic analysis* (pp. 1–32). Blackwell.
+- Harris, Z. S. (1954). Distributional structure. *Word, 10*(2–3), 146–162. https://doi.org/10.1080/00437956.1954.11659520
+- He, K., Chen, X., Xie, S., Li, Y., Dollár, P., & Girshick, R. (2022). Masked autoencoders are scalable vision learners. In *Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) 2022* (pp. 16000–16009). https://arxiv.org/abs/2111.06377
+- Jakubik, J., Roy, S., Phillips, C. E., Fraccaro, P., Godwin, D., Zadrozny, B., Szwarcman, D., et al. (2023). *Foundation models for generalist geospatial artificial intelligence* [Preprint]. arXiv. https://arxiv.org/abs/2310.18660
+- Kingma, D. P., & Welling, M. (2014). Auto-encoding variational Bayes. In *International Conference on Learning Representations (ICLR) 2014*. https://arxiv.org/abs/1312.6114
+- Klemmer, K., Rolf, E., Robinson, C., Mackey, L., & Rußwurm, M. (2025). SatCLIP: Global, general-purpose location embeddings with satellite imagery. *Proceedings of the AAAI Conference on Artificial Intelligence, 39*(4), 4347–4355. https://doi.org/10.1609/aaai.v39i4.32457
+- Mikolov, T., Sutskever, I., Chen, K., Corrado, G., & Dean, J. (2013). Distributed representations of words and phrases and their compositionality. In *Advances in Neural Information Processing Systems 26* (pp. 3111–3119). https://arxiv.org/abs/1310.4546
+- Pennington, J., Socher, R., & Manning, C. D. (2014). GloVe: Global vectors for word representation. In *Proceedings of EMNLP 2014* (pp. 1532–1543). https://doi.org/10.3115/v1/D14-1162
+- Reimers, N., & Gurevych, I. (2019). Sentence-BERT: Sentence embeddings using Siamese BERT-networks. In *Proceedings of EMNLP-IJCNLP 2019* (pp. 3982–3992). https://arxiv.org/abs/1908.10084
+- Rezende, D. J., Mohamed, S., & Wierstra, D. (2014). Stochastic backpropagation and approximate inference in deep generative models. In *Proceedings of ICML 2014* (pp. 1278–1286). https://arxiv.org/abs/1401.4082
+- Szwarcman, D., Roy, S., Fraccaro, P., Gíslason, Þ. E., Blumenstiel, B., Ghosal, R., et al. (2024). *Prithvi-EO-2.0: A versatile multi-temporal foundation model for Earth observation applications* [Preprint]. arXiv. https://arxiv.org/abs/2412.02732
+- Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., & Polosukhin, I. (2017). Attention is all you need. In *Advances in Neural Information Processing Systems 30* (pp. 5998–6008). https://arxiv.org/abs/1706.03762
+
+### Datasets and official data sources
+
+- Centro de Comando, Control, Cómputo, Comunicaciones y Contacto Ciudadano de la Ciudad de México. (n.d.). *C5 Ciudad de México* [Government website]. https://www.c5.cdmx.gob.mx/ *(Ch. 3.)*
+- Gobierno de la Ciudad de México. (n.d.). *Sistema Ajolote: Datos Abiertos de la Ciudad de México* [Data portal; *Carpetas de Investigación* (FGJ) and C5 citizen-report datasets]. https://www.datos.cdmx.gob.mx/ *(Ch. 3.)*
+- Google. (n.d.). *Google Earth Engine* [Geospatial analysis platform]. https://earthengine.google.com/ *(Ch. 2.)*
+- Google, & Google DeepMind. (2025). *Satellite Embedding V1 (Annual): AlphaEarth Foundations satellite embedding dataset* (GOOGLE/SATELLITE_EMBEDDING/V1/ANNUAL) [Data set]. Earth Engine Data Catalog. https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_SATELLITE_EMBEDDING_V1_ANNUAL *(Ch. 1–4; CC-BY 4.0.)*
+- Instituto Nacional de Estadística y Geografía. (n.d.). *Encuesta Nacional de Seguridad Pública Urbana (ENSU)* [Data set]. https://www.inegi.org.mx/programas/ensu/ *(Ch. 3.)*
+- Instituto Nacional de Estadística y Geografía. (n.d.). *Marco Geoestadístico* [Data set]. https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=794551163061 *(Ch. 2–4, App. B.)*
+- Instituto Nacional de Estadística y Geografía. (2025). *Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública (ENVIPE) 2025* [Data set]. https://www.inegi.org.mx/programas/envipe/2025/ (Press release: https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2025/ENVIPE/ENVIPE_25.pdf) *(Ch. 3.)*
+
+### Software and documentation
+
+- Apache Software Foundation. (n.d.). *PyArrow: Tabular datasets* [Computer software documentation]. https://arrow.apache.org/docs/python/dataset.html *(App. B.)*
+- contextily developers. (n.d.). *contextily documentation* [Computer software]. https://contextily.readthedocs.io/ *(App. B.)*
+- EPSG.io. (n.d.). *EPSG.io: Coordinate systems worldwide* [Online database]. https://epsg.io/ *(App. B.)*
+- GeoPandas developers. (n.d.). *GeoPandas documentation* [Computer software]. https://geopandas.org/ *(App. B.)*
+- Optuna developers. (n.d.). *Optuna: A hyperparameter optimization framework* [Computer software]. https://optuna.org/ (Documentation: https://optuna.readthedocs.io/) *(Ch. 4, App. A.)*
+- PyTorch developers. (n.d.). *PyTorch documentation* [Computer software]. https://pytorch.org/docs/stable/index.html *(App. A.)*
+- Rasterio developers. (n.d.). *Rasterio documentation* [Computer software]. https://rasterio.readthedocs.io/ *(App. B.)*
+- scikit-learn developers. (n.d.). *scikit-learn: Machine learning in Python* [Computer software]. https://scikit-learn.org/stable/user_guide.html (Clustering, PCA, t-SNE and manifold learning: https://scikit-learn.org/stable/modules/clustering.html) *(Ch. 4, App. A.)*
+- Shapely developers. (n.d.). *Shapely documentation* [Computer software]. https://shapely.readthedocs.io/ *(App. B.)*
+- Uber Technologies. (n.d.). *H3: Hexagonal hierarchical geospatial indexing system* [Computer software]. https://h3geo.org/ *(App. B.)*
+- XGBoost developers. (n.d.). *XGBoost documentation* [Computer software]. https://xgboost.readthedocs.io/ *(Ch. 4, App. A.)*
+
+### Reference material (concept explanations)
+
+*(Wikipedia is used as a general explanation for the models, metrics and algorithms catalogued in [Appendix A](99_appendix_basics_eng.qmd); the entries below are the specific articles cited for the derivations in [Appendix C](99_appendix_others_eng.qmd).)*
+
+- Cosine similarity. (n.d.). In *Wikipedia*. Retrieved July 25, 2026, from https://en.wikipedia.org/wiki/Cosine_similarity
+- Gram matrix. (n.d.). In *Wikipedia*. Retrieved July 25, 2026, from https://en.wikipedia.org/wiki/Gram_matrix
+- Law of large numbers. (n.d.). In *Wikipedia*. Retrieved July 25, 2026, from https://en.wikipedia.org/wiki/Law_of_large_numbers
+- Matrix norm. (n.d.). In *Wikipedia*. Retrieved July 25, 2026, from https://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm
+- Monte Carlo method. (n.d.). In *Wikipedia*. Retrieved July 25, 2026, from https://en.wikipedia.org/wiki/Monte_Carlo_method
+- Order statistic. (n.d.). In *Wikipedia*. Retrieved July 25, 2026, from https://en.wikipedia.org/wiki/Order_statistic
+
+### Media and figure credits
+
+- EugenioTL. (n.d.). *General VAE framework* [Diagram]. Wikimedia Commons. https://commons.wikimedia.org/w/index.php?curid=107231101 (CC BY-SA 4.0) *(Ch. 1.)*
+- Google. (n.d.). *Earth Engine Code Editor* [Software documentation]. Google for Developers. https://developers.google.com/earth-engine/guides/playground *(Ch. 2.)*
+- Google DeepMind. (2025). *AlphaEarth Foundations helps map our planet in unprecedented detail* [Blog post]. https://deepmind.google/blog/alphaearth-foundations-helps-map-our-planet-in-unprecedented-detail/ *(Ch. 4.)*
+- Google Earth. (n.d.). *Google Earth* [YouTube channel]. YouTube. https://www.youtube.com/@googleearth/videos *(Ch. 2.)*

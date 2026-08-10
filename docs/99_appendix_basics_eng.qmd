@@ -1,0 +1,96 @@
+---
+title: "Appendix — Fundamental Models, Metrics and Algorithms"
+lang: en
+---
+
+This appendix gathers brief descriptions of the models, evaluation metrics and fundamental mathematical/computational building blocks used throughout this repository, each with a link to a basic, validated reference (mostly Wikipedia) for anyone who wants to go one level deeper. Like the other appendices, this is not a general ML textbook, just what is actually used in the code.
+
+## Models {#models}
+
+**Logistic Regression** — a linear model for a binary outcome: it fits a linear combination of the features and squashes it through the sigmoid function to produce a probability, $P(y=1\mid x) = \sigma(x^{\top}\beta)$ with $\sigma(z) = \tfrac{1}{1+e^{-z}}$. It is used as the simplest baseline classifier for the "did this street report any incident?" target (`src/supervised/models/clf_logreg.py`). See [Logistic regression](https://en.wikipedia.org/wiki/Logistic_regression).
+
+**Gradient Boosted Trees (XGBoost)** — an ensemble of shallow decision trees built sequentially, where each new tree fits the residual errors (gradient) of the ensemble so far. It is used both for classification (`clf_xgb.py`) and, with a Poisson/Negative-Binomial/hurdle objective, for count regression (`reg_xgb.py`). See [Gradient boosting](https://en.wikipedia.org/wiki/Gradient_boosting) and [XGBoost](https://en.wikipedia.org/wiki/XGBoost).
+
+**Neural Network Heads (MLP)** — a Multilayer Perceptron, a stack of fully connected layers with a non-linear activation between them, trained end-to-end over the embedding vector. It is used as the third model family for both the classification and the count targets (`clf_nn.py`, `reg_nn.py`), trained via backpropagation (see below). See [Multilayer perceptron](https://en.wikipedia.org/wiki/Multilayer_perceptron).
+
+**Poisson / Negative Binomial / Zero-Inflated Poisson Regression** — regression models for a non-negative integer (count) outcome, instead of the continuous outcome assumed by ordinary least squares. Plain Poisson assumes $P(Y=k) = \tfrac{\mu^{k} e^{-\mu}}{k!}$ with $\mu = e^{x^{\top}\beta}$; Negative Binomial adds an overdispersion parameter on top of plain Poisson, and Zero-Inflated Poisson (ZIP) additionally mixes in an extra probability mass $\pi$ at zero, $P(Y=0) = \pi + (1-\pi)e^{-\mu}$ and $P(Y=k>0) = (1-\pi)\tfrac{\mu^{k}e^{-\mu}}{k!}$. It is used for the count target $y_{cnt}$, since crime counts per street are exactly this: non-negative, integer and dominated by zeros. See [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression) and [Zero-inflated model](https://en.wikipedia.org/wiki/Zero-inflated_model).
+
+**Principal Component Analysis (PCA)** — a linear dimensionality reduction technique that finds the orthogonal directions (components) of maximum variance in the data. It is used throughout `src/unsupervised/dim_reduction.py` and in the embedding structure showcase as the default way to visualize the embedding space in 2-3 dimensions. See [Principal component analysis](https://en.wikipedia.org/wiki/Principal_component_analysis).
+
+**t-SNE** — a non-linear dimensionality reduction technique that preserves local neighborhood structure, good for revealing clusters that PCA's linear projection may hide. It is used in `src/unsupervised/manifold_learning.py`, always over a bounded sample, since it does not scale to millions of rows. See [T-distributed stochastic neighbor embedding](https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding).
+
+**UMAP** — another non-linear dimensionality reduction technique, built on a different mathematical foundation (manifold learning / topological data analysis) than t-SNE, generally faster and better at preserving some of the global structure alongside the local one. It is used in `compute_umap` of `manifold_learning.py`, fitted on a sample and then applied to the rest of the data in batches. See [UMAP](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Uniform_manifold_approximation_and_projection).
+
+**Locally Linear Embedding (LLE)** — a manifold learning technique that reconstructs each point as a weighted combination of its nearest neighbors, and then finds a lower-dimensional embedding that best preserves those local weights. It is used in `compute_lle` of `manifold_learning.py`. See [Nonlinear dimensionality reduction](https://en.wikipedia.org/wiki/Nonlinear_dimensionality_reduction#Locally-linear_embedding).
+
+**Multidimensional Scaling (MDS)** — places points in a low-dimensional space so that their pairwise distances match, as faithfully as possible, the original pairwise distances in the full feature space. It is used in `compute_mds` of `manifold_learning.py`, bounded to a small sample, since it needs the full pairwise distance matrix. See [Multidimensional scaling](https://en.wikipedia.org/wiki/Multidimensional_scaling).
+
+**K-means (spherical variant)** — an iterative clustering algorithm that assigns each point to its nearest centroid out of $k$, and then recomputes each centroid as the mean of its assigned points, until convergence. It is used in `src/unsupervised/clustering_kmeans.py` via `MiniBatchKMeans` (see mini-batch algorithms below), with the centroids renormalized to the unit sphere after each update, so that Euclidean distance behaves like cosine distance —the "spherical" adaptation appropriate for the normalized AlphaEarth embeddings. See [K-means clustering](https://en.wikipedia.org/wiki/K-means_clustering).
+
+**DBSCAN** — a density-based clustering algorithm: a point with enough neighbors within a given radius anchors a cluster, and everything else that cannot be reached this way is labeled as noise, with no need to fix the number of clusters beforehand. It is used in `gif_dbscan_by_year` of `src/eda/core.py` over the projected (metric) crime coordinates. See [DBSCAN](https://en.wikipedia.org/wiki/DBSCAN).
+
+## Metrics {#metrics}
+
+Notation, in what follows: $TP, FP, FN, TN$ are the confusion matrix cells (true/false positives/negatives); $y_i \in \{0,1\}$ is the true label (or $y_i \in \mathbb{N}$ for counts), $\hat{y}_i$ the predicted value and $p_i \in [0,1]$ the predicted probability, over $N$ observations.
+
+**ROC curve / ROC-AUC** — the Receiver Operating Characteristic curve plots the true positive rate against the false positive rate across all thresholds; the area under it (AUC) summarizes the ranking quality in a single number, largely insensitive to class imbalance. Equivalently, $\mathrm{AUC} = P\big(s(x^{+}) > s(x^{-})\big)$ for a random positive/negative pair with scores $s$. See [Receiver operating characteristic](https://en.wikipedia.org/wiki/Receiver_operating_characteristic).
+
+**Precision, Recall and F1 score** — precision is the proportion of predicted positives that are correct, recall is the proportion of actual positives that were found, and F1 is their harmonic mean:
+
+$$ \mathrm{Precision} = \frac{TP}{TP+FP}, \qquad \mathrm{Recall} = \frac{TP}{TP+FN}, \qquad F_1 = \frac{2\,\mathrm{Precision}\cdot\mathrm{Recall}}{\mathrm{Precision}+\mathrm{Recall}}. $$
+
+Reported at a fixed threshold of 0.5 and across a full [threshold scenario table](../src/supervised/metrics.py) for the classification models. See [Precision and recall](https://en.wikipedia.org/wiki/Precision_and_recall).
+
+**PR-AUC / Average Precision** — the area under the Precision-Recall curve; unlike ROC-AUC, it does not average over the (very large) count of true negatives, which makes it the most informative summary here, given how imbalanced the crime indicator is. In its Average Precision form, $\mathrm{AP} = \sum_k (R_k - R_{k-1})\,P_k$, a weighted sum of precisions $P_k$ over the recall increments $R_k - R_{k-1}$. It is also the metric against which Optuna tunes the classifiers. See [Average precision](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Average_precision).
+
+**Balanced Accuracy** — the average of the recall obtained on each class, correcting the bias of plain accuracy toward the majority class under imbalance: $\tfrac{1}{2}\big(\mathrm{TPR} + \mathrm{TNR}\big)$, with $\mathrm{TPR} = \tfrac{TP}{TP+FN}$ and $\mathrm{TNR} = \tfrac{TN}{TN+FP}$. See [Accuracy and precision](https://en.wikipedia.org/wiki/Accuracy_and_precision).
+
+**Matthews Correlation Coefficient (MCC)** — a single correlation-like score between $-1$ and $1$ computed from all four confusion matrix cells at once, considered a robust summary even under strong class imbalance:
+
+$$ \mathrm{MCC} = \frac{TP\cdot TN - FP\cdot FN}{\sqrt{(TP+FP)(TP+FN)(TN+FP)(TN+FN)}}. $$
+
+See [Phi coefficient](https://en.wikipedia.org/wiki/Phi_coefficient).
+
+**Log loss (cross-entropy)** — penalizes a probability forecast by the negative log-likelihood it assigns to the true outcome, rewarding not only a correct class but well-calibrated confidence: $-\tfrac{1}{N}\sum_{i=1}^{N}\big[y_i\log p_i + (1-y_i)\log(1-p_i)\big]$. See [Cross-entropy](https://en.wikipedia.org/wiki/Cross-entropy).
+
+**Brier score** — the mean squared error between a predicted probability and the actual outcome (0/1), $\tfrac{1}{N}\sum_{i=1}^{N}(p_i - y_i)^2$; another calibration-sensitive companion to the ranking metrics above. See [Brier score](https://en.wikipedia.org/wiki/Brier_score).
+
+**Poisson deviance** — a goodness-of-fit measure for count models, comparing the fitted mean $\hat{\mu}_i$ against the observed count $y_i$ under the Poisson likelihood, $D = 2\sum_{i=1}^{N}\big[y_i\log\tfrac{y_i}{\hat{\mu}_i} - (y_i - \hat{\mu}_i)\big]$; used here as the main tuning metric for the count regression models. See [Deviance (statistics)](https://en.wikipedia.org/wiki/Deviance_(statistics)).
+
+**MAE / RMSE** — Mean Absolute Error and Root Mean Square Error, the two standard scale-dependent error summaries for the predicted versus observed count, $\mathrm{MAE} = \tfrac{1}{N}\sum_i |y_i - \hat{y}_i|$ and $\mathrm{RMSE} = \sqrt{\tfrac{1}{N}\sum_i (y_i - \hat{y}_i)^2}$, reported alongside the Poisson deviance. See [Mean absolute error](https://en.wikipedia.org/wiki/Mean_absolute_error) and [Root mean square deviation](https://en.wikipedia.org/wiki/Root_mean_square_deviation).
+
+**Spearman rank correlation** — correlation between the *ranks* of two variables instead of their raw values, $\rho = 1 - \tfrac{6\sum_i d_i^2}{n(n^2-1)}$ with $d_i$ the difference in ranks (for distinct ranks); it is used to check whether the predicted count at least orders the streets correctly, even where the absolute count is hard to pin down. See [Spearman's rank correlation coefficient](https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient).
+
+**Silhouette score** — for each point $i$, it compares its average distance $a_i$ to the points of its own cluster against its distance $b_i$ to the nearest different cluster, $s_i = \tfrac{b_i - a_i}{\max(a_i, b_i)}$; averaged over all points, it is one of the diagnostics used to choose $k$ in the k-means sweep. See [Silhouette (clustering)](https://en.wikipedia.org/wiki/Silhouette_(clustering)).
+
+**Calinski-Harabasz index** — the ratio between the between-cluster dispersion and the within-cluster dispersion, $\mathrm{CH} = \tfrac{\operatorname{tr}(B_k)/(k-1)}{\operatorname{tr}(W_k)/(N-k)}$ with $B_k$, $W_k$ the between- and within-cluster dispersion matrices; higher is better separated, and it is cheap enough to compute over the full dataset (unlike silhouette, which is subsampled here). See [Calinski–Harabasz index](https://en.wikipedia.org/wiki/Calinski%E2%80%93Harabasz_index).
+
+**Davies-Bouldin index** — the average similarity between each cluster and its most similar cluster, $\mathrm{DB} = \tfrac{1}{k}\sum_{i}\max_{j\neq i}\tfrac{s_i + s_j}{d_{ij}}$ with $s_i$ the within-cluster dispersion and $d_{ij}$ the distance between centroids; lower is better separated. It is used alongside silhouette and Calinski-Harabasz in the $k$ selection sweep. See [Davies–Bouldin index](https://en.wikipedia.org/wiki/Davies%E2%80%93Bouldin_index).
+
+**Kruskal-Wallis H test** — a non-parametric test of whether several groups (here, the k-means clusters) come from the same outcome distribution, without assuming normality. Because the sample sizes here are enormous (hundreds of thousands of streets), the $p$ value collapses to zero for almost any real effect, so the pipeline reports the effect size $\epsilon^2 = \tfrac{H - k + 1}{N - k}$ derived from the test statistic $H$ instead of just $p$. See [Kruskal–Wallis test](https://en.wikipedia.org/wiki/Kruskal%E2%80%93Wallis_test).
+
+## Basic Mathematics and Computing Algorithms {#basic-math-and-algorithms}
+
+**Cosine similarity and L2 normalization** — the angle-based similarity between two vectors, and the operation that rescales a vector to unit length. Both are covered extensively, with their formal definitions, in [Chapter 2](02_working_with_embeddings_eng.qmd#entity-similarity); they reappear here as the reason why k-means runs in its *spherical* form and the reason why the pixel coverage aggregation (see [Geospatial Data Appendix](99_appendix_geo_data_structures_and_operations_eng.qmd)) renormalizes after averaging.
+
+**Gradient Descent and Backpropagation** — gradient descent is the general recipe for minimizing a loss function by taking repeated steps in the direction opposite to its gradient; backpropagation is the efficient algorithm that computes that gradient for each weight in a neural network through the chain rule, layer by layer. This is how the NN heads (`clf_nn.py`, `reg_nn.py`) are trained, via `torch.optim.Adam`, an adaptive variant of gradient descent. See [Gradient descent](https://en.wikipedia.org/wiki/Gradient_descent) and [Backpropagation](https://en.wikipedia.org/wiki/Backpropagation).
+
+**Singular Value Decomposition (SVD) and its randomized variant** — SVD factorizes any matrix into rotation/scaling/rotation components; PCA is, deep down, an SVD of the (centered) data matrix. Because an exact SVD is too slow for millions of rows, `sklearn`'s `PCA(svd_solver="randomized")` is used instead, an approximate algorithm that reaches a comparable decomposition much faster using random projections. See [Singular value decomposition](https://en.wikipedia.org/wiki/Singular_value_decomposition) and [Randomized algorithm](https://en.wikipedia.org/wiki/Randomized_algorithm).
+
+**K-fold Cross-Validation (group-aware)** — the standard recipe of splitting the data into $k$ folds, training on $k-1$ and validating on the held-out one, repeating $k$ times. This pipeline uses a *group* variant (`src/supervised/cv.py`), where each (year, municipality) cell stays entirely within a single fold, so that no street's information leaks across the train/validation split by way of its neighbors. See [Cross-validation (statistics)](https://en.wikipedia.org/wiki/Cross-validation_(statistics)).
+
+**Bayesian hyperparameter search (TPE)** — instead of a grid or random search, `src/supervised/tuning.py` uses Optuna's Tree-structured Parzen Estimator, a Bayesian optimization method that builds a probabilistic model of "which hyperparameters tend to give good results" from the trials seen so far, and uses it to propose more promising candidates for the next trial. See [Bayesian optimization](https://en.wikipedia.org/wiki/Bayesian_optimization).
+
+**Mini-batch stochastic optimization** — instead of recomputing an update from the whole dataset, the model is repeatedly updated from small random batches, which is both cheaper per step and, for very large datasets, the only tractable option. `MiniBatchKMeans` (the engine behind the spherical k-means above) applies exactly this idea to the classic k-means update. See [Stochastic gradient descent](https://en.wikipedia.org/wiki/Stochastic_gradient_descent#Mini-batch).
+
+## Resources
+
+[Wikipedia](https://www.wikipedia.org/) — general reference for every entry above.
+
+[scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html) — implementation reference for the dimensionality-reduction, clustering and metric functions used throughout `src/unsupervised/` and `src/supervised/`.
+
+[XGBoost Documentation](https://xgboost.readthedocs.io/)
+
+[PyTorch Documentation](https://pytorch.org/docs/stable/index.html)
+
+[Optuna Documentation](https://optuna.readthedocs.io/)

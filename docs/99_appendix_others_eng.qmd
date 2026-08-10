@@ -1,0 +1,74 @@
+---
+title: "Appendix — Additional Technical Notes"
+lang: en
+---
+
+This appendix gathers standalone technical notes that do not fit cleanly into the geo-data or model/metric appendices —derivations, tricks and implementation details of the codebase that are worth writing down once, in one place.
+
+## Large-Scale Cosine Similarity Statistics (`group_cosine_stats`) {#large-scale-cosine-stats}
+
+[Chapter 2](02_working_with_embeddings_eng.qmd#entity-similarity) already defined the *cosine similarity* between two vectors and used it, repeatedly, to answer a within-group question: given all the embedding vectors covering a single geometry, say every AlphaEarth pixel inside a CVEGEO, a street, or an AGEB, how similar are they *to each other*? That is exactly the "Benchmark computation" behind the CVEGEO/MZA/AGEB similarity heatmaps of Chapter 2, and it is what `group_cosine_stats` from `src/utils/similarity.py` computes: the mean, median and standard deviation of *every* pairwise cosine similarity within a group of $n$ vectors.
+
+The obvious way to get there, computing the full $n\times n$ similarity matrix and reading its upper triangle, costs $O(n^2 d)$ in time and $O(n^2)$ in memory, for $d$-dimensional vectors. That is fine for a handful of points, but it is infeasible once a group has hundreds of thousands of pixels, which is the normal case at a $10\text{m}$ resolution over a whole municipality. `group_cosine_stats` avoids materializing that matrix entirely for the mean and the standard deviation, and only falls back to it, in bounded chunks, when strictly necessary for the median.
+
+### Setup
+
+Let $X \in \mathbb{R}^{n \times d}$ be the set of the $n$ embedding vectors as rows (here $d=64$ for AlphaEarth). By normalizing each row to unit length,
+
+$$ U_i = \frac{X_i}{\lVert X_i \rVert_2} $$
+
+the cosine similarity between any two rows becomes a simple dot product, $s_{ij} = U_i \cdot U_j$, exactly the definition already given in Chapter 2. Zero-norm rows are left at the origin instead of generating a division by zero, the sensible convention for a "no signal" vector —although it is worth noting that such a row is then not really a unit vector ($\lVert U_i \rVert = 0$, not $1$), so its self-similarity $s_{ii}$ is $0$ instead of $1$; the identities below assume that every row is a genuine unit vector, and are therefore exact whenever the group has no all-zero rows, and only slightly approximate (by a fraction of a pair, for each zero row) otherwise. The function returns the mean, median and standard deviation of $\{s_{ij} : i<j\}$, the $\binom{n}{2}$ pairwise similarities between the $n$ rows.
+
+### The exact mean, via a Gram trace identity
+
+The mean does not require any pairwise similarity to be computed directly. Let $S = \sum_{i=1}^{n} U_i \in \mathbb{R}^{d}$ be the (vector) sum of all the normalized rows. Expanding its squared norm:
+
+$$ \lVert S \rVert^2 = S \cdot S = \sum_{i=1}^n \sum_{j=1}^n U_i \cdot U_j = \sum_{i=1}^n \underbrace{\lVert U_i \rVert^2}_{=\,1} \; + \sum_{i \neq j} U_i \cdot U_j = n + 2\sum_{i<j} s_{ij}$$
+
+using that each $U_i$ is a unit vector, and that each unordered pair $i<j$ is counted twice in the $i \neq j$ sum (once as $(i,j)$, once as $(j,i)$, with $s_{ij}=s_{ji}$). Solving for the pairwise sum:
+
+$$ \sum_{i<j} s_{ij} = \frac{\lVert S \rVert^2 - n}{2} $$
+
+which is exactly `sum_s = (S @ S - n) / 2.0` in the code. Computing $S$ costs $O(nd)$ (a single pass over the data), and $\lVert S \rVert^2$ is then a single $O(d)$ dot product —the $\binom{n}{2}$ pairwise terms never have to be formed individually. The mean is this sum divided by the number of pairs $\binom{n}{2}$.
+
+### The exact variance, via the Gram matrix in feature space
+
+The same trick extends to the *second* moment, $\sum_{i<j} s_{ij}^2$, needed for the variance, but it uses a different matrix: the $d \times d$ Gram matrix over **features**, $G = U^{\top}U$, not the $n\times n$ matrix of pairwise similarities $UU^{\top}$ (whose entries *are* the $s_{ij}$, but which is exactly the object we are trying to avoid building). Expanding the squared Frobenius norm of $G$:
+
+$$ \lVert G \rVert_F^2 = \sum_{a,b=1}^{d} G_{ab}^2 = \sum_{a,b}\left(\sum_i U_{ia}U_{ib}\right)\left(\sum_j U_{ja}U_{jb}\right) = \sum_{i,j}\left(\sum_a U_{ia}U_{ja}\right)\left(\sum_b U_{ib}U_{jb}\right) = \sum_{i,j} s_{ij}^2 $$
+
+so summing the squared entries of the small $d\times d$ matrix $G$ gives us, for free, the sum of $s_{ij}^2$ over **every** ordered pair $(i,j)$, including $i=j$ (where $s_{ii}=1$). Separating that diagonal exactly as before:
+
+$$ \sum_{i,j} s_{ij}^2 = n + 2\sum_{i<j} s_{ij}^2 \quad\Longrightarrow\quad \sum_{i<j} s_{ij}^2 = \frac{\lVert G \rVert_F^2 - n}{2} $$
+
+which is `sum_s2 = (np.sum(G * G) - n) / 2.0`. The variance then follows from the usual identity $\mathrm{Var}(s) = \mathbb{E}[s^2] - \mathbb{E}[s]^2$, clipped at zero to absorb floating-point rounding. Forming $G=U^{\top}U$ costs $O(nd^2)$; since $d=64$ is fixed and small, this is *linear* in $n$ in all practical terms, against the $O(n^2 d)$ of the naive approach —the difference between a computation that runs in milliseconds and one that never finishes.
+
+### The median: no closed form, so exact-if-cheap, sampled otherwise
+
+Order statistics such as the median have no equivalent algebraic shortcut; there is no way to recover "the middle value" from a handful of summary sums the way the mean and the variance were recovered above. `group_cosine_stats` therefore branches on how many pairs there are:
+
+- **Exact, chunked**, when $\binom{n}{2} \le$ `max_exact_pairs` (5,000,000 by default): the upper triangle of the similarity matrix is still built, but row block by row block (`chunk` rows, 4096 by default), so that peak memory is bounded by `chunk` $\times\, n$ instead of the full $n\times n$. Each pair is visited exactly once and the true median is returned.
+- **Sampled**, above that threshold: `sample_size` random index pairs $(i,j)$ are drawn uniformly (with replacement) from $\{1,\dots,n\}^2$, self-pairs are discarded, and their similarities are computed directly as row-wise dot products. The median of this random sample is reported as an estimate of the population median —a standard consequence of the fact that sample quantiles converge to the true population quantile as the sample grows, the same law-of-large-numbers argument that justifies using a sample mean in the first place. In the (extremely unlikely) case that every draw lands on a self-pair, the exact mean is returned instead, since, for a strongly concentrated similarity distribution, the mean is already a reasonable substitute.
+
+### Complexity summary
+
+| Quantity | Naive | `group_cosine_stats` |
+|---|---|---|
+| Mean | $O(n^2 d)$ | $O(nd)$ |
+| Variance / Std. Dev. | $O(n^2 d)$ | $O(nd^2)$ |
+| Median (exact) | $O(n^2 d)$ | $O(n^2 d)$, chunked to bound memory |
+| Median (large $n$) | infeasible | $O(\text{sample\_size} \cdot d)$, approximate |
+
+## Resources
+
+[Cosine similarity](https://en.wikipedia.org/wiki/Cosine_similarity)
+
+[Gram matrix](https://en.wikipedia.org/wiki/Gram_matrix)
+
+[Frobenius norm](https://en.wikipedia.org/wiki/Matrix_norm#Frobenius_norm)
+
+[Order statistic](https://en.wikipedia.org/wiki/Order_statistic)
+
+[Law of large numbers](https://en.wikipedia.org/wiki/Law_of_large_numbers)
+
+[Monte Carlo method](https://en.wikipedia.org/wiki/Monte_Carlo_method)

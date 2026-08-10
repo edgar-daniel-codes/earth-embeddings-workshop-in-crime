@@ -1,0 +1,40 @@
+---
+title: "Conclusions"
+lang: en
+---
+
+Here we share some of the derived learnings that emerged from the data, the models and, most importantly, from the work and the completion of this exercise.
+
+## Learnings about Embeddings {#embedding-learnings}
+
+Aggregations and the raster representation of continuous, not well-defined geometric objects (such as buildings, streets, etc.) turned out to be key to actually recovering valuable open and direct data at scale from our objects of interest. Without sensible aggregation and assignment logic, embeddings simply do not translate into something a street or a polygon can use as a feature.
+
+We also learned that understanding the original training architecture and the training data used behind the embeddings helps to understand both their advantages and their limitations; it is not enough to simply consume the vectors as a black box: knowing what the model was exposed to during training tells us what it can and cannot represent well.
+
+Finally, embeddings include a large amount of implicit features of places, so we have to be careful when understanding the similarities between really different places in the same city. Two streets can look close in embedding space for reasons that have nothing to do with crime, so scaling up on similarity comparisons and other variable enrichments (socio-demographic, land use, etc.) is key to interpreting them correctly.
+
+## Learnings from Crime Data and Models {#crime-data-learnings}
+
+Real data is messy, and crime data is even messier. Bias, low data quality and records that are not consistently updated can affect the results of the models and their applications, no matter how correct the implementation, training and interpretation are. Working with the official crime reports made this very concrete: under-reporting and inconsistent updates are not isolated cases, they are the norm around which we have to design.
+
+That is why it is important to use the data as evidence and as an auxiliary tool, always considering the nature of the problem at hand. In this case, that means understanding that criminal behavior is not based solely on observable data; there are structural, social and political factors that no dataset captures completely, so the models are meant to inform, not to replace, that broader judgment.
+
+## What was found? {#what-we-found}
+
+Crime does not occur in a completely random way. Despite being a complex phenomenon, features such as embeddings allow us to show that we can understand meaningful patterns in crime based on the features of the terrain and of space; the risk levels built from the models are not noise, they align with recognizable geography.
+
+There are also some interesting patterns in terms of risk levels; for example, some of the riskiest zones include both highly developed urban areas and low-development areas alike, and this seems to be explained by different mechanisms for each one: low-development areas tend to resort to crime as a way of accessing resources, while highly developed areas seem to be target places for crimes to occur.
+
+Finally, embeddings used as a covariate together with other socio-demographic features can improve model performance; they are not meant to replace census or socioeconomic data, but to complement it with the spatial and structural signal that those variables by themselves do not carry.
+
+## Future work and improvements {#future-work}
+
+Many things to improve in the current flow have already been detected; without being exhaustive, the following list:
+
+The most obvious: it is clear that opportunistic bias is present; the riskiest areas have a strong correlation with populated areas. However, the solution is not straightforward; it is not enough to simply compute per capita rates, since the embeddings also contain information about geography that correlates with human activity and, therefore, with population, so *normalization* is not trivial and deserves dedicated treatment of its own.
+
+The assignment logic can also become smarter, not only through direct assignment via the nearest object, but also by including a weighted logic that takes into account how much of an object actually overlaps or is located near each street or polygon, instead of a hard nearest-neighbor cutoff.
+
+Formal statistical tests on the clustering algorithms are required to scale the conclusions and to really treat clustering modeling as useful.
+
+Finally, dimensionality reduction techniques such as PCA work well with normally distributed data, and here it is used mainly as a visualization tool to show the features of the embedding representation in a low-dimensional view, rather than as a rigorous statistical projection, so there is room to explore techniques better suited to the actual distribution of the embeddings.
