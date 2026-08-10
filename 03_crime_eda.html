@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Crimen en México – Earth Embeddings &amp; Crime</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-3d1b6502958a38d6b4d29f0899443d12.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Earth Embeddings &amp; Crime</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./00_introduction.html" aria-current="page"> 
+<span class="menu-text">Español</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./00_introduction_eng.html"> 
+<span class="menu-text">English</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo lector">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03_crime_eda.html">Crimen en México</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Earth Embeddings &amp; Crime</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00_introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_earth_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Embeddings de la Tierra</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02_working_with_embeddings.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Trabajando con Embeddings</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03_crime_eda.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Crimen en México</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04_embeddings_applications_on_crime.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Aplicaciones de Embeddings al Crimen</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05_conclusions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Conclusiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_basics.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apéndice — Modelos, Métricas y Algoritmos Fundamentales</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_geo_data_structures_and_operations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apéndice — Estructuras de Datos Geoespaciales y Operaciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./99_appendix_others.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Apéndice — Notas Técnicas Adicionales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#context-and-phenomenon" id="toc-context-and-phenomenon" class="nav-link active" data-scroll-target="#context-and-phenomenon">Contexto y fenómeno</a></li>
+  <li><a href="#available-data" id="toc-available-data" class="nav-link" data-scroll-target="#available-data">Incidencia delictiva en la Ciudad de México (CDMX) - Datos disponibles</a>
+  <ul class="collapse">
+  <li><a href="#carpetas-de-investigación-de-la-fgj" id="toc-carpetas-de-investigación-de-la-fgj" class="nav-link" data-scroll-target="#carpetas-de-investigación-de-la-fgj">Carpetas de Investigación de la FGJ</a></li>
+  <li><a href="#reportes-ciudadanos-c5" id="toc-reportes-ciudadanos-c5" class="nav-link" data-scroll-target="#reportes-ciudadanos-c5">Reportes ciudadanos C5</a></li>
+  <li><a href="#eda-básico-sobre-los-incidentes-delictivos-de-la-cdmx" id="toc-eda-básico-sobre-los-incidentes-delictivos-de-la-cdmx" class="nav-link" data-scroll-target="#eda-básico-sobre-los-incidentes-delictivos-de-la-cdmx">EDA básico sobre los incidentes delictivos de la CDMX</a></li>
+  <li><a href="#un-vistazo-más-cercano-a-algunos-delitos" id="toc-un-vistazo-más-cercano-a-algunos-delitos" class="nav-link" data-scroll-target="#un-vistazo-más-cercano-a-algunos-delitos">Un vistazo más cercano a algunos delitos</a></li>
+  <li><a href="#un-vistazo-profundo-a-los-incidentes-de-asalto-asalto-a-transeúnte" id="toc-un-vistazo-profundo-a-los-incidentes-de-asalto-asalto-a-transeúnte" class="nav-link" data-scroll-target="#un-vistazo-profundo-a-los-incidentes-de-asalto-asalto-a-transeúnte">Un vistazo profundo a los incidentes de asalto (<em>Asalto a transeúnte</em>)</a></li>
+  </ul></li>
+  <li><a href="#recursos" id="toc-recursos" class="nav-link" data-scroll-target="#recursos">Recursos</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Crimen en México</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Uno de los problemas sociales y económicos más serios es el crimen. Desde el crimen organizado hasta el fraude financiero, México enfrenta en su historia moderna una serie de retos en materia de crimen y seguridad. Por otro lado, México y sus instituciones, como el INEGI, cuentan con datos e información abiertos de muy alta calidad, particularmente para la Ciudad de México. Entonces, es un buen candidato para realizar un ejercicio interesante de incidencia delictiva y earth embeddings.</p>
+<section id="context-and-phenomenon" class="level2">
+<h2 class="anchored" data-anchor-id="context-and-phenomenon">Contexto y fenómeno</h2>
+<p>El crimen y la inseguridad pública se ubican consistentemente entre las principales preocupaciones de la población mexicana. Según la <em>Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública</em> (ENVIPE) del INEGI, se estima que 23.1 millones de personas de 18 años o más fueron víctimas de algún delito durante 2024 —una tasa de aproximadamente 24,135 víctimas por cada 100,000 habitantes—, y el costo económico del crimen y la inseguridad alcanzó cerca de 269.6 mil millones de pesos, cercano al 1.07% del PIB [INEGI, ENVIPE 2025].</p>
+<p>Una característica estructural del fenómeno es el subregistro (<em>under-reporting</em>). ENVIPE estima que, de los aproximadamente 33.5 millones de delitos cometidos en 2024, solo una pequeña fracción fue denunciada y formalmente investigada, de modo que la <em>cifra negra</em> —la proporción de delitos ni denunciados ni investigados— se ubica alrededor del 93% [INEGI, ENVIPE 2025]. Esta brecha es central para cualquier análisis basado en datos: los registros administrativos como las <em>carpetas de investigación</em> usadas en este trabajo capturan solo la punta visible de la distribución, no el fenómeno en sí.</p>
+<p>La percepción de inseguridad es igualmente alta y espacialmente heterogénea. En el tercer trimestre de 2025, cerca del 63% de la población adulta en las 91 áreas urbanas encuestadas por la <em>Encuesta Nacional de Seguridad Pública Urbana</em> (ENSU) del INEGI consideró inseguro vivir en su ciudad, con espacios públicos —cajeros automáticos, transporte público y la calle— percibidos como los menos seguros [INEGI, ENSU 2025]. La Ciudad de México concentra este contraste de forma marcada: alcaldías como Benito Juárez reportan algunas de las percepciones de inseguridad más bajas del país, mientras que otras se ubican muy por encima del promedio nacional, lo que subraya que la inseguridad en la capital es un fenómeno fundamentalmente <em>local</em>, a nivel sub-ciudad —precisamente la granularidad que este trabajo busca.</p>
+</section>
+<section id="available-data" class="level2">
+<h2 class="anchored" data-anchor-id="available-data">Incidencia delictiva en la Ciudad de México (CDMX) - Datos disponibles</h2>
+<p>Uno de los problemas más relevantes en materia de crimen en México, tanto para medir el estado de la situación como para la creación de política pública, es la cantidad, calidad y confiabilidad de los datos delictivos a nivel nacional, lo que hace que la idea de tomar decisiones de estrategia contra el crimen basadas en datos sea un sueño lejano. Las principales preocupaciones son:</p>
+<ul>
+<li>Registros de datos censurados (no denunciados, corrompidos) debido al miedo de la población y a la corrupción.</li>
+<li>Barreras burocráticas y sistemas y procesos de gestión de datos heredados (legacy).</li>
+<li>Bajos incentivos para mejorar o incrementar los procesos de recolección de datos y transparencia.</li>
+</ul>
+<p>Sin embargo, dada la relevancia global y la creciente presencia de ciudadanos globales e inversiones en la Ciudad de México, los portales de transparencia de datos como el <a href="https://www.datos.cdmx.gob.mx/">Sistema Ajolote de Datos Abiertos CDMX</a> han estado proveyendo datos suficientemente buenos para generar análisis y reportes sobre la incidencia delictiva en toda la ciudad, a un nivel de granularidad que alcanza precisión de lat/lon (con excepción de los registros que constituyen un riesgo para las víctimas).</p>
+<p>Esto da un buen punto de partida para comenzar una evaluación más precisa sobre la incidencia delictiva en la ciudad.</p>
+<section id="carpetas-de-investigación-de-la-fgj" class="level3">
+<h3 class="anchored" data-anchor-id="carpetas-de-investigación-de-la-fgj">Carpetas de Investigación de la FGJ</h3>
+<p>Uno de los conjuntos de datos más importantes es el de ‘Carpetas de Investigación’ —los expedientes abiertos por la <em>Fiscalía General de Justicia</em> (FGJ) de la Ciudad de México. Podemos descargar los datos directamente del portal con el siguiente código:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Direct download for Carpetas de Investigacion</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Up to 2025-01</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">wget</span> https://archivo.datos.cdmx.gob.mx/FGJ/carpetas/carpetasFGJ_acumulado_2025_01.csv <span class="at">-O</span> ./data/raw/carpetasFGJ.csv <span class="at">--no-check-certificate</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Considera que es importante agregar <code>--no-check-certificate</code>, porque, a pesar de ser el sitio oficial, el certificado de la página a veces está vencido.</p>
+<section id="evaluación-de-datos-para-carpetas-de-investigación" class="level4">
+<h4 class="anchored" data-anchor-id="evaluación-de-datos-para-carpetas-de-investigación">Evaluación de Datos para Carpetas de Investigación</h4>
+<p>Una vez ejecutado un reporte de calidad de datos, observamos los siguientes resultados:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 40%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th style="text-align: right;">Null %</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>alcaldia_catalogo</code></td>
+<td style="text-align: right;"><strong>99.16%</strong></td>
+<td><strong>Eliminar</strong> — 1 valor distinto, efectivamente vacía</td>
+</tr>
+<tr class="even">
+<td><code>competencia</code></td>
+<td style="text-align: right;"><strong>50.70%</strong></td>
+<td>Usar con precaución — solo 3 valores (<code>FUERO COMUN</code>, <code>HECHO NO DELICTIVO</code>, <code>INCOMPETENCIA</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>colonia_catalogo</code></td>
+<td style="text-align: right;">5.93%</td>
+<td>Usable; <code>colonia_hecho</code> es la mejor gemela en texto libre</td>
+</tr>
+<tr class="even">
+<td><code>colonia_hecho</code></td>
+<td style="text-align: right;">4.87%</td>
+<td>Usable</td>
+</tr>
+<tr class="odd">
+<td><code>latitud</code> / <code>longitud</code></td>
+<td style="text-align: right;">4.82%</td>
+<td>Usable; el análisis geográfico pierde ~101k filas</td>
+</tr>
+<tr class="even">
+<td><code>fecha_inicio</code></td>
+<td style="text-align: right;">2.74%</td>
+<td>Usable</td>
+</tr>
+<tr class="odd">
+<td><code>hora_hecho</code></td>
+<td style="text-align: right;">2.59%</td>
+<td>Usable (ver advertencia del marcador de posición en §5)</td>
+</tr>
+<tr class="even">
+<td><code>fecha_hecho</code></td>
+<td style="text-align: right;">2.58%</td>
+<td>Usable</td>
+</tr>
+<tr class="odd">
+<td><code>hora_inicio</code></td>
+<td style="text-align: right;">2.55%</td>
+<td>Usable</td>
+</tr>
+<tr class="even">
+<td><code>alcaldia_hecho</code></td>
+<td style="text-align: right;">1.19%</td>
+<td><strong>Campo principal de alcaldía</strong></td>
+</tr>
+<tr class="odd">
+<td><code>unidad_investigacion</code></td>
+<td style="text-align: right;">0.05%</td>
+<td>Bien</td>
+</tr>
+<tr class="even">
+<td><code>mes_hecho</code>, <code>anio_hecho</code></td>
+<td style="text-align: right;">0.03%</td>
+<td>Bien</td>
+</tr>
+<tr class="odd">
+<td><code>fiscalia</code></td>
+<td style="text-align: right;">~0%</td>
+<td>Bien</td>
+</tr>
+<tr class="even">
+<td><code>delito</code>, <code>categoria_delito</code>, <code>mes_inicio</code>, <code>agencia</code>, <code>municipio_hecho</code>, <code>anio_inicio</code></td>
+<td style="text-align: right;">0%</td>
+<td>Completo</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Totalmente pobladas (6):</strong> <code>anio_inicio</code>, <code>mes_inicio</code>, <code>delito</code>, <code>categoria_delito</code>, <code>agencia</code>, <code>municipio_hecho</code>.</p>
+<p><strong>2. Campos de baja información / redundantes</strong></p>
+<ul>
+<li><strong><code>municipio_hecho</code></strong> — valor único <code>CDMX</code> para las 2.1M filas. Sin valor analítico.</li>
+<li><strong><code>alcaldia_catalogo</code></strong> — un único valor no nulo y 99.2% de valores faltantes. <strong>Eliminar.</strong></li>
+<li><strong><code>competencia</code></strong> — medio vacía; tratar la ausencia como “no especificado”, no como una clase.</li>
+<li><strong><code>colonia_catalogo</code> vs <code>colonia_hecho</code></strong> y <strong><code>alcaldia_catalogo</code> vs <code>alcaldia_hecho</code></strong> son gemelas catálogo/texto-libre; las variantes <code>_hecho</code> son mucho más completas y deberían ser los campos canónicos.</li>
+</ul>
+<p><strong>3. Duplicados</strong></p>
+<p>Fuente: <code>dq_duplicates.csv</code>.</p>
+<ul>
+<li><strong>Duplicados exactos (las 21 columnas idénticas):</strong> 4,735 filas (0.226%).</li>
+<li><strong>Duplicados de clave de incidente</strong> (mismo <code>fecha_hecho</code>, <code>hora_hecho</code>, <code>delito</code>, <code>latitud</code>, <code>longitud</code>, <code>colonia_hecho</code>, <code>alcaldia_hecho</code>): 11,432 filas (0.545%).</li>
+</ul>
+<p>La brecha entre ambos significa que ~6,700 registros describen el <em>mismo</em> evento/lugar pero difieren en metadatos administrativos (agencia, unidad). Deduplicar sobre la clave de incidente para el conteo de crímenes; conservar todas las filas para el análisis de carga de trabajo de casos.</p>
+</section>
+</section>
+<section id="reportes-ciudadanos-c5" class="level3">
+<h3 class="anchored" data-anchor-id="reportes-ciudadanos-c5">Reportes ciudadanos C5</h3>
+<p>El “C5”, que viene de su nombre completo “Centro de Comando, Control, Cómputo, Comunicaciones y Contacto Ciudadano de la Ciudad de México” (<em>Mexico City Command, Control, Computing, Communications, and Citizen Contact Center</em>, en inglés), es un sistema enorme que recolecta, vía miles de cámaras, botones de emergencia y centros de contacto, una gran cantidad de reportes ciudadanos, algunos de los cuales son falsos o meramente informativos; sin embargo, provee una fuente rica de reportes criminales y no criminales a lo largo de las calles de la ciudad. Para saber más al respecto, considera revisar el <a href="https://www.c5.cdmx.gob.mx/">Sitio Web Oficial del C5</a>.</p>
+<p>Para acceder a la versión más actualizada de 3 años de la colección de reportes, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a> <span class="co"># C5 Direct download</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://archivo.datos.cdmx.gob.mx/C5/incidentes_viales/inViales_2022_2024.csv <span class="at">-O</span> ./data/raw/c5_reports.csv <span class="at">--no-check-certificate</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Además, considera que es importante agregar <code>--no-check-certificate</code>, porque, a pesar de ser el sitio oficial, el certificado de la página a veces está vencido.</p>
+<p>En este trabajo nos inclinaremos por el primer conjunto de datos, pero animamos a los lectores a repetir el ejercicio con este segundo conjunto de datos, no con incidencias delictivas sino con llamadas de emergencia.</p>
+</section>
+<section id="eda-básico-sobre-los-incidentes-delictivos-de-la-cdmx" class="level3">
+<h3 class="anchored" data-anchor-id="eda-básico-sobre-los-incidentes-delictivos-de-la-cdmx">EDA básico sobre los incidentes delictivos de la CDMX</h3>
+<p>Las siguientes estadísticas se obtuvieron de las ‘Carpetas de Investigación’ de 2016 hasta enero de 2025, usando solo los registros con datos completos en las columnas: <code>["delito", "categoria_delito", "mes_inicio", "agencia", "municipio_hecho", "anio_inicio", "mes_hecho", "anio_hecho", "fecha_inicio", "hora_hecho", "fecha_hecho", "latitud", "longitud"]</code>.</p>
+<p>Podemos ver que, de los 15 delitos más cometidos en la CDMX, los más representados son “Violencia Familiar” y “Fraude”, seguidos de múltiples tipos de “Robo”, lo que sustenta la idea de que los delitos en la Ciudad de México tienen una fuerte motivación materialista y socioeconómica.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_esp/01_top_crime_types.png" class="img-fluid figure-img"></p>
+<figcaption>Top 15 tipos de crimen.</figcaption>
+</figure>
+</div>
+<p>Cuando agrupamos los delitos en categorías, podemos ver que el robo a individuos y el robo de auto siguen siendo las principales ocurrencias.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_esp/02_incidents_by_category.png" class="img-fluid figure-img"></p>
+<figcaption>Top cimenes por categoría.</figcaption>
+</figure>
+</div>
+<p>Podemos ver que la tendencia mensual de delitos, a pesar de haberse reducido en los últimos años, se mantiene en niveles constantes después de la pandemia de <em>COVID-19</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_esp/03_monthly_time_series.png" class="img-fluid figure-img"></p>
+<figcaption>Tendencia Mensual.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_esp/04_annual_volume.png" class="img-fluid figure-img"></p>
+<figcaption>Cambios inter-anuales.</figcaption>
+</figure>
+</div>
+<p>Al analizar los incidentes por hora y día, podemos observar, a partir de las siguientes figuras, que la mayoría de las ocurrencias suceden durante <em>horario laboral</em>. Esto podría ser una distribución natural, pero también, al enfocarse en el detalle horario, es claro que existe un <em>sesgo administrativo</em>, debido al procesamiento de las denuncias:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_esp/07_hourly_rhythm.png" class="img-fluid figure-img"></p>
+<figcaption>Ocurrencias por día y hora.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_esp/08_incidents_by_hour.png" class="img-fluid figure-img"></p>
+<figcaption>Distribución por hora.</figcaption>
+</figure>
+</div>
+<p>Sin embargo, al descomponer por el delito mismo podemos ver algunos patrones en la ocurrencia de delitos particulares a lo largo del día:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_esp/09_intraday_by_category.png" class="img-fluid figure-img"></p>
+<figcaption>Crimenes por hora y categoría.</figcaption>
+</figure>
+</div>
+<p>Particularmente, para el interés del presente reporte, es importante entender los patrones espaciales en los datos.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_esp/14_kde_overall.png" class="img-fluid figure-img"></p>
+<figcaption>Distribución espacial (por KDE en coordenadas).</figcaption>
+</figure>
+</div>
+<p>Como podemos ver, hay una concentración de delitos en el centro de la ciudad, lo cual puede explicarse por la población total presente en la región. Más adelante se presentarán analíticas per cápita más detalladas para clarificar la concentración de la incidencia en un sentido espacial.</p>
+</section>
+<section id="un-vistazo-más-cercano-a-algunos-delitos" class="level3">
+<h3 class="anchored" data-anchor-id="un-vistazo-más-cercano-a-algunos-delitos">Un vistazo más cercano a algunos delitos</h3>
+<p>Consideremos algunas de las categorías de delitos más relevantes y usémoslas como ejemplo de un análisis espacial a través de múltiples tipos de geometría; en este caso estamos tomando un vistazo más cercano a: <em>homicidio, robo en vía pública y robo a casa habitación</em>.</p>
+<p>Primero creamos una serie de bases de datos auxiliares:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">## Import libraries</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">## Read full data set</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"./data/clean/carpetasFGJ.csv"</span>).query(<span class="st">"year &gt;= 2016"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">## Save filtered data</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Murder</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>df.query(<span class="st">" crime_cat == 'HOMICIDIO DOLOSO' "</span>).to_csv(<span class="st">"./data/clean/carpetasFGJ_homicidios.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Street robbery</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>df.query(<span class="st">" crime_cat == 'ROBO A TRANSEUNTE EN VÍA PÚBLICA CON Y SIN VIOLENCIA' "</span>).to_csv(<span class="st">"./data/clean/carpetasFGJ_asaltos.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># House robbery</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>df.query(<span class="st">" crime_cat == 'ROBO A CASA HABITACIÓN CON VIOLENCIA' "</span>).to_csv(<span class="st">"./data/clean/carpetasFGJ_robo.csv"</span>, index <span class="op">=</span> <span class="va">False</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="un-vistazo-profundo-a-los-incidentes-de-asalto-asalto-a-transeúnte" class="level3">
+<h3 class="anchored" data-anchor-id="un-vistazo-profundo-a-los-incidentes-de-asalto-asalto-a-transeúnte">Un vistazo profundo a los incidentes de asalto (<em>Asalto a transeúnte</em>)</h3>
+<p>Ahora, demos un vistazo profundo a un delito particular que no solo es uno de los más observados en la base de datos, sino que también, por su definición estructural, nos obligará a entender la naturaleza de su geometría: eso es el asalto (<em>Robo a Transeúnte con y sin violencia</em>, en su denominación en español).</p>
+<p>La tendencia mensual del asalto tuvo un pico relevante en 2019, previo a la <em>pandemia de COVID-19</em>, y desde entonces ha mantenido una incidencia estable a través del tiempo, particularmente de 2022 a 2024, los años candidatos para un análisis más profundo.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_robo_esp/03_monthly_time_series.png" class="img-fluid figure-img"></p>
+<figcaption>Patrones mensuales para robo en CDMX.</figcaption>
+</figure>
+</div>
+<p>Considera los siguientes ritmos a nivel de día de la semana y mes, y también la cadencia horaria para el asalto reportado en la CDMX. Como podemos ver, es claro que los momentos más frecuentes son en días laborales y en horarios de cena y el típico fin de la jornada laboral, lo que indica que este delito es altamente oportunista, es decir, tiende a ocurrir dependiendo del flujo de tránsito.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_robo_esp/06_seasonality_month_dow.png" class="img-fluid figure-img"></p>
+<figcaption>Cadencia de día y mes para robo en la CDMX.</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_robo_esp/07_hourly_rhythm.png" class="img-fluid figure-img"></p>
+<figcaption>Ritmo por hora.</figcaption>
+</figure>
+</div>
+<p>Un primer análisis espacial a entender es la ubicación directa en el espacio del evento delictivo. Como se observa en la figura de abajo, a pesar de estar distribuido a lo largo de toda el área poblada de la ciudad, hay patrones claros que se asemejan a alguna <em>acumulación</em> o agrupamiento de los puntos en <em>hotspots</em>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_robo_esp/crime_by_year.gif" class="img-fluid figure-img"></p>
+<figcaption>Incidencias delictivas por mes.</figcaption>
+</figure>
+</div>
+<p>Con el fin de evaluar el aparente agrupamiento, aplicamos un DBSCAN, un algoritmo no supervisado diseñado para identificar el agrupamiento espacial de puntos, dado algún parámetro de proximidad y un tamaño mínimo de clúster, con base tanto en la cantidad de puntos como en su proximidad.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_robo_esp/crime_dbscan.gif" class="img-fluid figure-img"></p>
+<figcaption>DBSCAN patron anual para robo en la CDMX.</figcaption>
+</figure>
+</div>
+<p>Como podemos ver, confirmamos que para cada año se forman clústeres en contraste con el ruido identificado. Esto respalda la tesis de que el crimen aparentemente tiende a agruparse a través del espacio para cada año.</p>
+<p>A pesar de los resultados positivos, hay algunas críticas particulares a este enfoque, y es que, incluso en el supuesto del DBSCAN, se asume que la incidencia es continua a través del espacio, cuando en realidad el crimen está limitado por el espacio geográfico, el cual es discreto, no uniforme y diseñado por humanos, y cambiado dinámicamente por las sociedades; por eso, desde un análisis serio, es importante mantener la referenciación geográfica correcta.</p>
+<p>Por ejemplo, para este delito particular que ocurre por definición en la calle, la referenciación y el nivel de agregación correctos deben ser a nivel de calle.</p>
+<p>Ver la figura de abajo, donde los eventos delictivos se agregan a nivel de calle (esquina a esquina) por año.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./resources/crime_eda_robo_esp/crime_by_year_street.gif" class="img-fluid figure-img"></p>
+<figcaption>Fecuencia por año y segmento de calle.</figcaption>
+</figure>
+</div>
+<p>Ahora podemos ver que, incluso sin ser continuos, los patrones espaciales se mantienen, respaldando la tesis de que el crimen no es constante a través del espacio urbano.</p>
+</section>
+</section>
+<section id="recursos" class="level2">
+<h2 class="anchored" data-anchor-id="recursos">Recursos</h2>
+<p><a href="https://www.inegi.org.mx/programas/envipe/2025/">INEGI — Encuesta Nacional de Victimización y Percepción sobre Seguridad Pública (ENVIPE) 2025</a>. Press release: <a href="https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2025/ENVIPE/ENVIPE_25.pdf">ENVIPE 2025 (PDF)</a>.</p>
+<p><a href="https://www.inegi.org.mx/programas/ensu/">INEGI — Encuesta Nacional de Seguridad Pública Urbana (ENSU)</a>.</p>
+<p><a href="https://www.datos.cdmx.gob.mx/">Sistema Ajolote de Datos Abiertos CDMX</a> — <em>Carpetas de Investigación</em> (FGJ) and C5 citizen-report datasets.</p>
+<p><a href="https://www.c5.cdmx.gob.mx/">C5 — Centro de Comando, Control, Cómputo, Comunicaciones y Contacto Ciudadano de la Ciudad de México</a>.</p>
+<p><a href="https://www.inegi.org.mx/app/biblioteca/ficha.html?upc=794551163061">Mexico INEGI’s Marco Geoestadístico</a>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/edgar-daniel-codes\.github\.io\/earth-embeddings-workshop-in-crime\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
