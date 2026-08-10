@@ -1,0 +1,20 @@
+model: clf_nn
+params:
+  hidden_dims: [64, 32]     # MLP head over the n-dim embedding input
+  dropout: 0.2
+  lr: 0.001
+  weight_decay: 0.0001
+  epochs: 60
+  batch_size: 256
+  pos_weight: auto          # "auto" -> n_neg / n_pos in BCEWithLogits
+  seed: 69
+
+tuning:
+  n_trials: 30
+  metric: average_precision
+  space:
+    lr:           {type: float, low: 0.0001, high: 0.01, log: true}
+    weight_decay: {type: float, low: 1.0e-6, high: 0.01, log: true}
+    dropout:      {type: float, low: 0.0,    high: 0.5}
+    hidden_dims:  {type: categorical, choices: [[32], [64, 32], [128, 64]]}
+    epochs:       {type: int,   low: 20,     high: 120}

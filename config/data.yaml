@@ -1,0 +1,19 @@
+# Data schema — parametrize here to use other Earth embeddings.
+features:
+  prefix: "A"          # embedding columns: A00 .. A63; any other column of X
+  n_features: 64       # AlphaEarth: 64 dims in [-1, 1] (S^63)
+  sets: [embeddings, other, combined]   # benchmark scenarios to run
+
+subclasses:
+  columns: [year, CVE_MUN]
+
+# Out-of-sample controls held out for final evaluation (never seen in CV/tuning).
+holdout:
+  mode: union          # union | intersection of the column masks below
+  year: [2024]
+  CVE_MUN: ["002", "017", "004"]
+
+cv:
+  n_splits: 3
+  group_cols: [year, CVE_MUN]   # column-aware folds: no group straddles folds
+  seed: 69

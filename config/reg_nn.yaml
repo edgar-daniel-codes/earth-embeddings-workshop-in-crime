@@ -1,0 +1,21 @@
+model: reg_nn
+params:
+  family: zip           # poisson | negbin | zip
+  hidden_dims: [64, 32]
+  dropout: 0.2
+  lr: 0.001
+  weight_decay: 0.0001
+  epochs: 80
+  batch_size: 256
+  seed: 69
+
+tuning:
+  n_trials: 30
+  metric: poisson_deviance
+  space:
+    family:       {type: categorical, choices: [poisson, negbin, zip]}
+    lr:           {type: float, low: 0.0001, high: 0.01, log: true}
+    weight_decay: {type: float, low: 1.0e-6, high: 0.01, log: true}
+    dropout:      {type: float, low: 0.0,    high: 0.5}
+    hidden_dims:  {type: categorical, choices: [[32], [64, 32], [128, 64]]}
+    epochs:       {type: int,   low: 30,     high: 150}

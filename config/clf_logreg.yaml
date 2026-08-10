@@ -1,0 +1,13 @@
+model: clf_logreg
+params:
+  C: 1.0
+  penalty: l2
+  class_weight: balanced    # imbalance handling
+  max_iter: 2000
+
+tuning:
+  n_trials: 25
+  metric: average_precision
+  space:
+    C:       {type: float, low: 0.001, high: 100.0, log: true}
+    penalty: {type: categorical, choices: [l1, l2]}

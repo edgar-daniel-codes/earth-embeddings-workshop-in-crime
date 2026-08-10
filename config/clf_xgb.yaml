@@ -1,0 +1,23 @@
+model: clf_xgb
+params:
+  n_estimators: 300
+  max_depth: 4
+  learning_rate: 0.05
+  subsample: 0.8
+  colsample_bytree: 0.8
+  min_child_weight: 5
+  reg_lambda: 1.0
+  scale_pos_weight: auto   # "auto" -> n_neg / n_pos (imbalance)
+  tree_method: hist
+
+tuning:
+  n_trials: 40
+  metric: average_precision   # maximized; robust under 1:20 imbalance
+  space:
+    max_depth:        {type: int,   low: 2,    high: 8}
+    learning_rate:    {type: float, low: 0.01, high: 0.3,  log: true}
+    n_estimators:     {type: int,   low: 100,  high: 800}
+    subsample:        {type: float, low: 0.5,  high: 1.0}
+    colsample_bytree: {type: float, low: 0.5,  high: 1.0}
+    min_child_weight: {type: float, low: 1.0,  high: 20.0, log: true}
+    reg_lambda:       {type: float, low: 0.1,  high: 10.0, log: true}

@@ -1,0 +1,16 @@
+paths:
+  input_path: data/raw/alpha_earth_cdmx
+  output_path: data/proc/alpha_earth_cdmx_2022.parquet
+  pd_gpd_path: data/spatial/pd/09mun.shp
+
+
+params:
+  model: AlphaEarth
+  year_span: 
+  name_has_year: False
+  include_pd: True
+  crs_source: EPSG:4326
+  layer_label: A
+  pca_k: 3
+  geo_label_col: CVE_MUN
+

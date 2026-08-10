@@ -1,0 +1,34 @@
+paths:
+  input_file: data/raw/carpetasFGJ.csv
+  pd_shp_path: data/spatial/pd/09m.shp
+  streets_shp_path: data/spatial/pd/09e.shp
+
+selected_columns:
+  delito: crime
+  categoria_delito: crime_cat
+  municipio_hecho: district
+  mes_hecho: month
+  anio_hecho: year
+  hora_hecho: hour
+  fecha_hecho: date
+  latitud: lat
+  longitud: lon
+
+start_year: 2016
+geo_index_col: CVEGEO
+
+bbox:
+  lat_lo: 19.04
+  lat_hi: 19.75
+  lon_lo: -99.40
+  lon_hi: -98.95
+
+dbscan:
+  epsg_proj: "EPSG:6372"
+  epsilon_m: 500
+  min_samples: 35
+  alpha_hull: 0.001
+
+labels:
+  title: "Delitos en CDMX — Análisis Exploratorio"
+  caption: "Carpetas de Investigación FGJ"
