@@ -1,6 +1,6 @@
 name: Publish Quarto book
 
-# Renders the Quarto book in docs/book and publishes it to the gh-pages
+# Renders the Quarto book in docs/ and publishes it to the gh-pages
 # branch, which GitHub Pages then serves. No Python/R needed: the pages are
 # pure Markdown (no executable code cells), so only Quarto is required.
 
@@ -27,6 +27,27 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Bootstrap gh-pages branch if missing
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            echo "gh-pages already exists on origin; nothing to do."
+          else
+            echo "gh-pages not found on origin; creating orphan branch."
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            tmp="$(mktemp -d)"
+            git worktree add --detach "$tmp"
+            cd "$tmp"
+            git checkout --orphan gh-pages
+            git rm -rf --cached . >/dev/null 2>&1 || true
+            find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+            printf 'Placeholder - replaced by Quarto on first publish.\n' > index.html
+            touch .nojekyll
+            git add index.html .nojekyll
+            git commit -m "Initialize gh-pages branch"
+            git push origin gh-pages
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
